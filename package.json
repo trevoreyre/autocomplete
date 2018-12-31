@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --watch && browser-sync start -s -w --startPath build -f '**/*.html, **/*.css, **/*.js, !node_modules/**/*' --directory --port 3000"
+    "start": "concurrently \"webpack --watch\" \"browser-sync start -c browser-sync.config.js\""
   },
   "dependencies": {},
   "devDependencies": {
@@ -14,7 +14,9 @@
     "babel-loader": "^8.0.4",
     "browser-sync": "^2.26.3",
     "concurrently": "^4.1.0",
+    "css-loader": "^2.1.0",
     "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.1",
     "webpack": "^4.28.3",
     "webpack-cli": "^3.1.2"
   },
