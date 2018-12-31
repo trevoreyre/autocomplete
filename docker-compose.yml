@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  app:
+    container_name: 'autocomplete'
+    build: .
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true

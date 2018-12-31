@@ -1,0 +1,16 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "browser-sync start -s -w --startPath src -f '**/*.html, **/*.css, **/*.js, !node_modules/**/*' --directory --port 3000 --open false"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.26.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
