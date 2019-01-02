@@ -1,6 +1,5 @@
 class Autocomplete {
   constructor({
-    resultsNode,
     searchFn,
     shouldAutoSelect = false,
     shouldAutocomplete = false,
@@ -11,22 +10,20 @@ class Autocomplete {
     setValue = () => { },
     setInputAttribute = () => { },
     setSelectionRange = () => { },
-    showResults = () => { },
-    hideResults = () => { },
+    renderResults = () => { },
   } = {}) {
     this.setAttribute = setAttribute
     this.getValue = getValue
     this.setValue = setValue
     this.setInputAttribute = setInputAttribute
     this.setSelectionRange = setSelectionRange
-    this.showResults = showResults
-    this.hideResults = hideResults
-    this.resultsNode = resultsNode
+    this.renderResults = renderResults
     this.searchFn = searchFn
     this.shouldAutoSelect = shouldAutoSelect
     this.onShow = onShow
     this.onHide = onHide
     this.activeIndex = -1
+    this.results = []
     this.resultsCount = 0
     this.shouldAutocomplete = shouldAutocomplete
   }
@@ -43,7 +40,7 @@ class Autocomplete {
         event.preventDefault()
         return
       default:
-        this._updateResults()
+        this.updateResults()
     }
 
     if (this.shouldAutocomplete) {
@@ -58,67 +55,58 @@ class Autocomplete {
 
   handleKeydown = event => {
     const { key } = event
-    let activeIndex = this.activeIndex
+    this.activeIndex
 
     if (key === 'Escape') {
-      this._hideResults()
+      this.hideResults()
       this.setValue('')
       return
     }
 
     if (this.resultsCount < 1) {
       if (this.shouldAutocomplete && (key === 'ArrowDown' || key === 'ArrowUp')) {
-        this._updateResults()
+        this.updateResults()
       } else {
         return
       }
     }
 
-    const prevActive = this.getItemAt(activeIndex)
-    let activeItem
-
     switch (key) {
       case 'ArrowUp':
-        if (activeIndex <= 0) {
-          activeIndex = this.resultsCount - 1
+        if (this.activeIndex <= 0) {
+          this.activeIndex = this.resultsCount - 1
         } else {
-          activeIndex -= 1
+          this.activeIndex -= 1
         }
         break
       case 'ArrowDown':
-        if (activeIndex === -1 || activeIndex >= this.resultsCount - 1) {
-          activeIndex = 0
+        if (this.activeIndex === -1 || this.activeIndex >= this.resultsCount - 1) {
+          this.activeIndex = 0
         } else {
-          activeIndex += 1
+          this.activeIndex += 1
         }
         break
       case 'Enter':
-        activeItem = this.getItemAt(activeIndex)
-        this.selectItem(activeItem)
+        this.selectActiveResult()
         return
       case 'Tab':
         this.checkSelection()
-        this._hideResults()
+        this.hideResults()
         return
       default:
         return
     }
 
-    event.preventDefault()
-    activeItem = this.getItemAt(activeIndex)
-    this.activeIndex = activeIndex
+    const activeResult = this.results[this.activeIndex]
+    this.renderResults(this.results, this.activeIndex)
 
-    if (prevActive) {
-      prevActive.classList.remove('selected')
-      prevActive.setAttribute('aria-selected', 'false')
-    }
-
-    if (activeItem) {
-      this.setInputAttribute('aria-activedescendant', `autocomplete-result-${activeIndex}`)
-      activeItem.classList.add('selected')
-      activeItem.setAttribute('aria-selected', 'true')
+    if (activeResult) {
+      this.setInputAttribute(
+        'aria-activedescendant',
+        `autocomplete-result-${this.activeIndex}`
+      )
       if (this.shouldAutocomplete) {
-        this.setValue(activeItem.innerText)
+        this.setValue(activeResult)
       }
     } else {
       this.setInputAttribute('aria-activedescendant', '')
@@ -126,23 +114,22 @@ class Autocomplete {
   }
 
   handleFocus = event => {
-    this._updateResults()
+    this.updateResults()
   }
 
   handleResultClick = event => {
     if (event.target && event.target.nodeName === 'LI') {
-      this.selectItem(event.target)
+      const { target } = event
+      this.activeIndex = [...target.parentElement.children].indexOf(target)
+      this.selectActiveResult()
     }
   }
 
-  getItemAt = index => {
-    return this.resultsNode.querySelector(`#autocomplete-result-${index}`)
-  }
-
-  selectItem = node => {
-    if (node) {
-      this.setValue(node.innerText)
-      this._hideResults()
+  selectActiveResult = () => {
+    const activeResult = this.results[this.activeIndex]
+    if (activeResult) {
+      this.setValue(activeResult)
+      this.hideResults()
     }
   }
 
@@ -150,69 +137,62 @@ class Autocomplete {
     if (this.activeIndex < 0) {
       return
     }
-    const activeItem = this.getItemAt(this.activeIndex)
-    this.selectItem(activeItem)
+    this.selectActiveResult()
   }
 
-  autocompleteItem = event => {
-    const autocompletedItem = this.resultsNode.querySelector('.selected')
+  autocompleteItem = () => {
+    const activeResult = this.results[this.activeIndex]
     const input = this.getValue()
-    if (!autocompletedItem || !input) {
+    if (!activeResult || !input) {
       return
     }
 
-    const autocomplete = autocompletedItem.innerText
-    if (input !== autocomplete) {
-      this.setValue(autocomplete)
-      this.setSelectionRange(input.length, autocomplete.length)
+    if (input !== activeResult) {
+      this.setValue(activeResult)
+      this.setSelectionRange(input.length, activeResult.length)
     }
   }
 
-  _updateResults = () => {
+  updateResults = () => {
+    console.log('updateResults');
+    this.hideResults()
     const input = this.getValue()
-    const results = this.searchFn(input)
 
-    this._hideResults()
-    if (results.length === 0) {
+    this.results = this.searchFn(input)
+    if (this.results.length === 0) {
       return
     }
 
     if (this.shouldAutoSelect) {
       this.activeIndex = 0
+      this.setInputAttribute(
+        'aria-activedescendant',
+        `autocomplete-result-${this.activeIndex}`
+      )
     }
 
-    this.resultsNode.innerHTML = results.map((result, index) => {
-      const isSelected = this.shouldAutoSelect && index === 0
-      if (isSelected) {
-        this.activeIndex = 0
-      }
-      return `
-        <li
-          id='autocomplete-result-${index}'
-          class='autocomplete-result${isSelected ? ' selected' : ''}'
-          role='option'
-          ${isSelected ? "aria-selected='true'" : ''}
-        >
-          ${result}
-        </li>
-      `
-    }).join('')
-
+    this.renderResults(this.results, this.activeIndex)
     this.showResults()
     this.setAttribute('aria-expanded', true)
-    this.resultsCount = results.length
+    this.resultsCount = this.results.length
     this.shown = true
     this.onShow()
   }
 
-  _hideResults = () => {
+  hideResults = () => {
     this.shown = false
     this.activeIndex = -1
-    this.hideResults()
     this.setAttribute('aria-expanded', false)
+    this.results = []
     this.resultsCount = 0
     this.setInputAttribute('aria-activedescendant', '')
     this.onHide()
+  }
+
+  showResults = () => {
+    this.shown = true
+    this.setAttribute('aria-expanded', true)
+    this.onShow()
   }
 }
 

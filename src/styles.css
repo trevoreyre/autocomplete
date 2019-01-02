@@ -46,6 +46,7 @@ button {
 }
 
 .autocomplete-results {
+  display: none;
   position: absolute;
   margin-top: -1px;
   border: 1px solid rgba(0, 0, 0, 0.54);
@@ -59,6 +60,10 @@ button {
   transition: none;
 }
 
+.autocomplete[aria-expanded="true"] ~ .autocomplete-results {
+  display: block;
+}
+
 .autocomplete-result {
   cursor: default;
   padding: 4px 8px;
@@ -68,7 +73,7 @@ button {
   background: rgba(0, 0, 0, 0.12);
 }
 
-.autocomplete-result.selected {
+.autocomplete-result[aria-selected="true"] {
   background: rgba(0, 0, 0, 0.12);
 }
 

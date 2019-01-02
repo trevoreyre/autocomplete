@@ -20,9 +20,7 @@ class JsAutocomplete {
       setValue: this.setValue,
       setInputAttribute: this.setAttribute(this.input),
       setSelectionRange: this.setSelectionRange,
-      showResults: this.showResults,
-      hideResults: this.hideResults,
-      resultsNode: results,
+      renderResults: this.renderResults,
       searchFn,
       shouldAutoSelect,
       onShow,
@@ -55,31 +53,28 @@ class JsAutocomplete {
     this.input.setSelectionRange(start, end)
   }
 
-  showResults = () => {
-    this.results.classList.remove('hidden')
-  }
-
-  hideResults = () => {
-    this.results.classList.add('hidden')
+  renderResults = (results, activeIndex) => {
+    console.log('renderResults', results, activeIndex);
+    this.results.innerHTML = results.map((result, index) => {
+      const isSelected = activeIndex === index
+      return `
+        <li
+          id='autocomplete-result-${index}'
+          class='autocomplete-result'
+          role='option'
+          ${isSelected ? "aria-selected='true'" : ''}
+        >
+          ${result}
+        </li>
+      `
+    }).join('')
   }
 
   handleDocumentClick = event => {
-    console.log('handleDocumentClick', event.target);
     if (this.root.contains(event.target)) {
       return
     }
     this.autocomplete.hideResults()
-  }
-
-  handleUpdateResults = (results, activeIndex) => {
-    console.log('handleUpdateResults', results);
-    if (results.length === 0) {
-      this.resultsNode.innerHtml
-    }
-  }
-
-  handleHideResults = () => {
-
   }
 }
 
