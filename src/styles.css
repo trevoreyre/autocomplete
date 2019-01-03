@@ -3,7 +3,7 @@ main {
 }
 
 .container {
-  margin: 0 auto;
+  margin: 0 auto 64px auto;
   width: 100%;
   max-width: 600px;
 }
@@ -46,7 +46,7 @@ button {
 }
 
 .autocomplete-results {
-  display: none;
+  /* display: none; */
   position: absolute;
   margin-top: -1px;
   border: 1px solid rgba(0, 0, 0, 0.54);

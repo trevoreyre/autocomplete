@@ -113,7 +113,7 @@ class Autocomplete {
     }
   }
 
-  handleFocus = event => {
+  handleFocus = () => {
     this.updateResults()
   }
 
