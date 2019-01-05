@@ -17,6 +17,10 @@ const VueAutocomplete = {
           aria-label='Search for a fruit or vegetable'
           aria-autocomplete='both'
           aria-controls='autocomplete-results'
+          :value='value'
+          @keyup='handleKeyup'
+          @keydown='handleKeydown'
+          @focus='handleFocus'
         >
         <button type='submit' class='autocomplete-submit'>
           <svg viewBox='0 0 24 24'>
@@ -29,7 +33,16 @@ const VueAutocomplete = {
         class='autocomplete-results'
         role='listbox'
         aria-label='Search for a fruit or vegetable'
+        :click='handleResultClick'
       >
+        <li v-for='(result, index) in results'
+          :id="'autocomplete-result-' + index"
+          class='autocomplete-result'
+          role='option'
+          :aria-selected="activeIndex === index ? 'true' : 'false'"
+        >
+          {{ result }}
+        </li>
       </ul>
     </div>
   `,
@@ -38,10 +51,11 @@ const VueAutocomplete = {
     'shouldAutoselect',
     'onShow',
     'onHide',
-    'shouldAutocomplete'
+    'shouldAutocomplete',
+    'defaultValue'
   ],
-  data: function() {
-    return {
+  data () {
+    const data = {
       autocomplete: new Autocomplete({
         setAttribute: this.setRootAttribute,
         getValue: this.getValue,
@@ -55,18 +69,42 @@ const VueAutocomplete = {
         onHide: this.onHide,
         shouldAutocomplete: this.shouldAutocomplete
       }),
-      ariaExpanded: 'false'
+      ariaExpanded: 'false',
+      value: this.defaultValue,
+      results: []
     }
+    console.log('data', data)
+    return data
   },
   methods: {
-    setRootAttribute: (attribute, value) => {
+    setRootAttribute (attribute, value) {
       this.ariaExpanded = value
     },
-    getValue: () => { },
-    setValue: () => { },
-    setInputAttribute: () => { },
-    setSelectionRange: () => { },
-    renderResults: () => { }
+    getValue () {
+      return this.value
+    },
+    setValue (value) {
+      this.value = value
+    },
+    setInputAttribute (attribute, value) { },
+    setSelectionRange (start, end) { },
+    renderResults (results, activeIndex) {
+      console.log('vue renderResults', results, activeIndex)
+      this.results = results
+      this.activeIndex = activeIndex
+    },
+    handleKeyup (event) {
+      this.autocomplete.handleKeyup(event)
+    },
+    handleKeydown (event) {
+      this.autocomplete.handleKeydown(event)
+    },
+    handleFocus (event) {
+      this.autocomplete.handleFocus(event)
+    },
+    handleResultClick (event) {
+      this.autocomplete.handleResultClick(event)
+    }
   }
 }
 

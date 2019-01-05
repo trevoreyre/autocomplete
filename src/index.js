@@ -21,5 +21,10 @@ const app = new Vue({
   el: '#app',
   components: {
     autocomplete: AutocompleteVue
+  },
+  data() {
+    return {
+      search
+    }
   }
 })
