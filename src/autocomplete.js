@@ -30,6 +30,7 @@ class Autocomplete {
 
   handleKeyup = event => {
     const { key } = event
+    console.log('handleKeyup', key);
 
     switch (key) {
       case 'ArrowUp':
@@ -55,6 +56,7 @@ class Autocomplete {
 
   handleKeydown = event => {
     const { key } = event
+    console.log('handleKeydown', key);
     this.activeIndex
 
     if (key === 'Escape') {
@@ -154,10 +156,10 @@ class Autocomplete {
   }
 
   updateResults = () => {
-    console.log('updateResults');
     this.hideResults()
     const input = this.getValue()
 
+    console.log('updateResults', input);
     this.results = this.searchFn(input)
     if (this.results.length === 0) {
       return

@@ -6,18 +6,22 @@ const VueAutocomplete = {
     <div class='autocomplete-container'>
       <div
         class='autocomplete'
+        ref='root'
         role='combobox'
         aria-owns='autocomplete-results'
         aria-haspopup='listbox'
-        :aria-expanded="ariaExpanded"
+        v-bind='rootAttributes'
       >
         <input
           class='autocomplete-input'
+          ref='input'
           placeholder='Search for a fruit or vegetable'
           aria-label='Search for a fruit or vegetable'
           aria-autocomplete='both'
           aria-controls='autocomplete-results'
           :value='value'
+          v-bind='inputAttributes'
+          @input='handleInput'
           @keyup='handleKeyup'
           @keydown='handleKeydown'
           @focus='handleFocus'
@@ -33,7 +37,7 @@ const VueAutocomplete = {
         class='autocomplete-results'
         role='listbox'
         aria-label='Search for a fruit or vegetable'
-        :click='handleResultClick'
+        @click='handleResultClick'
       >
         <li v-for='(result, index) in results'
           :id="'autocomplete-result-' + index"
@@ -46,18 +50,36 @@ const VueAutocomplete = {
       </ul>
     </div>
   `,
-  props: [
-    'searchFn',
-    'shouldAutoselect',
-    'onShow',
-    'onHide',
-    'shouldAutocomplete',
-    'defaultValue'
-  ],
+  props: {
+    searchFn: {
+      type: Function,
+      required: true
+    },
+    shouldAutoSelect: {
+      type: Boolean,
+      default: false
+    },
+    onShow: {
+      type: Function,
+      default: () => { }
+    },
+    onHide: {
+      type: Function,
+      default: () => { }
+    },
+    shouldAutocomplete: {
+      type: Boolean,
+      default: false
+    },
+    defaultValue: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     const data = {
       autocomplete: new Autocomplete({
-        setAttribute: this.setRootAttribute,
+        setAttribute: this.setAttribute,
         getValue: this.getValue,
         setValue: this.setValue,
         setInputAttribute: this.setInputAttribute,
@@ -69,41 +91,74 @@ const VueAutocomplete = {
         onHide: this.onHide,
         shouldAutocomplete: this.shouldAutocomplete
       }),
-      ariaExpanded: 'false',
+      rootAttributes: {
+        'aria-expanded': 'false'
+      },
+      inputAttributes: { },
       value: this.defaultValue,
       results: []
     }
-    console.log('data', data)
+    console.log('vue data', data)
     return data
   },
+  created () {
+    console.log('vue created')
+    document.body.addEventListener('click', this.handleDocumentClick)
+  },
   methods: {
-    setRootAttribute (attribute, value) {
-      this.ariaExpanded = value
+    setAttribute (attribute, value) {
+      console.log('vue setAttribute', attribute, value)
+      this.rootAttributes[attribute] = value
     },
     getValue () {
+      console.log('vue getValue', this.value);
       return this.value
     },
     setValue (value) {
+      console.log('vue setValue', value);
       this.value = value
     },
-    setInputAttribute (attribute, value) { },
-    setSelectionRange (start, end) { },
+    setInputAttribute (attribute, value) {
+      console.log('vue setInputAttribute', attribute, value)
+      this.inputAttributes[attribute] = value
+    },
+    setSelectionRange (start, end) {
+      console.log('vue setSelectionRange', start, end)
+      setTimeout(() => {
+        this.$refs.input.setSelectionRange(start, end)
+      }, 0)
+    },
     renderResults (results, activeIndex) {
       console.log('vue renderResults', results, activeIndex)
       this.results = results
       this.activeIndex = activeIndex
     },
+    handleInput (event) {
+      console.log('vue handleInput', event);
+      this.value = event.target.value
+    },
     handleKeyup (event) {
+      console.log('vue handleKeyup')
       this.autocomplete.handleKeyup(event)
     },
     handleKeydown (event) {
+      console.log('vue handleKeydown')
       this.autocomplete.handleKeydown(event)
     },
     handleFocus (event) {
+      console.log('vue handleFocus')
       this.autocomplete.handleFocus(event)
     },
     handleResultClick (event) {
+      console.log('vue handleResultClick')
       this.autocomplete.handleResultClick(event)
+    },
+    handleDocumentClick (event) {
+      console.log('vue handleDocumentClick');
+      if (this.$refs.root.contains(event.target)) {
+        return
+      }
+      this.autocomplete.hideResults()
     }
   }
 }
