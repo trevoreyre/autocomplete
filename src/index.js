@@ -10,12 +10,18 @@ const search = input => {
   return data.filter(item => item.toLowerCase().startsWith(input.toLowerCase()))
 }
 
-// const autocomplete = new Autocomplete({
-//   root: document.querySelector('.autocomplete'),
-//   input: document.querySelector('.autocomplete-input'),
-//   results: document.querySelector('.autocomplete-results'),
-//   searchFn: search
-// })
+const handleSubmit = value => {
+  console.log('handleSubmit', value)
+}
+
+new Autocomplete({
+  root: document.querySelector('.autocomplete'),
+  input: document.querySelector('.autocomplete-input'),
+  results: document.querySelector('.autocomplete-results'),
+  searchFn: search,
+  shouldAutoSelect: true,
+  onSubmit: handleSubmit
+})
 
 new Vue({
   el: '#app',
@@ -24,7 +30,8 @@ new Vue({
   },
   data() {
     return {
-      search
+      search,
+      handleSubmit
     }
   }
 })

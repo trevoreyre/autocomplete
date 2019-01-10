@@ -19,11 +19,14 @@ const VueAutocomplete = {
           aria-label='Search for a fruit or vegetable'
           aria-autocomplete='both'
           aria-controls='autocomplete-results'
+          autocomplete='off'
+          autocorrect='off'
+          autocapitalize='off'
+          spellcheck='false'
           :value='value'
           v-bind='inputAttributes'
           @input='handleInput'
           @keydown='handleKeydown'
-          @focus='handleFocus'
         >
         <button type='submit' class='autocomplete-submit'>
           <svg viewBox='0 0 24 24'>
@@ -42,7 +45,7 @@ const VueAutocomplete = {
           :id="'autocomplete-result-' + index"
           class='autocomplete-result'
           role='option'
-          :aria-selected="activeIndex === index ? 'true' : 'false'"
+          :aria-selected="selectedIndex === index ? 'true' : 'false'"
         >
           {{ result }}
         </li>
@@ -58,9 +61,8 @@ const VueAutocomplete = {
       type: Boolean,
       default: false
     },
-    shouldAutocomplete: {
-      type: Boolean,
-      default: false
+    onSubmit: {
+      type: Function
     },
     defaultValue: {
       type: String,
@@ -70,81 +72,58 @@ const VueAutocomplete = {
   data () {
     const data = {
       autocomplete: new Autocomplete({
-        setAttribute: this.setAttribute,
-        getValue: this.getValue,
+        searchFn: this.searchFn,
+        shouldAutoSelect: this.shouldAutoSelect,
         setValue: this.setValue,
+        setAttribute: this.setAttribute,
         setInputAttribute: this.setInputAttribute,
         setSelectionRange: this.setSelectionRange,
         onUpdateResults: this.handleUpdateResults,
-        searchFn: this.searchFn,
-        shouldAutoSelect: this.shouldAutoSelect,
-        shouldAutocomplete: this.shouldAutocomplete
+        onSubmit: this.onSubmit,
       }),
       rootAttributes: {
         'aria-expanded': 'false'
       },
       inputAttributes: { },
       value: this.defaultValue,
-      results: []
+      results: [],
+      selectedIndex: 0
     }
-    console.log('vue data', data)
     return data
   },
   created () {
-    console.log('vue created')
     document.body.addEventListener('click', this.handleDocumentClick)
   },
   methods: {
-    setAttribute (attribute, value) {
-      console.log('vue setAttribute', attribute, value)
-      this.rootAttributes[attribute] = value
-    },
-    getValue () {
-      console.log('vue getValue', this.value);
-      return this.value
-    },
     setValue (value) {
-      console.log('vue setValue', value);
       this.value = value
     },
+    setAttribute (attribute, value) {
+      this.rootAttributes[attribute] = value
+    },
     setInputAttribute (attribute, value) {
-      console.log('vue setInputAttribute', attribute, value)
       this.inputAttributes[attribute] = value
     },
     setSelectionRange (start, end) {
-      console.log('vue setSelectionRange', start, end)
       setTimeout(() => {
         this.$refs.input.setSelectionRange(start, end)
       }, 0)
     },
-    handleUpdateResults (results, activeIndex) {
-      console.log('vue handleUpdateResults', results, activeIndex)
+    handleUpdateResults (results, selectedIndex) {
       this.results = results
-      this.activeIndex = activeIndex
+      this.selectedIndex = selectedIndex
     },
     handleInput (event) {
-      console.log('vue handleInput', event.target.value);
       this.value = event.target.value
       this.autocomplete.handleInput(event)
     },
-    handleKeyup (event) {
-      console.log('vue handleKeyup')
-      this.autocomplete.handleKeyup(event)
-    },
     handleKeydown (event) {
-      console.log('vue handleKeydown')
       this.autocomplete.handleKeydown(event)
     },
-    handleFocus (event) {
-      // console.log('vue handleFocus')
-      // this.autocomplete.handleFocus(event)
-    },
     handleResultClick (event) {
-      console.log('vue handleResultClick')
       this.autocomplete.handleResultClick(event)
     },
     handleDocumentClick (event) {
-      console.log('vue handleDocumentClick');
       if (this.$refs.root.contains(event.target)) {
         return
       }
