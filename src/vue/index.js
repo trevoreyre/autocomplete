@@ -22,7 +22,6 @@ const VueAutocomplete = {
           :value='value'
           v-bind='inputAttributes'
           @input='handleInput'
-          @keyup='handleKeyup'
           @keydown='handleKeydown'
           @focus='handleFocus'
         >
@@ -59,14 +58,6 @@ const VueAutocomplete = {
       type: Boolean,
       default: false
     },
-    onShow: {
-      type: Function,
-      default: () => { }
-    },
-    onHide: {
-      type: Function,
-      default: () => { }
-    },
     shouldAutocomplete: {
       type: Boolean,
       default: false
@@ -84,11 +75,9 @@ const VueAutocomplete = {
         setValue: this.setValue,
         setInputAttribute: this.setInputAttribute,
         setSelectionRange: this.setSelectionRange,
-        renderResults: this.renderResults,
+        onUpdateResults: this.handleUpdateResults,
         searchFn: this.searchFn,
         shouldAutoSelect: this.shouldAutoSelect,
-        onShow: this.onShow,
-        onHide: this.onHide,
         shouldAutocomplete: this.shouldAutocomplete
       }),
       rootAttributes: {
@@ -128,14 +117,15 @@ const VueAutocomplete = {
         this.$refs.input.setSelectionRange(start, end)
       }, 0)
     },
-    renderResults (results, activeIndex) {
-      console.log('vue renderResults', results, activeIndex)
+    handleUpdateResults (results, activeIndex) {
+      console.log('vue handleUpdateResults', results, activeIndex)
       this.results = results
       this.activeIndex = activeIndex
     },
     handleInput (event) {
-      console.log('vue handleInput', event);
+      console.log('vue handleInput', event.target.value);
       this.value = event.target.value
+      this.autocomplete.handleInput(event)
     },
     handleKeyup (event) {
       console.log('vue handleKeyup')
@@ -146,8 +136,8 @@ const VueAutocomplete = {
       this.autocomplete.handleKeydown(event)
     },
     handleFocus (event) {
-      console.log('vue handleFocus')
-      this.autocomplete.handleFocus(event)
+      // console.log('vue handleFocus')
+      // this.autocomplete.handleFocus(event)
     },
     handleResultClick (event) {
       console.log('vue handleResultClick')

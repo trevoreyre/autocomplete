@@ -46,7 +46,7 @@ button {
 }
 
 .autocomplete-results {
-  /* display: none; */
+  display: none;
   position: absolute;
   margin-top: -1px;
   border: 1px solid rgba(0, 0, 0, 0.54);
