@@ -18,7 +18,6 @@ class JsAutocomplete {
       setValue: this.setValue,
       setAttribute: this.setAttribute(this.root),
       setInputAttribute: this.setAttribute(this.input),
-      setSelectionRange: this.setSelectionRange,
       onUpdateResults: this.handleUpdateResults,
       onSubmit
     })
@@ -36,10 +35,6 @@ class JsAutocomplete {
 
   setValue = value => {
     this.input.value = value
-  }
-
-  setSelectionRange = (start, end) => {
-    this.input.setSelectionRange(start, end)
   }
 
   handleUpdateResults = (results, selectedIndex) => {

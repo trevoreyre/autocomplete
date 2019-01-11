@@ -17,12 +17,8 @@ const VueAutocomplete = {
           ref='input'
           placeholder='Search for a fruit or vegetable'
           aria-label='Search for a fruit or vegetable'
-          aria-autocomplete='both'
+          aria-autocomplete='list'
           aria-controls='autocomplete-results'
-          autocomplete='off'
-          autocorrect='off'
-          autocapitalize='off'
-          spellcheck='false'
           :value='value'
           v-bind='inputAttributes'
           @input='handleInput'
@@ -103,11 +99,6 @@ const VueAutocomplete = {
     },
     setInputAttribute (attribute, value) {
       this.inputAttributes[attribute] = value
-    },
-    setSelectionRange (start, end) {
-      setTimeout(() => {
-        this.$refs.input.setSelectionRange(start, end)
-      }, 0)
     },
     handleUpdateResults (results, selectedIndex) {
       this.results = results

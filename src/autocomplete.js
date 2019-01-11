@@ -5,7 +5,6 @@ class Autocomplete {
     setValue = () => { },
     setAttribute = () => { },
     setInputAttribute = () => { },
-    setSelectionRange = () => { },
     onUpdateResults = () => { },
     onSubmit = () => { }
   } = {}) {
@@ -14,7 +13,6 @@ class Autocomplete {
     this.setValue = setValue
     this.setAttribute = setAttribute
     this.setInputAttribute = setInputAttribute
-    this.setSelectionRange = setSelectionRange
     this.onUpdateResults = onUpdateResults
     this.onSubmit = onSubmit
 
@@ -31,24 +29,12 @@ class Autocomplete {
 
   handleKeydown = event => {
     const { key } = event
-    let selectedResult = this.results[this.selectedIndex]
 
     switch (key) {
       case 'ArrowUp':
       case 'ArrowDown':
-        // Get new selected index and keep within bounds
-        const resultsCount = this.results.length
         const selectedIndex = key === 'ArrowUp' ? this.selectedIndex - 1 : this.selectedIndex + 1
-        this.selectedIndex = ((selectedIndex % resultsCount) + resultsCount) % resultsCount
-
-        // Update results and aria attributes
-        this.onUpdateResults(this.results, this.selectedIndex)
-        selectedResult = this.results[this.selectedIndex]
-        if (selectedResult) {
-          this.setInputAttribute('aria-activedescendant', `autocomplete-result-${this.selectedIndex}`)
-        } else {
-          this.setInputAttribute('aria-activedescendant', '')
-        }
+        this.handleArrowUpDown(selectedIndex)
         break
 
       case 'Tab':
@@ -56,6 +42,7 @@ class Autocomplete {
         break
 
       case 'Enter':
+        const selectedResult = this.results[this.selectedIndex]
         this.selectResult()
         this.onSubmit(selectedResult)
         break
@@ -74,7 +61,23 @@ class Autocomplete {
     const { target } = event
     if (target && target.nodeName === 'LI') {
       this.selectedIndex = [...target.parentElement.children].indexOf(target)
+      const selectedResult = this.results[this.selectedIndex]
       this.selectResult()
+      this.onSubmit(selectedResult)
+    }
+  }
+
+  handleArrowUpDown = selectedIndex => {
+    // Loop selectedIndex back to first or last result if out of bounds
+    const resultsCount = this.results.length
+    this.selectedIndex = ((selectedIndex % resultsCount) + resultsCount) % resultsCount
+
+    // Update results and aria attributes
+    this.onUpdateResults(this.results, this.selectedIndex)
+    if (this.results[this.selectedIndex]) {
+      this.setInputAttribute('aria-activedescendant', `autocomplete-result-${this.selectedIndex}`)
+    } else {
+      this.setInputAttribute('aria-activedescendant', '')
     }
   }
 
