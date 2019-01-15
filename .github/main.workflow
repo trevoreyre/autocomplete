@@ -1,6 +1,6 @@
-workflow "Publish" {
+workflow "Build and publish on push" {
   on = "push"
-  resolves = ["Install"]
+  resolves = ["Publish"]
 }
 
 action "Master" {
@@ -11,4 +11,16 @@ action "Master" {
 action "Install" {
   uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
   needs = ["Master"]
+  args = "install"
+}
+
+action "Build" {
+  uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
+  needs = ["Install"]
+  args = "run build"
+}
+
+action "Publish" {
+  uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
+  needs = ["Build"]
 }
