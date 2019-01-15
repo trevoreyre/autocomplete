@@ -1,6 +1,6 @@
 {
   "name": "@trevoreyre/autocomplete",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple autocomplete component in vanilla JS and Vue",
   "private": false,
   "main": "index.js",
@@ -21,7 +21,7 @@
     "start": "concurrently \"webpack --watch\" \"browser-sync start -c browser-sync.config.js\"",
     "prebuild": "rimraf build",
     "build": "babel src --out-dir build",
-    "postbuild": "copyfiles package.json build"
+    "postbuild": "copyfiles -f package.json src/styles.css build"
   },
   "dependencies": {},
   "devDependencies": {
