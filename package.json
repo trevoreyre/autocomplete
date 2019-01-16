@@ -34,6 +34,8 @@
     "css-loader": "^2.1.0",
     "rimraf": "^2.6.3",
     "style-loader": "^0.23.1",
+    "vue-loader": "^15.5.1",
+    "vue-template-compiler": "^2.5.22",
     "webpack": "^4.28.3",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
