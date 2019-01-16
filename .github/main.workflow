@@ -1,6 +1,7 @@
 workflow "Build and publish on push" {
   on = "push"
-  resolves = ["Publish"]
+  # resolves = ["Publish"]
+  resolves = ["Build"]
 }
 
 action "Master" {
