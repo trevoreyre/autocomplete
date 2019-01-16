@@ -20,9 +20,9 @@ action "Build" {
   args = "run build"
 }
 
-action "Publish" {
-  uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
-  needs = ["Build"]
-  args = "publish build"
-  secrets = ["NPM_AUTH_TOKEN"]
-}
+# action "Publish" {
+#   uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
+#   needs = ["Build"]
+#   args = "publish build"
+#   secrets = ["NPM_AUTH_TOKEN"]
+# }
