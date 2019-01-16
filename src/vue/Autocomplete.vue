@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Autocomplete from "../autocomplete";
+import AutocompleteBase from "../AutocompleteBase";
 
 export default {
   name: "autocomplete",
@@ -71,7 +71,7 @@ export default {
   },
   data() {
     const data = {
-      autocomplete: new Autocomplete({
+      autocomplete: new AutocompleteBase({
         searchFn: this.searchFn,
         shouldAutoSelect: this.shouldAutoSelect,
         setValue: this.setValue,

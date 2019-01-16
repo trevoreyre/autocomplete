@@ -1,4 +1,4 @@
-class Autocomplete {
+class AutocompleteBase {
   constructor({
     searchFn,
     shouldAutoSelect = false,
@@ -118,4 +118,4 @@ class Autocomplete {
   }
 }
 
-export default Autocomplete
+export default AutocompleteBase
