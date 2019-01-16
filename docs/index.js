@@ -1,7 +1,7 @@
-import Autocomplete from './js'
-import AutocompleteVue from './vue'
+import AutocompleteJs from '../src/js'
+import AutocompleteVue from '../src/vue'
+import '../src/styles.css'
 import data from './data'
-import './styles.css'
 
 const search = input => {
   if (input.length < 1) {
@@ -14,7 +14,7 @@ const handleSubmit = value => {
   console.log('handleSubmit', value)
 }
 
-new Autocomplete({
+new AutocompleteJs({
   root: document.querySelector('.autocomplete'),
   input: document.querySelector('.autocomplete-input'),
   results: document.querySelector('.autocomplete-results'),

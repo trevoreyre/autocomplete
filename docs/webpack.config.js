@@ -1,13 +1,13 @@
-const HtmlPlugin = require('html-webpack-plugin')
 const path = require('path')
 
 module.exports = {
-  mode: 'development',
+  mode: process.env.NODE_ENV || 'development',
+  context: __dirname,
   entry: {
-    app: './src/index.js'
+    app: './index.js'
   },
   output: {
-    publicPath: '/',
+    publicPath: 'build',
     filename: '[name].js',
     path: path.resolve(__dirname, 'build')
   },
@@ -26,9 +26,9 @@ module.exports = {
       ]
     }]
   },
-  plugins: [
-    new HtmlPlugin({
-      template: './src/index.html'
-    })
-  ]
+  devServer: {
+    contentBase: __dirname,
+    port: 3000,
+    host: '0.0.0.0'
+  }
 }
