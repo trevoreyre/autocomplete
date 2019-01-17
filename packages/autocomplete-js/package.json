@@ -1,6 +1,6 @@
 {
   "name": "@trevoreyre/autocomplete-js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Simple autocomplete component in vanilla JS and Vue",
   "main": "dist/autocomplete.cjs.js",
   "module": "dist/autocomplete.es.js",
