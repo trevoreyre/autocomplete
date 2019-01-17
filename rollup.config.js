@@ -1,4 +1,3 @@
-console.log('/autocomplete/rollup.config.js')
 import babel from 'rollup-plugin-babel'
 import uglify from 'rollup-plugin-uglify-es'
 import vue from 'rollup-plugin-vue'
@@ -8,7 +7,6 @@ import vue from 'rollup-plugin-vue'
 // in a <script> tag. All three bundles are transpiled to ES5 (with exception of
 // the import/export statements in the ES bundle).
 const createConfigs = ({ root = '', plugins = [] }) => {
-  console.log('createConfigs', root, plugins);
   return [{
     input: `${root}/index.js`,
     output: [{

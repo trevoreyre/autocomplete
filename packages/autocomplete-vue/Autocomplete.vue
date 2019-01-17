@@ -48,7 +48,6 @@
 </template>
 
 <script>
-console.log("vue/Autocomplete");
 import AutocompleteCore from "../autocomplete/AutocompleteCore.js";
 
 export default {

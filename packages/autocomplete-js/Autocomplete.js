@@ -1,4 +1,3 @@
-console.log('js/Autocomplete')
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 
 class Autocomplete {
