@@ -1,34 +1,13 @@
 {
-  "name": "@trevoreyre/autocomplete",
-  "version": "0.0.3",
-  "description": "Simple autocomplete component in vanilla JS and Vue",
-  "private": false,
-  "main": "index.js",
-  "files": [
-    "*.json",
-    "**/*.js",
-    "**/*.css"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "keywords": [],
-  "author": "Trevor Eyre <trevoreyre@gmail.com> (https://trevoreyre.com)",
-  "license": "MIT",
-  "repository": "trevoreyre/autocomplete",
-  "bugs": "https://github.com/trevoreyre/autocomplete/issues",
+  "private": true,
   "scripts": {
+    "postinstall": "lerna bootstrap",
     "start": "webpack-dev-server --config docs/webpack.config.js",
-    "prebuild": "rimraf build",
-    "build": "npm run build-js && npm run build-vue",
-    "build-js": "babel src --out-dir build",
-    "build-vue": "npm run build-vue-umd && npm run build-vue-es && npm run build-vue-unpkg",
-    "build-vue-umd": "cross-env NODE_ENV=production rollup -c -f umd -o build/vue/Autocomplete.umd.js",
-    "build-vue-es": "cross-env NODE_ENV=production rollup -c -f es -o build/vue/Autocomplete.es.js",
-    "build-vue-unpkg": "cross-env NODE_ENV=production rollup -c -f iife -o build/vue/Autocomplete.min.js",
-    "postbuild": "copyfiles -f package.json src/styles.css build"
+    "prebuild": "lerna exec -- rimraf dist",
+    "build:old": "cross-env NODE_ENV=production lerna run build",
+    "build": "rollup -c",
+    "clean": "lerna exec -- rimraf dist && lerna clean"
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
@@ -38,6 +17,7 @@
     "copyfiles": "^2.1.0",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
+    "lerna": "^3.10.5",
     "minimist": "^1.2.0",
     "rimraf": "^2.6.3",
     "rollup": "^1.1.0",

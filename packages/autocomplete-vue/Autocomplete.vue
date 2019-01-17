@@ -48,7 +48,8 @@
 </template>
 
 <script>
-import AutocompleteBase from "../AutocompleteBase";
+console.log("vue/Autocomplete");
+import AutocompleteCore from "../autocomplete/AutocompleteCore.js";
 
 export default {
   name: "autocomplete",
@@ -71,7 +72,7 @@ export default {
   },
   data() {
     const data = {
-      autocomplete: new AutocompleteBase({
+      autocomplete: new AutocompleteCore({
         searchFn: this.searchFn,
         shouldAutoSelect: this.shouldAutoSelect,
         setValue: this.setValue,

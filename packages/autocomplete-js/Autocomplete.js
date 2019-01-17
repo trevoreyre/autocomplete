@@ -1,4 +1,5 @@
-import AutocompleteBase from '../AutocompleteBase'
+console.log('js/Autocomplete')
+import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 
 class Autocomplete {
   constructor({
@@ -12,7 +13,7 @@ class Autocomplete {
     this.root = root
     this.input = input
     this.results = results
-    this.autocomplete = new AutocompleteBase({
+    this.autocomplete = new AutocompleteCore({
       searchFn,
       shouldAutoSelect,
       setValue: this.setValue,

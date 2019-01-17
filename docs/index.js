@@ -1,6 +1,6 @@
-import AutocompleteJs from '../src/js'
-import AutocompleteVue from '../src/vue'
-import '../src/styles.css'
+import AutocompleteJs from '../packages/autocomplete-js'
+import AutocompleteVue from '../packages/autocomplete-vue'
+import '../packages/autocomplete/autocomplete.css'
 import data from './data'
 
 const search = input => {

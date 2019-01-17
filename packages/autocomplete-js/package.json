@@ -1,0 +1,31 @@
+{
+  "name": "@trevoreyre/autocomplete-js",
+  "version": "0.0.4",
+  "description": "Simple autocomplete component in vanilla JS and Vue",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build:umd && npm run build:es && npm run build:unpkg",
+    "build:umd": "rollup -c -f umd -o dist/autocomplete.umd.js",
+    "build:es": "rollup -c -f es -o dist/autocomplete.es.js",
+    "build:unpkg": "rollup -c -f iife -o dist/autocomplete.min.js"
+  },
+  "keywords": [
+    "autocomplete",
+    "combobox",
+    "typeahead",
+    "select",
+    "accessibility",
+    "a11y",
+    "WAI-ARIA",
+    "vanilla",
+    "vue"
+  ],
+  "author": "Trevor Eyre <trevoreyre@gmail.com> (https://trevoreyre.com)",
+  "license": "MIT",
+  "repository": "trevoreyre/autocomplete",
+  "bugs": "https://github.com/trevoreyre/autocomplete/issues",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
+}
