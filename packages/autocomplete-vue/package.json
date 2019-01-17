@@ -2,13 +2,9 @@
   "name": "@trevoreyre/autocomplete-vue",
   "version": "0.0.4",
   "description": "Simple autocomplete component in vanilla JS and Vue",
-  "main": "index.js",
-  "scripts": {
-    "build": "npm run build:umd && npm run build:es && npm run build:unpkg",
-    "build:umd": "rollup -c -f umd -o dist/autocomplete.umd.js",
-    "build:es": "rollup -c -f es -o dist/autocomplete.es.js",
-    "build:unpkg": "rollup -c -f iife -o dist/autocomplete.min.js"
-  },
+  "main": "dist/autocomplete.cjs.js",
+  "module": "dist/autocomplete.es.js",
+  "unpkg": "dist/autocomplete.min.js",
   "keywords": [
     "autocomplete",
     "combobox",
