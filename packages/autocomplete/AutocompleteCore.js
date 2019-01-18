@@ -32,27 +32,27 @@ class AutocompleteCore {
 
     switch (key) {
       case 'ArrowUp':
-      case 'ArrowDown':
+      case 'ArrowDown': {
         const selectedIndex =
           key === 'ArrowUp' ? this.selectedIndex - 1 : this.selectedIndex + 1
         this.handleArrowUpDown(selectedIndex)
         break
-
-      case 'Tab':
+      }
+      case 'Tab': {
         this.selectResult()
         break
-
-      case 'Enter':
+      }
+      case 'Enter': {
         const selectedResult = this.results[this.selectedIndex]
         this.selectResult()
         this.onSubmit(selectedResult)
         break
-
-      case 'Escape':
+      }
+      case 'Escape': {
         this.hideResults()
         this.setValue('')
         break
-
+      }
       default:
         return
     }

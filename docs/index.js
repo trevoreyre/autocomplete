@@ -1,3 +1,4 @@
+/* global Vue */
 import AutocompleteJs from '../packages/autocomplete-js'
 import AutocompleteVue from '../packages/autocomplete-vue'
 import '../packages/autocomplete/autocomplete.css'
@@ -11,7 +12,7 @@ const search = input => {
 }
 
 const handleSubmit = value => {
-  console.log('handleSubmit', value)
+  console.log('handleSubmit', value) // eslint-disable-line
 }
 
 new AutocompleteJs({

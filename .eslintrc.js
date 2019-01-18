@@ -4,8 +4,8 @@ module.exports = {
   },
   extends: [
     'plugin:vue/recommended',
-    // 'plugin:prettier/recommended',
-    '@vue/prettier',
+    'plugin:prettier/recommended',
+    // '@vue/prettier',
     'eslint:recommended'
   ],
   rules: {
@@ -19,6 +19,6 @@ module.exports = {
     ]
   },
   parserOptions: {
-    parser: "babel-eslint"
+    parser: 'babel-eslint'
   }
 }
