@@ -4,10 +4,10 @@
     "postinstall": "lerna bootstrap",
     "start": "webpack-dev-server --config docs/webpack.config.js",
     "prebuild": "lerna exec -- rimraf dist",
-    "build:old": "cross-env NODE_ENV=production lerna run build",
     "build": "rollup -c",
     "clean": "lerna exec -- rimraf dist && lerna clean",
-    "lint": "eslint --fix --ignore-path .gitignore ."
+    "lint": "eslint --fix --ignore-path .gitignore .",
+    "publish": "lerna publish from-package --yes"
   },
   "husky": {
     "hooks": {
