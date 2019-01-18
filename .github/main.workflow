@@ -1,14 +1,16 @@
 workflow "Build and publish on push" {
   on = "push"
-  resolves = [
-    "Publish",
-    "Tag filter",
-  ]
+  resolves = "Publish"
 }
 
 action "Master branch filter" {
   uses = "actions/bin/filter@b2bea0749eed6beb495a8fa194c071847af60ea1"
   args = "branch master"
+}
+
+action "Tag filter" {
+  uses = "actions/bin/filter@707718ee26483624de00bd146e073d915139a3d8"
+  args = "tag"
 }
 
 action "Install" {
@@ -28,9 +30,4 @@ action "Publish" {
   needs = ["Build"]
   args = "run publish"
   secrets = ["NPM_AUTH_TOKEN"]
-}
-
-action "Tag filter" {
-  uses = "actions/bin/filter@707718ee26483624de00bd146e073d915139a3d8"
-  args = "tag"
 }
