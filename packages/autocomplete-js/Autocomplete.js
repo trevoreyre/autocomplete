@@ -5,16 +5,16 @@ class Autocomplete {
     root,
     input,
     results,
-    searchFn,
-    shouldAutoSelect = false,
+    search,
+    autoSelect,
     onSubmit = () => {},
   } = {}) {
     this.root = root
     this.input = input
     this.results = results
     this.autocomplete = new AutocompleteCore({
-      searchFn,
-      shouldAutoSelect,
+      search,
+      autoSelect,
       setValue: this.setValue,
       setAttribute: this.setAttribute(this.root),
       setInputAttribute: this.setAttribute(this.input),

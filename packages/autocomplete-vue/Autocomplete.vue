@@ -37,27 +37,29 @@
     >
       <li
         v-for="(result, index) in results"
-        :key="'autocomplete-result' + index"
+        :key="'autocomplete-result-' + index"
         :id="'autocomplete-result-' + index"
         class="autocomplete-result"
         role="option"
         :aria-selected="selectedIndex === index ? 'true' : 'false'"
-      >{{ result }}</li>
+      >
+        {{ result }}
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-import AutocompleteCore from "../autocomplete/AutocompleteCore.js";
+import AutocompleteCore from "../autocomplete/AutocompleteCore.js"
 
 export default {
   name: "autocomplete",
   props: {
-    searchFn: {
+    search: {
       type: Function,
       required: true
     },
-    shouldAutoSelect: {
+    autoSelect: {
       type: Boolean,
       default: false
     },
@@ -72,8 +74,8 @@ export default {
   data() {
     const data = {
       autocomplete: new AutocompleteCore({
-        searchFn: this.searchFn,
-        shouldAutoSelect: this.shouldAutoSelect,
+        search: this.search,
+        autoSelect: this.autoSelect,
         setValue: this.setValue,
         setAttribute: this.setAttribute,
         setInputAttribute: this.setInputAttribute,
@@ -91,8 +93,11 @@ export default {
     };
     return data;
   },
-  created() {
+  mounted() {
     document.body.addEventListener("click", this.handleDocumentClick);
+  },
+  beforeDestroy() {
+    document.body.removeEventListener("click", this.handleDocumentClick);
   },
   methods: {
     setValue(value) {

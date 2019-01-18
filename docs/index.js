@@ -18,8 +18,8 @@ new AutocompleteJs({
   root: document.querySelector('.autocomplete'),
   input: document.querySelector('.autocomplete-input'),
   results: document.querySelector('.autocomplete-results'),
-  searchFn: search,
-  shouldAutoSelect: true,
+  search: search,
+  autoSelect: true,
   onSubmit: handleSubmit,
 })
 

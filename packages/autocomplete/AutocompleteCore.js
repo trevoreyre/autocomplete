@@ -1,16 +1,15 @@
-console.log('')
 class AutocompleteCore {
   constructor({
-    searchFn,
-    shouldAutoSelect = false,
+    search,
+    autoSelect = false,
     setValue = () => {},
     setAttribute = () => {},
     setInputAttribute = () => {},
     onUpdateResults = () => {},
     onSubmit = () => {},
   } = {}) {
-    this.searchFn = searchFn
-    this.shouldAutoSelect = shouldAutoSelect
+    this.search = search
+    this.autoSelect = autoSelect
     this.setValue = setValue
     this.setAttribute = setAttribute
     this.setInputAttribute = setInputAttribute
@@ -96,14 +95,14 @@ class AutocompleteCore {
   }
 
   updateResults = value => {
-    this.results = this.searchFn(value)
+    this.results = this.search(value)
 
     if (this.results.length === 0) {
       this.hideResults()
       return
     }
 
-    if (this.shouldAutoSelect) {
+    if (this.autoSelect) {
       this.selectedIndex = 0
       this.setInputAttribute(
         'aria-activedescendant',
