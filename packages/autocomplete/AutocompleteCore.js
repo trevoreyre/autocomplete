@@ -1,3 +1,4 @@
+console.log('')
 class AutocompleteCore {
   constructor({
     searchFn,
