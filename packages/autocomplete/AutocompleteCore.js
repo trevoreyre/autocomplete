@@ -2,11 +2,11 @@ class AutocompleteCore {
   constructor({
     searchFn,
     shouldAutoSelect = false,
-    setValue = () => { },
-    setAttribute = () => { },
-    setInputAttribute = () => { },
-    onUpdateResults = () => { },
-    onSubmit = () => { }
+    setValue = () => {},
+    setAttribute = () => {},
+    setInputAttribute = () => {},
+    onUpdateResults = () => {},
+    onSubmit = () => {},
   } = {}) {
     this.searchFn = searchFn
     this.shouldAutoSelect = shouldAutoSelect
@@ -33,7 +33,8 @@ class AutocompleteCore {
     switch (key) {
       case 'ArrowUp':
       case 'ArrowDown':
-        const selectedIndex = key === 'ArrowUp' ? this.selectedIndex - 1 : this.selectedIndex + 1
+        const selectedIndex =
+          key === 'ArrowUp' ? this.selectedIndex - 1 : this.selectedIndex + 1
         this.handleArrowUpDown(selectedIndex)
         break
 
@@ -70,12 +71,16 @@ class AutocompleteCore {
   handleArrowUpDown = selectedIndex => {
     // Loop selectedIndex back to first or last result if out of bounds
     const resultsCount = this.results.length
-    this.selectedIndex = ((selectedIndex % resultsCount) + resultsCount) % resultsCount
+    this.selectedIndex =
+      ((selectedIndex % resultsCount) + resultsCount) % resultsCount
 
     // Update results and aria attributes
     this.onUpdateResults(this.results, this.selectedIndex)
     if (this.results[this.selectedIndex]) {
-      this.setInputAttribute('aria-activedescendant', `autocomplete-result-${this.selectedIndex}`)
+      this.setInputAttribute(
+        'aria-activedescendant',
+        `autocomplete-result-${this.selectedIndex}`
+      )
     } else {
       this.setInputAttribute('aria-activedescendant', '')
     }

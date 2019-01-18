@@ -20,18 +20,18 @@ new AutocompleteJs({
   results: document.querySelector('.autocomplete-results'),
   searchFn: search,
   shouldAutoSelect: true,
-  onSubmit: handleSubmit
+  onSubmit: handleSubmit,
 })
 
 new Vue({
   el: '#app',
   components: {
-    autocomplete: AutocompleteVue
+    autocomplete: AutocompleteVue,
   },
   data() {
     return {
       search,
-      handleSubmit
+      handleSubmit,
     }
-  }
+  },
 })

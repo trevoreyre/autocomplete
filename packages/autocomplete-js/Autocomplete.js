@@ -7,7 +7,7 @@ class Autocomplete {
     results,
     searchFn,
     shouldAutoSelect = false,
-    onSubmit = () => { }
+    onSubmit = () => {},
   } = {}) {
     this.root = root
     this.input = input
@@ -19,7 +19,7 @@ class Autocomplete {
       setAttribute: this.setAttribute(this.root),
       setInputAttribute: this.setAttribute(this.input),
       onUpdateResults: this.handleUpdateResults,
-      onSubmit
+      onSubmit,
     })
 
     // Setup events
@@ -38,9 +38,10 @@ class Autocomplete {
   }
 
   handleUpdateResults = (results, selectedIndex) => {
-    this.results.innerHTML = results.map((result, index) => {
-      const isSelected = selectedIndex === index
-      return `
+    this.results.innerHTML = results
+      .map((result, index) => {
+        const isSelected = selectedIndex === index
+        return `
         <li
           id='autocomplete-result-${index}'
           class='autocomplete-result'
@@ -50,7 +51,8 @@ class Autocomplete {
           ${result}
         </li>
       `
-    }).join('')
+      })
+      .join('')
   }
 
   handleDocumentClick = event => {

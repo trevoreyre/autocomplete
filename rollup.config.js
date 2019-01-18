@@ -7,44 +7,50 @@ import vue from 'rollup-plugin-vue'
 // in a <script> tag. All three bundles are transpiled to ES5 (with exception of
 // the import/export statements in the ES bundle).
 const createConfigs = ({ root = '', plugins = [] }) => {
-  return [{
-    input: `${root}/index.js`,
-    output: [{
-      file: `${root}/dist/autocomplete.cjs.js`,
-      format: 'cjs'
-    }, {
-      file: `${root}/dist/autocomplete.es.js`,
-      format: 'es'
-    }],
-    plugins: [
-      ...plugins,
-      babel({
-        exclude: 'node_modules/**'
-      })
-    ]
-  }, {
-    input: `${root}/index.js`,
-    output: {
-      name: 'Autocomplete',
-      file: `${root}/dist/autocomplete.min.js`,
-      format: 'iife'
+  return [
+    {
+      input: `${root}/index.js`,
+      output: [
+        {
+          file: `${root}/dist/autocomplete.cjs.js`,
+          format: 'cjs',
+        },
+        {
+          file: `${root}/dist/autocomplete.es.js`,
+          format: 'es',
+        },
+      ],
+      plugins: [
+        ...plugins,
+        babel({
+          exclude: 'node_modules/**',
+        }),
+      ],
     },
-    plugins: [
-      ...plugins,
-      babel({
-        exclude: 'node_modules/**'
-      }),
-      uglify()
-    ]
-  }]
+    {
+      input: `${root}/index.js`,
+      output: {
+        name: 'Autocomplete',
+        file: `${root}/dist/autocomplete.min.js`,
+        format: 'iife',
+      },
+      plugins: [
+        ...plugins,
+        babel({
+          exclude: 'node_modules/**',
+        }),
+        uglify(),
+      ],
+    },
+  ]
 }
 
 export default [
   ...createConfigs({
-    root: 'packages/autocomplete'
+    root: 'packages/autocomplete',
   }),
   ...createConfigs({
-    root: 'packages/autocomplete-js'
+    root: 'packages/autocomplete-js',
   }),
   ...createConfigs({
     root: 'packages/autocomplete-vue',
@@ -53,9 +59,9 @@ export default [
         css: false,
         compileTemplate: true,
         template: {
-          isProduction: true
-        }
-      })
-    ]
-  })
+          isProduction: true,
+        },
+      }),
+    ],
+  }),
 ]

@@ -1,6 +1,6 @@
 import Autocomplete from './Autocomplete.vue'
 
-function install (Vue) {
+function install(Vue) {
   if (install.installed) {
     return
   }
