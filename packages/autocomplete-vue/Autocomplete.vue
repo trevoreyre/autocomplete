@@ -38,16 +38,18 @@
       aria-label="Search for a fruit or vegetable"
       @click="handleResultClick"
     >
-      <li
-        v-for="(result, index) in results"
-        :id="'autocomplete-result-' + index"
-        :key="'autocomplete-result-' + index"
-        class="autocomplete-result"
-        role="option"
-        :aria-selected="selectedIndex === index ? 'true' : 'false'"
-      >
-        {{ result }}
-      </li>
+      <slot :results="results" :selectedIndex="selectedIndex">
+        <li
+          v-for="(result, index) in results"
+          :id="'autocomplete-result-' + index"
+          :key="'autocomplete-result-' + index"
+          class="autocomplete-result"
+          role="option"
+          :aria-selected="selectedIndex === index ? 'true' : 'false'"
+        >
+          {{ result }}
+        </li>
+      </slot>
     </ul>
   </div>
 </template>

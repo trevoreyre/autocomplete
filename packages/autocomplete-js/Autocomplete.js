@@ -7,11 +7,13 @@ class Autocomplete {
     results,
     search,
     autoSelect,
+    renderResults,
     onSubmit = () => {},
   } = {}) {
     this.root = root
     this.input = input
     this.results = results
+    this.renderResults = renderResults
     this.autocomplete = new AutocompleteCore({
       search,
       autoSelect,
@@ -38,21 +40,24 @@ class Autocomplete {
   }
 
   handleUpdateResults = (results, selectedIndex) => {
-    this.results.innerHTML = results
-      .map((result, index) => {
+    this.results.innerHTML = (typeof this.renderResults === 'function') ? (
+      this.renderResults(results, selectedIndex)
+    ) : (
+      results.map((result, index) => {
         const isSelected = selectedIndex === index
         return `
-        <li
-          id='autocomplete-result-${index}'
-          class='autocomplete-result'
-          role='option'
-          ${isSelected ? "aria-selected='true'" : ''}
-        >
-          ${result}
-        </li>
-      `
+          <li
+            id='autocomplete-result-${index}'
+            class='autocomplete-result'
+            role='option'
+            ${isSelected ? "aria-selected='true'" : ''}
+          >
+            ${result}
+          </li>
+        `
       })
       .join('')
+    )
   }
 
   handleDocumentClick = event => {

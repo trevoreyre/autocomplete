@@ -118,7 +118,19 @@
     </div>
     <div id='app' class='container'>
       <!-- <h2>Vue.js</h2> -->
-      <autocomplete :search='search' :auto-select='true' :on-submit='handleSubmit'></autocomplete>
+      <autocomplete :search='search' :auto-select='true' :on-submit='handleSubmit'>
+        <template slot-scope='{ results, selectedIndex }'>
+          <template v-for="(result, index) in results">
+            <div v-if="index % 3 === 0" style="padding:8px; background:black; color:white;">
+              SECTION
+            </div>
+            <li :id="'autocomplete-result-' + index" :key="'autocomplete-result-' + index" class="autocomplete-result"
+              role="option" :aria-selected="selectedIndex === index ? 'true' : 'false'">
+              {{ result }}
+            </li>
+          </template>
+        </template>
+      </autocomplete>
     </div>
     <select>
       <option>
