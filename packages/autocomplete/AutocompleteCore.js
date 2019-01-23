@@ -4,7 +4,6 @@ class AutocompleteCore {
     autoSelect = false,
     setValue = () => {},
     setAttribute = () => {},
-    setInputAttribute = () => {},
     onUpdateResults = () => {},
     onSubmit = () => {},
   } = {}) {
@@ -12,7 +11,6 @@ class AutocompleteCore {
     this.autoSelect = autoSelect
     this.setValue = setValue
     this.setAttribute = setAttribute
-    this.setInputAttribute = setInputAttribute
     this.onUpdateResults = onUpdateResults
     this.onSubmit = onSubmit
 
@@ -77,12 +75,12 @@ class AutocompleteCore {
     // Update results and aria attributes
     this.onUpdateResults(this.results, this.selectedIndex)
     if (this.results[this.selectedIndex]) {
-      this.setInputAttribute(
+      this.setAttribute(
         'aria-activedescendant',
         `autocomplete-result-${this.selectedIndex}`
       )
     } else {
-      this.setInputAttribute('aria-activedescendant', '')
+      this.setAttribute('aria-activedescendant', '')
     }
   }
 
@@ -104,7 +102,7 @@ class AutocompleteCore {
 
     if (this.autoSelect) {
       this.selectedIndex = 0
-      this.setInputAttribute(
+      this.setAttribute(
         'aria-activedescendant',
         `autocomplete-result-${this.selectedIndex}`
       )
@@ -118,7 +116,7 @@ class AutocompleteCore {
     this.selectedIndex = -1
     this.results = []
     this.setAttribute('aria-expanded', false)
-    this.setInputAttribute('aria-activedescendant', '')
+    this.setAttribute('aria-activedescendant', '')
     this.onUpdateResults(this.results, this.selectedIndex)
   }
 }

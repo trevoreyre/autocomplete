@@ -1,18 +1,10 @@
-.autocomplete-container {
+.autocomplete {
   position: relative;
 }
 
-.autocomplete {
-  display: flex;
-}
-
-input,
-button {
-  font-family: inherit;
-}
-
-.autocomplete-input {
+.autocomplete input {
   border: 1px solid rgba(0, 0, 0, 0.54);
+  border-radius: 4px;
   width: 100%;
   padding: 8px;
   font-size: 16px;
@@ -20,37 +12,21 @@ button {
   flex: 1;
 }
 
-.autocomplete-submit {
-  border: 1px solid #1c5b72;
-  padding: 8px 16px;
-  background: #1c5b72;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.autocomplete-submit svg {
-  width: 24px;
-  height: 24px;
-  fill: #fff;
-}
-
 .autocomplete-results {
   display: none;
   position: absolute;
   margin-top: -1px;
   border: 1px solid rgba(0, 0, 0, 0.54);
+  margin: 0;
   padding: 4px 0;
   width: 100%;
   z-index: 1;
   background: #fff;
-  margin: 0;
-  padding: 0;
   list-style: none;
   transition: none;
 }
 
-.autocomplete[aria-expanded="true"] ~ .autocomplete-results {
+[aria-expanded="true"] ~ .autocomplete-results {
   display: block;
 }
 

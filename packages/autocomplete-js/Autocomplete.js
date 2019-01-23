@@ -1,25 +1,25 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 
 class Autocomplete {
-  constructor({
-    root,
-    input,
-    results,
+  constructor(root, {
     search,
     autoSelect,
     renderResults,
     onSubmit = () => {},
   } = {}) {
-    this.root = root
-    this.input = input
-    this.results = results
+    if (typeof root === 'string') {
+      this.root = document.querySelector(root)
+    } else {
+      this.root = root
+    }
+    this.input = this.root.querySelector('input')
+    this.results = this.root.querySelector('ul')
     this.renderResults = renderResults
     this.autocomplete = new AutocompleteCore({
       search,
       autoSelect,
       setValue: this.setValue,
-      setAttribute: this.setAttribute(this.root),
-      setInputAttribute: this.setAttribute(this.input),
+      setAttribute: this.setAttribute,
       onUpdateResults: this.handleUpdateResults,
       onSubmit,
     })
@@ -31,8 +31,8 @@ class Autocomplete {
     this.results.addEventListener('click', this.autocomplete.handleResultClick)
   }
 
-  setAttribute = element => (attribute, value) => {
-    element.setAttribute(attribute, value)
+  setAttribute = (attribute, value) => {
+    this.input.setAttribute(attribute, value)
   }
 
   setValue = value => {
@@ -40,12 +40,13 @@ class Autocomplete {
   }
 
   handleUpdateResults = (results, selectedIndex) => {
-    this.results.innerHTML = (typeof this.renderResults === 'function') ? (
-      this.renderResults(results, selectedIndex)
-    ) : (
-      results.map((result, index) => {
-        const isSelected = selectedIndex === index
-        return `
+    this.results.innerHTML =
+      typeof this.renderResults === 'function'
+        ? this.renderResults(results, selectedIndex)
+        : results
+            .map((result, index) => {
+              const isSelected = selectedIndex === index
+              return `
           <li
             id='autocomplete-result-${index}'
             class='autocomplete-result'
@@ -55,9 +56,8 @@ class Autocomplete {
             ${result}
           </li>
         `
-      })
-      .join('')
-    )
+            })
+            .join('')
   }
 
   handleDocumentClick = event => {

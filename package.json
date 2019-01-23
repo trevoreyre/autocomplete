@@ -6,7 +6,7 @@
     "prebuild": "lerna exec -- rimraf dist",
     "build": "rollup -c",
     "clean": "lerna exec -- rimraf dist && lerna clean",
-    "lint": "eslint --fix --ignore-path .gitignore .",
+    "lint": "eslint --fix --ignore-path .gitignore --ext .js,.vue .",
     "publish": "lerna exec -- npm publish"
   },
   "husky": {

@@ -1,41 +1,24 @@
 <template>
-  <div class="autocomplete-container">
-    <div
-      ref="root"
-      class="autocomplete"
+  <div
+    ref="root"
+    class="autocomplete"
+  >
+    <input
       role="combobox"
+      autocomplete="off"
+      spellcheck="false"
+      aria-autocomplete="list"
       aria-owns="autocomplete-results"
       aria-haspopup="listbox"
-      v-bind="rootAttributes"
+      v-model="value"
+      v-bind="{ ...attributes, ...$attrs }"
+      @input="handleInput"
+      @keydown="handleKeydown"
     >
-      <input
-        ref="input"
-        class="autocomplete-input"
-        placeholder="Search for a fruit or vegetable"
-        aria-label="Search for a fruit or vegetable"
-        aria-autocomplete="list"
-        aria-controls="autocomplete-results"
-        :value="value"
-        v-bind="inputAttributes"
-        @input="handleInput"
-        @keydown="handleKeydown"
-      >
-      <button
-        type="submit"
-        class="autocomplete-submit"
-      >
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
-          />
-        </svg>
-      </button>
-    </div>
     <ul
       id="autocomplete-results"
       class="autocomplete-results"
       role="listbox"
-      aria-label="Search for a fruit or vegetable"
       @click="handleResultClick"
     >
       <slot :results="results" :selectedIndex="selectedIndex">
@@ -46,9 +29,7 @@
           class="autocomplete-result"
           role="option"
           :aria-selected="selectedIndex === index ? 'true' : 'false'"
-        >
-          {{ result }}
-        </li>
+        >{{ result }}</li>
       </slot>
     </ul>
   </div>
@@ -58,7 +39,8 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 
 export default {
-  name: 'autocomplete',
+  name: 'Autocomplete',
+  inheritAttrs: false,
   props: {
     search: {
       type: Function,
@@ -70,7 +52,7 @@ export default {
     },
     onSubmit: {
       type: Function,
-      default: () => {}
+      default: () => {},
     },
     defaultValue: {
       type: String,
@@ -84,15 +66,12 @@ export default {
         autoSelect: this.autoSelect,
         setValue: this.setValue,
         setAttribute: this.setAttribute,
-        setInputAttribute: this.setInputAttribute,
-        setSelectionRange: this.setSelectionRange,
         onUpdateResults: this.handleUpdateResults,
         onSubmit: this.onSubmit,
       }),
-      rootAttributes: {
+      attributes: {
         'aria-expanded': 'false',
       },
-      inputAttributes: {},
       value: this.defaultValue,
       results: [],
       selectedIndex: 0,
@@ -110,10 +89,7 @@ export default {
       this.value = value
     },
     setAttribute(attribute, value) {
-      this.rootAttributes[attribute] = value
-    },
-    setInputAttribute(attribute, value) {
-      this.inputAttributes[attribute] = value
+      this.attributes[attribute] = value
     },
     handleUpdateResults(results, selectedIndex) {
       this.results = results
