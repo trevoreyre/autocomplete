@@ -1,12 +1,10 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 
 class Autocomplete {
-  constructor(root, {
-    search,
-    autoSelect,
-    renderResults,
-    onSubmit = () => {},
-  } = {}) {
+  constructor(
+    root,
+    { search, autoSelect, renderResults, onSubmit = () => {} } = {}
+  ) {
     if (typeof root === 'string') {
       this.root = document.querySelector(root)
     } else {

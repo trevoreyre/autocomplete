@@ -4,13 +4,13 @@
     class="autocomplete"
   >
     <input
+      v-model="value"
       role="combobox"
       autocomplete="off"
       spellcheck="false"
       aria-autocomplete="list"
       aria-owns="autocomplete-results"
       aria-haspopup="listbox"
-      v-model="value"
       v-bind="{ ...attributes, ...$attrs }"
       @input="handleInput"
       @keydown="handleKeydown"
