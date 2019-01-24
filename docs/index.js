@@ -8,8 +8,12 @@ const search = input => {
   if (input.length < 1) {
     return []
   }
-  return data.filter(item => item.toLowerCase().startsWith(input.toLowerCase()))
+  return data.filter(item =>
+    item.value.toLowerCase().startsWith(input.toLowerCase())
+  )
 }
+
+const getResultValue = result => result.value
 
 // const renderResults = (results, selectedIndex) => {
 //   return results
@@ -42,6 +46,7 @@ const handleSubmit = value => {
 
 new AutocompleteJs('.autocomplete', {
   search,
+  getResultValue,
   autoSelect: true,
   // renderResults,
   onSubmit: handleSubmit,
@@ -56,6 +61,7 @@ new Vue({
     return {
       search,
       handleSubmit,
+      getResultValue,
     }
   },
 })

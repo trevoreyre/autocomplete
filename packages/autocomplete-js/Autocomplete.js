@@ -3,7 +3,13 @@ import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 class Autocomplete {
   constructor(
     root,
-    { search, autoSelect, renderResults, onSubmit = () => {} } = {}
+    {
+      search,
+      autoSelect,
+      getResultValue = result => result,
+      renderResults,
+      onSubmit = () => {},
+    } = {}
   ) {
     if (typeof root === 'string') {
       this.root = document.querySelector(root)
@@ -12,6 +18,7 @@ class Autocomplete {
     }
     this.input = this.root.querySelector('input')
     this.results = this.root.querySelector('ul')
+    this.getResultValue = getResultValue
     this.renderResults = renderResults
     this.autocomplete = new AutocompleteCore({
       search,
@@ -33,8 +40,8 @@ class Autocomplete {
     this.input.setAttribute(attribute, value)
   }
 
-  setValue = value => {
-    this.input.value = value
+  setValue = result => {
+    this.input.value = this.getResultValue(result)
   }
 
   handleUpdateResults = (results, selectedIndex) => {
@@ -45,15 +52,15 @@ class Autocomplete {
             .map((result, index) => {
               const isSelected = selectedIndex === index
               return `
-          <li
-            id='autocomplete-result-${index}'
-            class='autocomplete-result'
-            role='option'
-            ${isSelected ? "aria-selected='true'" : ''}
-          >
-            ${result}
-          </li>
-        `
+                <li
+                  id='autocomplete-result-${index}'
+                  class='autocomplete-result'
+                  role='option'
+                  ${isSelected ? "aria-selected='true'" : ''}
+                >
+                  ${this.getResultValue(result)}
+                </li>
+              `
             })
             .join('')
   }

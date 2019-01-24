@@ -11,7 +11,7 @@
       aria-autocomplete="list"
       aria-owns="autocomplete-results"
       aria-haspopup="listbox"
-      v-bind="{ ...attributes, ...$attrs }"
+      v-bind="{ ...$attrs, ...attributes }"
       @input="handleInput"
       @keydown="handleKeydown"
     >
@@ -21,15 +21,22 @@
       role="listbox"
       @click="handleResultClick"
     >
-      <slot :results="results" :selectedIndex="selectedIndex">
+      <!-- <slot :results="results" :selectedIndex="selectedIndex"> -->
+      <slot
+        v-for="(result, index) in results"
+        :result="result"
+        :index="index"
+        :props="getResultProps(index)"
+      >
         <li
-          v-for="(result, index) in results"
           :id="'autocomplete-result-' + index"
           :key="'autocomplete-result-' + index"
           class="autocomplete-result"
           role="option"
-          :aria-selected="selectedIndex === index ? 'true' : 'false'"
-        >{{ result }}</li>
+          v-bind="getResultProps(index)"
+        >
+          {{ getResultValue(result) }}
+        </li>
       </slot>
     </ul>
   </div>
@@ -53,6 +60,10 @@ export default {
     onSubmit: {
       type: Function,
       default: () => {},
+    },
+    getResultValue: {
+      type: Function,
+      default: result => result,
     },
     defaultValue: {
       type: String,
@@ -85,8 +96,15 @@ export default {
     document.body.removeEventListener('click', this.handleDocumentClick)
   },
   methods: {
-    setValue(value) {
-      this.value = value
+    getResultProps(index) {
+      const props = {
+        'aria-selected': index === this.selectedIndex ? 'true' : 'false'
+      }
+      console.log('getResultProps:', props)
+      return props
+    },
+    setValue(result) {
+      this.value = this.getResultValue(result)
     },
     setAttribute(attribute, value) {
       this.attributes[attribute] = value

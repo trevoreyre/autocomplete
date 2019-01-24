@@ -140,6 +140,7 @@
         placeholder='Search for a fruit or vegetable'
         aria-label='Search for a fruit or vegetable'
         :search='search'
+        :get-result-value='getResultValue'
         :auto-select='true'
         :on-submit='handleSubmit'
       >
@@ -162,6 +163,23 @@
             </li>
           </template>
         </template> -->
+        <template slot-scope="{ result, index, props }">
+          <div
+            v-if="index % 3 === 0"
+            style="padding:8px; background:black; color:white;"
+          >
+            SECTION
+          </div>
+          <li
+            :id="'autocomplete-result-' + index"
+            :key="'autocomplete-result-' + index"
+            class="autocomplete-result"
+            role="option"
+            v-bind="props"
+          >
+            {{ result.value }}
+          </li>
+        </template>
       </autocomplete>
     </div>
     <select>
