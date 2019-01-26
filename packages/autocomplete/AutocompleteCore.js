@@ -48,7 +48,7 @@ class AutocompleteCore {
       }
       case 'Escape': {
         this.hideResults()
-        this.setValue('')
+        this.setValue()
         break
       }
       default:

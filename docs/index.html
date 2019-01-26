@@ -144,26 +144,24 @@
         :auto-select='true'
         :on-submit='handleSubmit'
       >
-        <!-- <template slot-scope='{ results, selectedIndex }'>
+        <template slot-scope='{ results, resultProps }'>
           <template v-for="(result, index) in results">
             <div
-              v-if="index % 3 === 0"
+              v-if="index === 0 || results[index - 1].type !== result.type"
               style="padding:8px; background:black; color:white;"
             >
-              SECTION
+              {{ result.type }}
             </div>
             <li
               :id="'autocomplete-result-' + index"
               :key="'autocomplete-result-' + index"
-              class="autocomplete-result"
-              role="option"
-              :aria-selected="selectedIndex === index ? 'true' : 'false'"
+              v-bind="resultProps[index]"
             >
-              {{ result }}
+              {{ result.value }}
             </li>
           </template>
-        </template> -->
-        <template slot-scope="{ result, index, props }">
+        </template>
+        <!-- <template slot-scope="{ result, index, props }">
           <div
             v-if="index % 3 === 0"
             style="padding:8px; background:black; color:white;"
@@ -179,7 +177,7 @@
           >
             {{ result.value }}
           </li>
-        </template>
+        </template> -->
       </autocomplete>
     </div>
     <select>

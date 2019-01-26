@@ -1,8 +1,5 @@
 <template>
-  <div
-    ref="root"
-    class="autocomplete"
-  >
+  <div ref="root" class="autocomplete">
     <input
       v-model="value"
       role="combobox"
@@ -14,26 +11,25 @@
       v-bind="{ ...$attrs, ...attributes }"
       @input="handleInput"
       @keydown="handleKeydown"
-    >
+    />
     <ul
       id="autocomplete-results"
       class="autocomplete-results"
       role="listbox"
       @click="handleResultClick"
     >
-      <!-- <slot :results="results" :selectedIndex="selectedIndex"> -->
-      <slot
+      <slot :results="results" :resultProps="resultProps">
+        <!-- <slot
         v-for="(result, index) in results"
         :result="result"
         :index="index"
         :props="getResultProps(index)"
-      >
+      > -->
         <li
+          v-for="(result, index) in results"
           :id="'autocomplete-result-' + index"
           :key="'autocomplete-result-' + index"
-          class="autocomplete-result"
-          role="option"
-          v-bind="getResultProps(index)"
+          v-bind="resultProps[index]"
         >
           {{ getResultValue(result) }}
         </li>
@@ -85,6 +81,7 @@ export default {
       },
       value: this.defaultValue,
       results: [],
+      resultProps: [],
       selectedIndex: 0,
     }
     return data
@@ -96,21 +93,19 @@ export default {
     document.body.removeEventListener('click', this.handleDocumentClick)
   },
   methods: {
-    getResultProps(index) {
-      const props = {
-        'aria-selected': index === this.selectedIndex ? 'true' : 'false'
-      }
-      console.log('getResultProps:', props)
-      return props
-    },
     setValue(result) {
-      this.value = this.getResultValue(result)
+      this.value = result ? this.getResultValue(result) : ''
     },
     setAttribute(attribute, value) {
       this.attributes[attribute] = value
     },
     handleUpdateResults(results, selectedIndex) {
       this.results = results
+      this.resultProps = results.map((result, index) => ({
+        class: 'autocomplete-result',
+        role: 'option',
+        ...(selectedIndex === index ? { 'aria-selected': 'true' } : {}),
+      }))
       this.selectedIndex = selectedIndex
     },
     handleInput(event) {

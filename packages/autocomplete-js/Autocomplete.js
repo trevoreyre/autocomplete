@@ -41,27 +41,31 @@ class Autocomplete {
   }
 
   setValue = result => {
-    this.input.value = this.getResultValue(result)
+    this.input.value = result ? this.getResultValue(result) : ''
   }
 
   handleUpdateResults = (results, selectedIndex) => {
+    const resultProps = results.map((result, index) => {
+      const isSelected = selectedIndex === index
+      return `class='autocomplete-result' role='option' ${
+        isSelected ? "aria-selected='true'" : ''
+      }`
+    })
+
     this.results.innerHTML =
       typeof this.renderResults === 'function'
-        ? this.renderResults(results, selectedIndex)
+        ? this.renderResults(results, resultProps)
         : results
-            .map((result, index) => {
-              const isSelected = selectedIndex === index
-              return `
-                <li
-                  id='autocomplete-result-${index}'
-                  class='autocomplete-result'
-                  role='option'
-                  ${isSelected ? "aria-selected='true'" : ''}
-                >
-                  ${this.getResultValue(result)}
-                </li>
-              `
-            })
+            .map(
+              (result, index) => `
+              <li
+                id='autocomplete-result-${index}'
+                ${resultProps[index]}
+              >
+                ${this.getResultValue(result)}
+              </li>
+            `
+            )
             .join('')
   }
 
