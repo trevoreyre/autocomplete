@@ -36,6 +36,29 @@ class Autocomplete {
     this.results.addEventListener('click', this.autocomplete.handleResultClick)
   }
 
+  updateResultsPosition = () => {
+    const inputPosition = this.input.getBoundingClientRect()
+    console.log('inputPosition:', inputPosition)
+    this.results.style = {
+      position: 'fixed',
+      top: inputPosition.bottom + 'px',
+      left: inputPosition.left + 'px',
+      width: inputPosition.width + 'px',
+    }
+    const resultsPosition = this.results.getBoundingClientRect()
+    console.log('resultsPosition:', resultsPosition)
+    console.log('window.innerHeight:', window.innerHeight)
+    if (resultsPosition.bottom > window.innerHeight) {
+      console.log('update results position')
+      this.results.style = {
+        position: 'fixed',
+        bottom: inputPosition.top + 'px',
+        left: inputPosition.left + 'px',
+        width: inputPosition.width + 'px',
+      }
+    }
+  }
+
   setAttribute = (attribute, value) => {
     this.input.setAttribute(attribute, value)
   }
@@ -67,6 +90,7 @@ class Autocomplete {
             `
             )
             .join('')
+    this.updateResultsPosition()
   }
 
   handleDocumentClick = event => {

@@ -1,6 +1,7 @@
 <template>
   <div ref="root" class="autocomplete">
     <input
+      ref="input"
       v-model="value"
       role="combobox"
       autocomplete="off"
@@ -14,17 +15,13 @@
     />
     <ul
       id="autocomplete-results"
+      ref="results"
       class="autocomplete-results"
       role="listbox"
+      :style="resultsStyle"
       @click="handleResultClick"
     >
       <slot :results="results" :resultProps="resultProps">
-        <!-- <slot
-        v-for="(result, index) in results"
-        :result="result"
-        :index="index"
-        :props="getResultProps(index)"
-      > -->
         <li
           v-for="(result, index) in results"
           :id="'autocomplete-result-' + index"
@@ -82,6 +79,9 @@ export default {
       value: this.defaultValue,
       results: [],
       resultProps: [],
+      resultsStyle: {
+        position: 'fixed',
+      },
       selectedIndex: 0,
     }
     return data
@@ -99,6 +99,15 @@ export default {
     setAttribute(attribute, value) {
       this.attributes[attribute] = value
     },
+    updateResultsPosition() {
+      const inputPosition = this.$refs.input.getBoundingClientRect()
+      this.resultsStyle = {
+        position: 'fixed',
+        top: inputPosition.bottom + 'px',
+        left: inputPosition.left + 'px',
+        width: inputPosition.width + 'px',
+      }
+    },
     handleUpdateResults(results, selectedIndex) {
       this.results = results
       this.resultProps = results.map((result, index) => ({
@@ -107,6 +116,7 @@ export default {
         ...(selectedIndex === index ? { 'aria-selected': 'true' } : {}),
       }))
       this.selectedIndex = selectedIndex
+      this.updateResultsPosition()
     },
     handleInput(event) {
       this.value = event.target.value

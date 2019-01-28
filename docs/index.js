@@ -44,7 +44,15 @@ const handleSubmit = value => {
   console.log('handleSubmit', value) // eslint-disable-line
 }
 
-new AutocompleteJs('.autocomplete', {
+new AutocompleteJs('.autocomplete-1', {
+  search,
+  getResultValue,
+  autoSelect: true,
+  renderResults,
+  onSubmit: handleSubmit,
+})
+
+new AutocompleteJs('.autocomplete-2', {
   search,
   getResultValue,
   autoSelect: true,
@@ -54,6 +62,20 @@ new AutocompleteJs('.autocomplete', {
 
 new Vue({
   el: '#app',
+  components: {
+    autocomplete: AutocompleteVue,
+  },
+  data() {
+    return {
+      search,
+      handleSubmit,
+      getResultValue,
+    }
+  },
+})
+
+new Vue({
+  el: '#app-2',
   components: {
     autocomplete: AutocompleteVue,
   },

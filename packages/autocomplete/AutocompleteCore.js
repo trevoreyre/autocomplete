@@ -108,14 +108,16 @@ class AutocompleteCore {
       )
     }
 
-    this.onUpdateResults(this.results, this.selectedIndex)
     this.setAttribute('aria-expanded', true)
+    this.onUpdateResults(this.results, this.selectedIndex)
+    document.body.style = 'overflow:hidden'
   }
 
   hideResults = () => {
     this.selectedIndex = -1
     this.results = []
     this.setAttribute('aria-expanded', false)
+    document.body.style = ''
     this.setAttribute('aria-activedescendant', '')
     this.onUpdateResults(this.results, this.selectedIndex)
   }
