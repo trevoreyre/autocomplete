@@ -4,15 +4,19 @@ class AutocompleteCore {
     autoSelect = false,
     setValue = () => {},
     setAttribute = () => {},
-    onUpdateResults = () => {},
+    onUpdate = () => {},
     onSubmit = () => {},
+    onShow = () => {},
+    onHide = () => {},
   } = {}) {
     this.search = search
     this.autoSelect = autoSelect
     this.setValue = setValue
     this.setAttribute = setAttribute
-    this.onUpdateResults = onUpdateResults
+    this.onUpdate = onUpdate
     this.onSubmit = onSubmit
+    this.onShow = onShow
+    this.onHide = onHide
 
     this.value = ''
     this.results = []
@@ -75,7 +79,7 @@ class AutocompleteCore {
       ((selectedIndex % resultsCount) + resultsCount) % resultsCount
 
     // Update results and aria attributes
-    this.onUpdateResults(this.results, this.selectedIndex)
+    this.onUpdate(this.results, this.selectedIndex)
     if (this.results[this.selectedIndex]) {
       this.setAttribute(
         'aria-activedescendant',
@@ -110,20 +114,26 @@ class AutocompleteCore {
       )
     }
 
-    this.onUpdateResults(this.results, this.selectedIndex)
+    this.onUpdate(this.results, this.selectedIndex)
+    this.showResults()
+  }
+
+  showResults = () => {
     this.setAttribute('aria-expanded', true)
-    document.body.style = `overflow:hidden; padding-right:${
-      this.scrollBarWidth
-    }px;`
+    document.body.style.overflow = 'hidden'
+    document.body.style.paddingRight = this.scrollBarWidth + 'px'
+    this.onShow()
   }
 
   hideResults = () => {
     this.selectedIndex = -1
     this.results = []
     this.setAttribute('aria-expanded', false)
-    document.body.style = ''
+    document.body.style.overflow = null
+    document.body.style.paddingRight = null
     this.setAttribute('aria-activedescendant', '')
-    this.onUpdateResults(this.results, this.selectedIndex)
+    this.onUpdate(this.results, this.selectedIndex)
+    this.onHide()
   }
 }
 

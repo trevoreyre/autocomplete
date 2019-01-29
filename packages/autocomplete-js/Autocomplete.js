@@ -25,9 +25,14 @@ class Autocomplete {
       autoSelect,
       setValue: this.setValue,
       setAttribute: this.setAttribute,
-      onUpdateResults: this.handleUpdateResults,
+      onUpdate: this.handleUpdate,
       onSubmit,
+      onShow: this.handleShow,
+      onHide: this.handleHide,
     })
+
+    this.results.style.position = 'fixed'
+    this.results.style.zIndex = '1'
 
     // Setup events
     document.body.addEventListener('click', this.handleDocumentClick)
@@ -41,13 +46,16 @@ class Autocomplete {
     const resultsPosition = this.results.getBoundingClientRect()
 
     // Place results below input, unless there isn't enough room
-    let yPosition = `top: ${inputPosition.bottom}px`
+    let yPosition = { key: 'top', value: inputPosition.bottom + 'px' }
     if (inputPosition.bottom + resultsPosition.height > window.innerHeight) {
-      yPosition = `bottom: ${window.innerHeight - inputPosition.top}px`
+      yPosition = {
+        key: 'bottom',
+        value: window.innerHeight - inputPosition.top + 'px',
+      }
     }
-    this.results.style = `${yPosition}; left: ${inputPosition.left}px; width: ${
-      inputPosition.width
-    }px;`
+    this.results.style[yPosition.key] = yPosition.value
+    this.results.style.left = inputPosition.left + 'px'
+    this.results.style.width = inputPosition.width + 'px'
   }
 
   setAttribute = (attribute, value) => {
@@ -58,7 +66,7 @@ class Autocomplete {
     this.input.value = result ? this.getResultValue(result) : ''
   }
 
-  handleUpdateResults = (results, selectedIndex) => {
+  handleUpdate = (results, selectedIndex) => {
     const resultProps = results.map((result, index) => {
       const isSelected = selectedIndex === index
       return `class='autocomplete-result' role='option' ${
@@ -82,6 +90,16 @@ class Autocomplete {
             )
             .join('')
     this.updateResultsPosition()
+  }
+
+  handleShow = () => {
+    this.results.style.visibility = 'visible'
+    this.results.style.pointerEvents = 'auto'
+  }
+
+  handleHide = () => {
+    this.results.style.visibility = 'hidden'
+    this.results.style.pointerEvents = 'none'
   }
 
   handleDocumentClick = event => {

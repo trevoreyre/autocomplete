@@ -1,7 +1,3 @@
-.autocomplete {
-  position: relative;
-}
-
 .autocomplete input {
   border: 1px solid rgba(0, 0, 0, 0.54);
   border-radius: 4px;
@@ -16,9 +12,6 @@
 }
 
 .autocomplete-results {
-  visibility: hidden;
-  pointer-events: none;
-  position: fixed;
   border: 1px solid rgba(0, 0, 0, 0.54);
   border-radius: 4px;
   margin: 0;
@@ -26,12 +19,6 @@
   z-index: 1;
   background: #fff;
   list-style: none;
-  transition: none;
-}
-
-[aria-expanded="true"] ~ .autocomplete-results {
-  visibility: visible;
-  pointer-events: auto;
 }
 
 .autocomplete-result {

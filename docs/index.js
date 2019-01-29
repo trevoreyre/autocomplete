@@ -2,7 +2,7 @@
 import sortBy from 'lodash/sortBy'
 import AutocompleteJs from '../packages/autocomplete-js/index.js'
 import AutocompleteVue from '../packages/autocomplete-vue/index.js'
-import '../packages/autocomplete/autocomplete.css'
+// import '../packages/autocomplete/autocomplete.css'
 import data from './data'
 
 const search = input => {

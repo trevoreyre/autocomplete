@@ -69,8 +69,10 @@ export default {
         autoSelect: this.autoSelect,
         setValue: this.setValue,
         setAttribute: this.setAttribute,
-        onUpdateResults: this.handleUpdateResults,
+        onUpdate: this.handleUpdate,
         onSubmit: this.onSubmit,
+        onShow: this.handleShow,
+        onHide: this.handleHide,
       }),
       attributes: {
         'aria-expanded': 'false',
@@ -79,25 +81,39 @@ export default {
       results: [],
       resultProps: [],
       selectedIndex: 0,
+      resetResultsPosition: true,
     }
     return data
   },
   mounted() {
+    this.$refs.results.style.position = 'fixed'
+    this.$refs.results.style.zIndex = '1'
     document.body.addEventListener('click', this.handleDocumentClick)
   },
   beforeDestroy() {
     document.body.removeEventListener('click', this.handleDocumentClick)
   },
   updated() {
+    // Prevent results from flipping from above input to below while open
+    if (!this.resetResultsPosition || this.results.length === 0) {
+      return
+    }
+    this.resetResultsPosition = false
+
     const inputPosition = this.$refs.input.getBoundingClientRect()
     const resultsPosition = this.$refs.results.getBoundingClientRect()
 
     // Place results below input, unless there isn't enough room
-    let yPosition = `top: ${inputPosition.bottom}px`
+    let yPosition = { key: 'top', value: inputPosition.bottom + 'px' }
     if (inputPosition.bottom + resultsPosition.height > window.innerHeight) {
-      yPosition = `bottom: ${window.innerHeight - inputPosition.top}px`
+      yPosition = {
+        key: 'bottom',
+        value: window.innerHeight - inputPosition.top + 'px',
+      }
     }
-    this.$refs.results.style = `${yPosition}; left: ${inputPosition.left}px; width: ${inputPosition.width}px`
+    this.$refs.results.style[yPosition.key] = yPosition.value
+    this.$refs.results.style.left = inputPosition.left + 'px'
+    this.$refs.results.style.width = inputPosition.width + 'px'
   },
   methods: {
     setValue(result) {
@@ -106,7 +122,7 @@ export default {
     setAttribute(attribute, value) {
       this.attributes[attribute] = value
     },
-    handleUpdateResults(results, selectedIndex) {
+    handleUpdate(results, selectedIndex) {
       this.results = results
       this.resultProps = results.map((result, index) => ({
         class: 'autocomplete-result',
@@ -114,6 +130,18 @@ export default {
         ...(selectedIndex === index ? { 'aria-selected': 'true' } : {}),
       }))
       this.selectedIndex = selectedIndex
+
+      if (this.results.length === 0) {
+        this.resetResultsPosition = true
+      }
+    },
+    handleShow() {
+      this.$refs.results.style.visibility = 'visible'
+      this.$refs.results.style.pointerEvents = 'auto'
+    },
+    handleHide() {
+      this.$refs.results.style.visibility = 'hidden'
+      this.$refs.results.style.pointerEvents = 'none'
     },
     handleInput(event) {
       this.value = event.target.value
