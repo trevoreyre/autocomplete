@@ -38,25 +38,16 @@ class Autocomplete {
 
   updateResultsPosition = () => {
     const inputPosition = this.input.getBoundingClientRect()
-    console.log('inputPosition:', inputPosition)
-    this.results.style = {
-      position: 'fixed',
-      top: inputPosition.bottom + 'px',
-      left: inputPosition.left + 'px',
-      width: inputPosition.width + 'px',
-    }
     const resultsPosition = this.results.getBoundingClientRect()
-    console.log('resultsPosition:', resultsPosition)
-    console.log('window.innerHeight:', window.innerHeight)
-    if (resultsPosition.bottom > window.innerHeight) {
-      console.log('update results position')
-      this.results.style = {
-        position: 'fixed',
-        bottom: inputPosition.top + 'px',
-        left: inputPosition.left + 'px',
-        width: inputPosition.width + 'px',
-      }
+
+    // Place results below input, unless there isn't enough room
+    let yPosition = `top: ${inputPosition.bottom}px`
+    if (inputPosition.bottom + resultsPosition.height > window.innerHeight) {
+      yPosition = `bottom: ${window.innerHeight - inputPosition.top}px`
     }
+    this.results.style = `${yPosition}; left: ${inputPosition.left}px; width: ${
+      inputPosition.width
+    }px;`
   }
 
   setAttribute = (attribute, value) => {

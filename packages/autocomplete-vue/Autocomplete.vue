@@ -18,7 +18,6 @@
       ref="results"
       class="autocomplete-results"
       role="listbox"
-      :style="resultsStyle"
       @click="handleResultClick"
     >
       <slot :results="results" :resultProps="resultProps">
@@ -79,9 +78,6 @@ export default {
       value: this.defaultValue,
       results: [],
       resultProps: [],
-      resultsStyle: {
-        position: 'fixed',
-      },
       selectedIndex: 0,
     }
     return data
@@ -92,21 +88,23 @@ export default {
   beforeDestroy() {
     document.body.removeEventListener('click', this.handleDocumentClick)
   },
+  updated() {
+    const inputPosition = this.$refs.input.getBoundingClientRect()
+    const resultsPosition = this.$refs.results.getBoundingClientRect()
+
+    // Place results below input, unless there isn't enough room
+    let yPosition = `top: ${inputPosition.bottom}px`
+    if (inputPosition.bottom + resultsPosition.height > window.innerHeight) {
+      yPosition = `bottom: ${window.innerHeight - inputPosition.top}px`
+    }
+    this.$refs.results.style = `${yPosition}; left: ${inputPosition.left}px; width: ${inputPosition.width}px`
+  },
   methods: {
     setValue(result) {
       this.value = result ? this.getResultValue(result) : ''
     },
     setAttribute(attribute, value) {
       this.attributes[attribute] = value
-    },
-    updateResultsPosition() {
-      const inputPosition = this.$refs.input.getBoundingClientRect()
-      this.resultsStyle = {
-        position: 'fixed',
-        top: inputPosition.bottom + 'px',
-        left: inputPosition.left + 'px',
-        width: inputPosition.width + 'px',
-      }
     },
     handleUpdateResults(results, selectedIndex) {
       this.results = results
@@ -116,7 +114,6 @@ export default {
         ...(selectedIndex === index ? { 'aria-selected': 'true' } : {}),
       }))
       this.selectedIndex = selectedIndex
-      this.updateResultsPosition()
     },
     handleInput(event) {
       this.value = event.target.value

@@ -18,7 +18,6 @@
     * {
       box-sizing: border-box;
       position: relative;
-      transition: all .3s ease;
     }
 
     html {
@@ -115,7 +114,6 @@
           aria-label='Search for a fruit or vegetable'
           :search='search'
           :get-result-value='getResultValue'
-          :auto-select='true'
           :on-submit='handleSubmit'
         >
           <template slot-scope='{ results, resultProps }'>
@@ -415,7 +413,6 @@
           aria-label='Search for a fruit or vegetable'
           :search='search'
           :get-result-value='getResultValue'
-          :auto-select='true'
           :on-submit='handleSubmit'
         >
           <template slot-scope='{ results, resultProps }'>

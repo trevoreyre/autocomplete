@@ -17,6 +17,8 @@ class AutocompleteCore {
     this.value = ''
     this.results = []
     this.selectedIndex = -1
+    this.scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth
   }
 
   handleInput = event => {
@@ -88,8 +90,8 @@ class AutocompleteCore {
     const selectedResult = this.results[this.selectedIndex]
     if (selectedResult) {
       this.setValue(selectedResult)
-      this.hideResults()
     }
+    this.hideResults()
   }
 
   updateResults = value => {
@@ -108,9 +110,11 @@ class AutocompleteCore {
       )
     }
 
-    this.setAttribute('aria-expanded', true)
     this.onUpdateResults(this.results, this.selectedIndex)
-    document.body.style = 'overflow:hidden'
+    this.setAttribute('aria-expanded', true)
+    document.body.style = `overflow:hidden; padding-right:${
+      this.scrollBarWidth
+    }px;`
   }
 
   hideResults = () => {
