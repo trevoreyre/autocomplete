@@ -1,30 +1,30 @@
 <template>
-  <div ref="root" class="autocomplete">
+  <div ref="root" :class="baseClass">
     <input
       ref="input"
       v-model="value"
+      :class="inputClass"
       role="combobox"
       autocomplete="off"
       spellcheck="false"
       aria-autocomplete="list"
-      aria-owns="autocomplete-results"
+      :aria-owns="resultsClass"
       aria-haspopup="listbox"
-      v-bind="{ ...$attrs, ...attributes }"
+      v-bind="{ ...inputProps, ...$attrs }"
       @input="handleInput"
       @keydown="handleKeydown"
     />
     <ul
-      id="autocomplete-results"
+      :id="resultsClass"
       ref="results"
-      class="autocomplete-results"
+      :class="resultsClass"
       role="listbox"
       @click="handleResultClick"
     >
       <slot :results="results" :resultProps="resultProps">
         <li
           v-for="(result, index) in results"
-          :id="'autocomplete-result-' + index"
-          :key="'autocomplete-result-' + index"
+          :key="resultProps[index].id"
           v-bind="resultProps[index]"
         >
           {{ getResultValue(result) }}
@@ -40,7 +40,12 @@ import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 export default {
   name: 'Autocomplete',
   inheritAttrs: false,
+
   props: {
+    baseClass: {
+      type: String,
+      default: 'autocomplete',
+    },
     search: {
       type: Function,
       required: true,
@@ -62,37 +67,62 @@ export default {
       default: '',
     },
   },
+
   data() {
     const data = {
       autocomplete: new AutocompleteCore({
         search: this.search,
         autoSelect: this.autoSelect,
         setValue: this.setValue,
-        setAttribute: this.setAttribute,
         onUpdate: this.handleUpdate,
         onSubmit: this.onSubmit,
         onShow: this.handleShow,
         onHide: this.handleHide,
       }),
-      attributes: {
-        'aria-expanded': 'false',
-      },
       value: this.defaultValue,
       results: [],
-      resultProps: [],
-      selectedIndex: 0,
+      selectedIndex: -1,
       resetResultsPosition: true,
     }
     return data
   },
+
+  computed: {
+    inputClass() {
+      return `${this.baseClass}-input`
+    },
+    inputProps() {
+      return {
+        'aria-expanded': this.results.length ? 'true' : 'false',
+        'aria-activedescendant':
+          this.selectedIndex > -1
+            ? this.resultProps[this.selectedIndex].id
+            : '',
+      }
+    },
+    resultsClass() {
+      return `${this.baseClass}-results`
+    },
+    resultProps() {
+      return this.results.map((result, index) => ({
+        id: `${this.baseClass}-result-${index}`,
+        class: `${this.baseClass}-result`,
+        role: 'option',
+        ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
+      }))
+    },
+  },
+
   mounted() {
     this.$refs.results.style.position = 'fixed'
     this.$refs.results.style.zIndex = '1'
     document.body.addEventListener('click', this.handleDocumentClick)
   },
+
   beforeDestroy() {
     document.body.removeEventListener('click', this.handleDocumentClick)
   },
+
   updated() {
     // Prevent results from flipping from above input to below while open
     if (!this.resetResultsPosition || this.results.length === 0) {
@@ -115,44 +145,43 @@ export default {
     this.$refs.results.style.left = inputPosition.left + 'px'
     this.$refs.results.style.width = inputPosition.width + 'px'
   },
+
   methods: {
     setValue(result) {
       this.value = result ? this.getResultValue(result) : ''
     },
-    setAttribute(attribute, value) {
-      this.attributes[attribute] = value
-    },
+
     handleUpdate(results, selectedIndex) {
       this.results = results
-      this.resultProps = results.map((result, index) => ({
-        class: 'autocomplete-result',
-        role: 'option',
-        ...(selectedIndex === index ? { 'aria-selected': 'true' } : {}),
-      }))
       this.selectedIndex = selectedIndex
-
       if (this.results.length === 0) {
         this.resetResultsPosition = true
       }
     },
+
     handleShow() {
       this.$refs.results.style.visibility = 'visible'
       this.$refs.results.style.pointerEvents = 'auto'
     },
+
     handleHide() {
       this.$refs.results.style.visibility = 'hidden'
       this.$refs.results.style.pointerEvents = 'none'
     },
+
     handleInput(event) {
       this.value = event.target.value
       this.autocomplete.handleInput(event)
     },
+
     handleKeydown(event) {
       this.autocomplete.handleKeydown(event)
     },
+
     handleResultClick(event) {
       this.autocomplete.handleResultClick(event)
     },
+
     handleDocumentClick(event) {
       if (this.$refs.root.contains(event.target)) {
         return

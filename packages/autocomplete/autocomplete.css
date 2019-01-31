@@ -1,12 +1,11 @@
-.autocomplete input {
+.autocomplete-input {
   border: 1px solid rgba(0, 0, 0, 0.54);
   border-radius: 4px;
   width: 100%;
-  padding: 8px 8px 8px 40px;
+  padding: 12px;
   font-size: 16px;
   line-height: 1.5;
   flex: 1;
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>');
   background-repeat: no-repeat;
   background-position: 8px center;
 }

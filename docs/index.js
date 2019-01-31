@@ -2,7 +2,7 @@
 import sortBy from 'lodash/sortBy'
 import AutocompleteJs from '../packages/autocomplete-js/index.js'
 import AutocompleteVue from '../packages/autocomplete-vue/index.js'
-// import '../packages/autocomplete/autocomplete.css'
+import '../packages/autocomplete/autocomplete.css'
 import data from './data'
 
 const search = input => {
@@ -17,28 +17,28 @@ const search = input => {
 
 const getResultValue = result => result.value
 
-const renderResults = (results, resultProps) => {
-  return results
-    .map((result, index) => {
-      let resultHtml = ''
-      if (index === 0 || results[index - 1].type !== result.type) {
-        resultHtml += `
-          <div style='padding:8px; background:black; color:white;'>
-            ${result.type}
-          </div>
-        `
-      }
-      resultHtml += `
-        <li id='autocomplete-result-${index}' ${resultProps[index]}>
-          <a href='#'>
-            ${result.value}
-          </a>
-        </li>
-      `
-      return resultHtml
-    })
-    .join('')
-}
+// const renderResults = (results, resultProps) => {
+//   return results
+//     .map((result, index) => {
+//       let resultHtml = ''
+//       if (index === 0 || results[index - 1].type !== result.type) {
+//         resultHtml += `
+//           <div style='padding:8px; background:black; color:white;'>
+//             ${result.type}
+//           </div>
+//         `
+//       }
+//       resultHtml += `
+//         <li id='autocomplete-result-${index}' ${resultProps[index]}>
+//           <a href='#'>
+//             ${result.value}
+//           </a>
+//         </li>
+//       `
+//       return resultHtml
+//     })
+//     .join('')
+// }
 
 const handleSubmit = value => {
   console.log('handleSubmit', value) // eslint-disable-line
@@ -48,7 +48,6 @@ new AutocompleteJs('.autocomplete-1', {
   search,
   getResultValue,
   autoSelect: true,
-  renderResults,
   onSubmit: handleSubmit,
 })
 
@@ -56,7 +55,6 @@ new AutocompleteJs('.autocomplete-2', {
   search,
   getResultValue,
   autoSelect: true,
-  renderResults,
   onSubmit: handleSubmit,
 })
 

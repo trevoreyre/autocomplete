@@ -68,7 +68,7 @@
     select {
       border: 1px solid rgba(0, 0, 0, 0.54);
       border-radius: 4px;
-      padding: 12px;
+      padding: 16px;
       width: 100%;
       font-size: 16px;
       line-height: 1;
@@ -84,6 +84,40 @@
     a {
       color: #e03616;
       text-decoration: none
+    }
+
+    .search-input {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      width: 100%;
+      padding: 12px 12px 12px 48px;
+      font-size: 16px;
+      line-height: 1.5;
+      flex: 1;
+      background-color: #eee;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>');
+      background-repeat: no-repeat;
+      background-position: 12px center;
+    }
+
+    .search-results {
+      border: none;
+      border-radius: 8px;
+      margin: 0;
+      padding: 0 0 8px;
+      z-index: 1;
+      background: #eee;
+      list-style: none;
+    }
+
+    .search-result {
+      cursor: default;
+      padding: 8px 8px 8px 48px;
+    }
+
+    .search-result:hover,
+    .search-result[aria-selected="true"] {
+      background: rgba(0, 0, 0, 0.12);
     }
   </style>
 </head>
@@ -117,13 +151,14 @@
       <div id='app'>
         <h2>Vue.js</h2>
         <autocomplete
+          base-class="search"
           placeholder='Search for a fruit or vegetable'
           aria-label='Search for a fruit or vegetable'
           :search='search'
           :get-result-value='getResultValue'
           :on-submit='handleSubmit'
         >
-          <template slot-scope='{ results, resultProps }'>
+          <!-- <template slot-scope='{ results, resultProps }'>
             <template v-for="(result, index) in results">
               <div
                 v-if="index === 0 || results[index - 1].type !== result.type"
@@ -139,7 +174,7 @@
                 {{ result.value }}
               </li>
             </template>
-          </template>
+          </template> -->
         </autocomplete>
       </div>
       <div>
@@ -416,13 +451,14 @@
       <div id='app-2'>
         <h2>Vue.js</h2>
         <autocomplete
+          base-class="search"
           placeholder='Search for a fruit or vegetable'
           aria-label='Search for a fruit or vegetable'
           :search='search'
           :get-result-value='getResultValue'
           :on-submit='handleSubmit'
         >
-          <template slot-scope='{ results, resultProps }'>
+          <!-- <template slot-scope='{ results, resultProps }'>
             <template v-for="(result, index) in results">
               <div
                 v-if="index === 0 || results[index - 1].type !== result.type"
@@ -438,7 +474,7 @@
                 {{ result.value }}
               </li>
             </template>
-          </template>
+          </template> -->
         </autocomplete>
       </div>
       <div>
