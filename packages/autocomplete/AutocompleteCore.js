@@ -39,6 +39,7 @@ class AutocompleteCore {
       case 'ArrowDown': {
         const selectedIndex =
           key === 'ArrowUp' ? this.selectedIndex - 1 : this.selectedIndex + 1
+        event.preventDefault()
         this.handleArrowUpDown(selectedIndex)
         break
       }
@@ -80,14 +81,6 @@ class AutocompleteCore {
 
     // Update results and aria attributes
     this.onUpdate(this.results, this.selectedIndex)
-    if (this.results[this.selectedIndex]) {
-      this.setAttribute(
-        'aria-activedescendant',
-        `autocomplete-result-${this.selectedIndex}`
-      )
-    } else {
-      this.setAttribute('aria-activedescendant', '')
-    }
   }
 
   selectResult = () => {
@@ -108,10 +101,6 @@ class AutocompleteCore {
 
     if (this.autoSelect) {
       this.selectedIndex = 0
-      this.setAttribute(
-        'aria-activedescendant',
-        `autocomplete-result-${this.selectedIndex}`
-      )
     }
 
     this.onUpdate(this.results, this.selectedIndex)

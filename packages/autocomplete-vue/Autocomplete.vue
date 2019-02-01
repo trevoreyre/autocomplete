@@ -6,16 +6,18 @@
       :class="inputClass"
       role="combobox"
       autocomplete="off"
+      autocapitalize="off"
+      autocorrect="off"
       spellcheck="false"
       aria-autocomplete="list"
-      :aria-owns="resultsClass"
       aria-haspopup="listbox"
+      :aria-owns="resultsId"
       v-bind="{ ...inputProps, ...$attrs }"
       @input="handleInput"
       @keydown="handleKeydown"
     />
     <ul
-      :id="resultsClass"
+      :id="resultsId"
       ref="results"
       :class="resultsClass"
       role="listbox"
@@ -35,6 +37,7 @@
 </template>
 
 <script>
+import uniqueId from 'lodash.uniqueid'
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 
 export default {
@@ -69,7 +72,7 @@ export default {
   },
 
   data() {
-    const data = {
+    return {
       autocomplete: new AutocompleteCore({
         search: this.search,
         autoSelect: this.autoSelect,
@@ -80,11 +83,11 @@ export default {
         onHide: this.handleHide,
       }),
       value: this.defaultValue,
+      resultsId: uniqueId(`${this.baseClass}-results-`),
       results: [],
       selectedIndex: -1,
       resetResultsPosition: true,
     }
-    return data
   },
 
   computed: {
@@ -116,6 +119,7 @@ export default {
   mounted() {
     this.$refs.results.style.position = 'fixed'
     this.$refs.results.style.zIndex = '1'
+    this.handleHide()
     document.body.addEventListener('click', this.handleDocumentClick)
   },
 
@@ -135,12 +139,15 @@ export default {
 
     // Place results below input, unless there isn't enough room
     let yPosition = { key: 'top', value: inputPosition.bottom + 'px' }
+    let resetYPosition = 'bottom'
     if (inputPosition.bottom + resultsPosition.height > window.innerHeight) {
       yPosition = {
         key: 'bottom',
         value: window.innerHeight - inputPosition.top + 'px',
       }
+      resetYPosition = 'top'
     }
+    this.$refs.results.style[resetYPosition] = null
     this.$refs.results.style[yPosition.key] = yPosition.value
     this.$refs.results.style.left = inputPosition.left + 'px'
     this.$refs.results.style.width = inputPosition.width + 'px'
@@ -154,9 +161,6 @@ export default {
     handleUpdate(results, selectedIndex) {
       this.results = results
       this.selectedIndex = selectedIndex
-      if (this.results.length === 0) {
-        this.resetResultsPosition = true
-      }
     },
 
     handleShow() {
@@ -167,6 +171,7 @@ export default {
     handleHide() {
       this.$refs.results.style.visibility = 'hidden'
       this.$refs.results.style.pointerEvents = 'none'
+      this.resetResultsPosition = true
     },
 
     handleInput(event) {

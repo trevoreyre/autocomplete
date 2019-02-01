@@ -45,16 +45,16 @@ const handleSubmit = value => {
 }
 
 new AutocompleteJs('.autocomplete-1', {
+  baseClass: 'search',
   search,
   getResultValue,
-  autoSelect: true,
   onSubmit: handleSubmit,
 })
 
 new AutocompleteJs('.autocomplete-2', {
+  baseClass: 'search',
   search,
   getResultValue,
-  autoSelect: true,
   onSubmit: handleSubmit,
 })
 

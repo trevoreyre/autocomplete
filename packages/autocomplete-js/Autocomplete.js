@@ -1,9 +1,11 @@
+import uniqueId from 'lodash.uniqueid'
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 
 class Autocomplete {
   constructor(
     root,
     {
+      baseClass = 'autocomplete',
       search,
       autoSelect,
       getResultValue = result => result,
@@ -18,6 +20,7 @@ class Autocomplete {
     }
     this.input = this.root.querySelector('input')
     this.results = this.root.querySelector('ul')
+    this.baseClass = baseClass
     this.getResultValue = getResultValue
     this.renderResults = renderResults
     this.autocomplete = new AutocompleteCore({
@@ -31,8 +34,8 @@ class Autocomplete {
       onHide: this.handleHide,
     })
 
-    this.results.style.position = 'fixed'
-    this.results.style.zIndex = '1'
+    this.resetResultsPosition = true
+    this.initialize()
 
     // Setup events
     document.body.addEventListener('click', this.handleDocumentClick)
@@ -41,18 +44,51 @@ class Autocomplete {
     this.results.addEventListener('click', this.autocomplete.handleResultClick)
   }
 
+  initialize = () => {
+    this.input.setAttribute('role', 'combobox')
+    this.input.setAttribute('autocomplete', 'off')
+    this.input.setAttribute('autocapitalize', 'off')
+    this.input.setAttribute('autocorrect', 'off')
+    this.input.setAttribute('spellcheck', 'false')
+    this.input.setAttribute('aria-autocomplete', 'list')
+    this.input.setAttribute('aria-haspopup', 'listbox')
+    this.input.setAttribute('aria-expanded', 'false')
+
+    // Generate ID for results list if it doesn't have one
+    if (!this.results.id) {
+      this.results.id = uniqueId(`${this.baseClass}-results-`)
+    }
+    this.input.setAttribute('aria-owns', this.results.id)
+
+    this.results.setAttribute('role', 'listbox')
+    this.results.style.position = 'fixed'
+    this.results.style.zIndex = '1'
+
+    // Results list should start off hidden
+    this.handleHide()
+  }
+
   updateResultsPosition = () => {
+    // Prevent results from flipping from above input to below while open
+    if (!this.resetResultsPosition) {
+      return
+    }
+    this.resetResultsPosition = false
+
     const inputPosition = this.input.getBoundingClientRect()
     const resultsPosition = this.results.getBoundingClientRect()
 
     // Place results below input, unless there isn't enough room
     let yPosition = { key: 'top', value: inputPosition.bottom + 'px' }
+    let resetYPosition = 'bottom'
     if (inputPosition.bottom + resultsPosition.height > window.innerHeight) {
       yPosition = {
         key: 'bottom',
         value: window.innerHeight - inputPosition.top + 'px',
       }
+      resetYPosition = 'top'
     }
+    this.results.style[resetYPosition] = null
     this.results.style[yPosition.key] = yPosition.value
     this.results.style.left = inputPosition.left + 'px'
     this.results.style.width = inputPosition.width + 'px'
@@ -69,9 +105,9 @@ class Autocomplete {
   handleUpdate = (results, selectedIndex) => {
     const resultProps = results.map((result, index) => {
       const isSelected = selectedIndex === index
-      return `class='autocomplete-result' role='option' ${
-        isSelected ? "aria-selected='true'" : ''
-      }`
+      return `id='${this.baseClass}-result-${index}' class='${
+        this.baseClass
+      }-result' role='option' ${isSelected ? "aria-selected='true'" : ''}`
     })
 
     this.results.innerHTML =
@@ -80,15 +116,17 @@ class Autocomplete {
         : results
             .map(
               (result, index) => `
-              <li
-                id='autocomplete-result-${index}'
-                ${resultProps[index]}
-              >
+              <li ${resultProps[index]}>
                 ${this.getResultValue(result)}
               </li>
             `
             )
             .join('')
+
+    this.input.setAttribute(
+      'aria-activedescendant',
+      selectedIndex > -1 ? `${this.baseClass}-result-${selectedIndex}` : ''
+    )
     this.updateResultsPosition()
   }
 
@@ -100,6 +138,7 @@ class Autocomplete {
   handleHide = () => {
     this.results.style.visibility = 'hidden'
     this.results.style.pointerEvents = 'none'
+    this.resetResultsPosition = true
   }
 
   handleDocumentClick = event => {
