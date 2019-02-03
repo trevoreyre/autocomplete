@@ -1,4 +1,10 @@
 class AutocompleteCore {
+  value = ''
+  searchCounter = 0
+  results = []
+  selectedIndex = -1
+  scrollBarWidth = window.innerWidth - document.documentElement.clientWidth
+
   constructor({
     search,
     autoSelect = false,
@@ -17,12 +23,6 @@ class AutocompleteCore {
     this.onSubmit = onSubmit
     this.onShow = onShow
     this.onHide = onHide
-
-    this.value = ''
-    this.results = []
-    this.selectedIndex = -1
-    this.scrollBarWidth =
-      window.innerWidth - document.documentElement.clientWidth
   }
 
   handleInput = event => {
@@ -91,8 +91,12 @@ class AutocompleteCore {
     this.hideResults()
   }
 
-  updateResults = value => {
-    this.results = this.search(value)
+  updateResults = async value => {
+    const currentSearch = ++this.searchCounter
+    this.results = await this.search(value)
+    if (currentSearch !== this.searchCounter) {
+      return
+    }
 
     if (this.results.length === 0) {
       this.hideResults()

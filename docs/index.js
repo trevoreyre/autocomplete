@@ -5,15 +5,22 @@ import AutocompleteVue from '../packages/autocomplete-vue/index.js'
 import '../packages/autocomplete/autocomplete.css'
 import data from './data'
 
-const search = input => {
-  if (input.length < 1) {
-    return []
-  }
-  const results = data.filter(item =>
-    item.value.toLowerCase().startsWith(input.toLowerCase())
-  )
-  return sortBy(results, ['type'])
-}
+const search = input =>
+  new Promise(resolve => {
+    const search = () => {
+      if (input.length < 1) {
+        return []
+      }
+      const results = data.filter(item =>
+        item.value.toLowerCase().startsWith(input.toLowerCase())
+      )
+      return sortBy(results, ['type'])
+    }
+
+    setTimeout(() => {
+      resolve(search())
+    }, Math.floor(500 + Math.random() * 2000))
+  })
 
 const getResultValue = result => result.value
 
