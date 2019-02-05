@@ -2,26 +2,36 @@
 import sortBy from 'lodash/sortBy'
 import AutocompleteJs from '../packages/autocomplete-js/index.js'
 import AutocompleteVue from '../packages/autocomplete-vue/index.js'
-import '../packages/autocomplete/autocomplete.css'
+import '../packages/autocomplete/style.css'
 import data from './data'
 
-const search = input =>
-  new Promise(resolve => {
-    const search = () => {
-      if (input.length < 1) {
-        return []
-      }
-      const results = data.filter(item =>
-        item.value.toLowerCase().startsWith(input.toLowerCase())
-      )
-      return sortBy(results, ['type'])
-    }
+const search = input => {
+  if (input.length < 1) {
+    return []
+  }
+  const results = data.filter(item =>
+    item.value.toLowerCase().startsWith(input.toLowerCase())
+  )
+  return sortBy(results, ['type'])
+}
 
-    setTimeout(() => {
-      resolve(search())
-      // }, Math.floor(500 + Math.random() * 2000))
-    }, 0)
-  })
+// const search = input =>
+//   new Promise(resolve => {
+//     const search = () => {
+//       if (input.length < 1) {
+//         return []
+//       }
+//       const results = data.filter(item =>
+//         item.value.toLowerCase().startsWith(input.toLowerCase())
+//       )
+//       return sortBy(results, ['type'])
+//     }
+
+//     setTimeout(() => {
+//       resolve(search())
+//     // }, Math.floor(500 + Math.random() * 2000))
+//     }, 0)
+//   })
 
 const getResultValue = result => result.value
 

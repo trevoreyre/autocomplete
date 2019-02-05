@@ -1,24 +1,5 @@
-// Polyfill Element.closest for IE 11 support
-if (!window.Element.prototype.matches) {
-  window.Element.prototype.matches =
-    window.Element.prototype.msMatchesSelector ||
-    window.Element.prototype.mozMatchesSelector ||
-    window.Element.prototype.webkitMatchesSelector
-}
-
-if (!window.Element.prototype.closest) {
-  window.Element.prototype.closest = function closest(selector) {
-    let element = this
-
-    while (element && element.nodeType === 1) {
-      if (element.matches(selector)) {
-        return element
-      }
-      element = element.parentNode
-    }
-    return null
-  }
-}
+import closest from './util/closest.js'
+import isPromise from './util/isPromise.js'
 
 class AutocompleteCore {
   value = ''
@@ -37,7 +18,9 @@ class AutocompleteCore {
     onShow = () => {},
     onHide = () => {},
   } = {}) {
-    this.search = search
+    this.search = isPromise(search)
+      ? search
+      : value => Promise.resolve(search(value))
     this.autoSelect = autoSelect
     this.setValue = setValue
     this.setAttribute = setAttribute
@@ -87,7 +70,7 @@ class AutocompleteCore {
 
   handleResultClick = event => {
     const { target } = event
-    const result = target.closest('[data-result-index]')
+    const result = closest(target, '[data-result-index]')
     if (result) {
       this.selectedIndex = Number.parseInt(result.dataset.resultIndex, 10)
       const selectedResult = this.results[this.selectedIndex]
@@ -114,21 +97,23 @@ class AutocompleteCore {
     this.hideResults()
   }
 
-  updateResults = async value => {
+  updateResults = value => {
     const currentSearch = ++this.searchCounter
-    this.results = await this.search(value)
-    if (currentSearch !== this.searchCounter) {
-      return
-    }
+    this.search(value).then(results => {
+      if (currentSearch !== this.searchCounter) {
+        return
+      }
+      this.results = results
 
-    if (this.results.length === 0) {
-      this.hideResults()
-      return
-    }
+      if (this.results.length === 0) {
+        this.hideResults()
+        return
+      }
 
-    this.selectedIndex = this.autoSelect ? 0 : -1
-    this.onUpdate(this.results, this.selectedIndex)
-    this.showResults()
+      this.selectedIndex = this.autoSelect ? 0 : -1
+      this.onUpdate(this.results, this.selectedIndex)
+      this.showResults()
+    })
   }
 
   showResults = () => {
