@@ -36,14 +36,9 @@ class Autocomplete {
 
     this.resetResultsPosition = true
     this.initialize()
-
-    // Setup events
-    document.body.addEventListener('click', this.handleDocumentClick)
-    this.input.addEventListener('input', this.autocomplete.handleInput)
-    this.input.addEventListener('keydown', this.autocomplete.handleKeydown)
-    this.results.addEventListener('click', this.autocomplete.handleResultClick)
   }
 
+  // Set up aria attributes and events
   initialize = () => {
     this.input.setAttribute('role', 'combobox')
     this.input.setAttribute('autocomplete', 'off')
@@ -63,9 +58,12 @@ class Autocomplete {
     this.results.setAttribute('role', 'listbox')
     this.results.style.position = 'fixed'
     this.results.style.zIndex = '1'
-
-    // Results list should start off hidden
     this.handleHide()
+
+    document.body.addEventListener('click', this.handleDocumentClick)
+    this.input.addEventListener('input', this.autocomplete.handleInput)
+    this.input.addEventListener('keydown', this.autocomplete.handleKeydown)
+    this.results.addEventListener('click', this.autocomplete.handleResultClick)
   }
 
   updateResultsPosition = () => {
@@ -107,7 +105,9 @@ class Autocomplete {
       const isSelected = selectedIndex === index
       return `id='${this.baseClass}-result-${index}' class='${
         this.baseClass
-      }-result' role='option' ${isSelected ? "aria-selected='true'" : ''}`
+      }-result' data-result-index='${index}' role='option' ${
+        isSelected ? "aria-selected='true'" : ''
+      }`
     })
 
     this.results.innerHTML =

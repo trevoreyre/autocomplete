@@ -91,6 +91,18 @@ export default {
   },
 
   computed: {
+    resultsClass() {
+      return `${this.baseClass}-results`
+    },
+    resultProps() {
+      return this.results.map((result, index) => ({
+        id: `${this.baseClass}-result-${index}`,
+        class: `${this.baseClass}-result`,
+        'data-result-index': index,
+        role: 'option',
+        ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
+      }))
+    },
     inputClass() {
       return `${this.baseClass}-input`
     },
@@ -102,17 +114,6 @@ export default {
             ? this.resultProps[this.selectedIndex].id
             : '',
       }
-    },
-    resultsClass() {
-      return `${this.baseClass}-results`
-    },
-    resultProps() {
-      return this.results.map((result, index) => ({
-        id: `${this.baseClass}-result-${index}`,
-        class: `${this.baseClass}-result`,
-        role: 'option',
-        ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
-      }))
     },
   },
 

@@ -1,3 +1,25 @@
+// Polyfill Element.closest for IE 11 support
+if (!window.Element.prototype.matches) {
+  window.Element.prototype.matches =
+    window.Element.prototype.msMatchesSelector ||
+    window.Element.prototype.mozMatchesSelector ||
+    window.Element.prototype.webkitMatchesSelector
+}
+
+if (!window.Element.prototype.closest) {
+  window.Element.prototype.closest = function closest(selector) {
+    let element = this
+
+    while (element && element.nodeType === 1) {
+      if (element.matches(selector)) {
+        return element
+      }
+      element = element.parentNode
+    }
+    return null
+  }
+}
+
 class AutocompleteCore {
   value = ''
   searchCounter = 0
@@ -40,7 +62,7 @@ class AutocompleteCore {
         const selectedIndex =
           key === 'ArrowUp' ? this.selectedIndex - 1 : this.selectedIndex + 1
         event.preventDefault()
-        this.handleArrowUpDown(selectedIndex)
+        this.handleArrows(selectedIndex)
         break
       }
       case 'Tab': {
@@ -65,15 +87,16 @@ class AutocompleteCore {
 
   handleResultClick = event => {
     const { target } = event
-    if (target && target.nodeName === 'LI') {
-      this.selectedIndex = [...target.parentElement.children].indexOf(target)
+    const result = target.closest('[data-result-index]')
+    if (result) {
+      this.selectedIndex = Number.parseInt(result.dataset.resultIndex, 10)
       const selectedResult = this.results[this.selectedIndex]
       this.selectResult()
       this.onSubmit(selectedResult)
     }
   }
 
-  handleArrowUpDown = selectedIndex => {
+  handleArrows = selectedIndex => {
     // Loop selectedIndex back to first or last result if out of bounds
     const resultsCount = this.results.length
     this.selectedIndex =
@@ -103,10 +126,7 @@ class AutocompleteCore {
       return
     }
 
-    if (this.autoSelect) {
-      this.selectedIndex = 0
-    }
-
+    this.selectedIndex = this.autoSelect ? 0 : -1
     this.onUpdate(this.results, this.selectedIndex)
     this.showResults()
   }

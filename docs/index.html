@@ -145,7 +145,7 @@
           :get-result-value='getResultValue'
           :on-submit='handleSubmit'
         >
-          <!-- <template slot-scope='{ results, resultProps }'>
+          <template slot-scope='{ results, resultProps }'>
             <template v-for="(result, index) in results">
               <div
                 v-if="index === 0 || results[index - 1].type !== result.type"
@@ -154,14 +154,13 @@
                 {{ result.type }}
               </div>
               <li
-                :id="'autocomplete-result-' + index"
                 :key="'autocomplete-result-' + index"
                 v-bind="resultProps[index]"
               >
                 {{ result.value }}
               </li>
             </template>
-          </template> -->
+          </template>
         </autocomplete>
       </div>
       <div>
@@ -426,14 +425,13 @@
       <div id='app-2'>
         <h2>Vue.js</h2>
         <autocomplete
-          base-class="search"
           placeholder='Search for a fruit or vegetable'
           aria-label='Search for a fruit or vegetable'
           :search='search'
           :get-result-value='getResultValue'
           :on-submit='handleSubmit'
         >
-          <!-- <template slot-scope='{ results, resultProps }'>
+          <template slot-scope='{ results, resultProps }'>
             <template v-for="(result, index) in results">
               <div
                 v-if="index === 0 || results[index - 1].type !== result.type"
@@ -442,14 +440,13 @@
                 {{ result.type }}
               </div>
               <li
-                :id="'autocomplete-result-' + index"
                 :key="'autocomplete-result-' + index"
                 v-bind="resultProps[index]"
               >
                 {{ result.value }}
               </li>
             </template>
-          </template> -->
+          </template>
         </autocomplete>
       </div>
       <div>
