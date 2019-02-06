@@ -1,5 +1,6 @@
 import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
+import commonjs from 'rollup-plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 
 // Creates three bundles, a CommonJS bundle for Node, an ES modules bundle for use in
@@ -22,10 +23,10 @@ const createConfig = async ({ root, plugins = [] }) => {
         },
       ],
       plugins: [
-        ...plugins,
         babel({
           exclude: 'node_modules/**',
         }),
+        ...plugins,
       ],
     },
     {
@@ -36,10 +37,10 @@ const createConfig = async ({ root, plugins = [] }) => {
         format: 'iife',
       },
       plugins: [
-        ...plugins,
         babel({
           exclude: 'node_modules/**',
         }),
+        ...plugins,
         terser(),
       ],
     },
@@ -57,6 +58,7 @@ const config = async () => {
     createConfig({
       root: 'packages/autocomplete-vue',
       plugins: [
+        commonjs(),
         vue({
           css: false,
           compileTemplate: true,

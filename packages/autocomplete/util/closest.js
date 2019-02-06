@@ -1,13 +1,8 @@
-// This is a simple polyfill for element.closest, to support IE. While we do require the
-// user to polyfill Promises to support IE, element.closest is a slightly less
-// common polyfill to require, and it's relatively little code, so we'll just include
-// it here.
-const matches = (element, selector) => {
-  return (element.matches ||
-    element.msMatchesSelector ||
-    element.mozMatchesSelector ||
-    element.webkitMatchesSelector)(selector)
-}
+// Polyfill for element.closest, to support Internet Explorer. It's a relatively
+// simple polyfill, so we'll just include it rather than require the user to
+// include the polyfill themselves. Adapted from
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest#Polyfill
+import matches from './matches.js'
 
 const closestPolyfill = (el, selector) => {
   let element = el
@@ -21,11 +16,9 @@ const closestPolyfill = (el, selector) => {
 }
 
 const closest = (element, selector) => {
-  if (element.closest) {
-    return element.closest(selector)
-  } else {
-    return closestPolyfill(element, selector)
-  }
+  return element.closest
+    ? element.closest(selector)
+    : closestPolyfill(element, selector)
 }
 
 export default closest

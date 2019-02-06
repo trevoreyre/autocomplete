@@ -23,8 +23,5 @@
   "private": false,
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "lodash.uniqueid": "^4.0.1"
   }
 }

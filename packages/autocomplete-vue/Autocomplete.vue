@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import uniqueId from 'lodash.uniqueid'
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
+import uniqueId from '../autocomplete/util/uniqueId.js'
 
 export default {
   name: 'Autocomplete',
