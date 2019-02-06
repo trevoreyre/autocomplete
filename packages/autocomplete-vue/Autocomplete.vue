@@ -129,29 +129,13 @@ export default {
   },
 
   updated() {
-    // Prevent results from flipping from above input to below while open
-    if (!this.resetResultsPosition || this.results.length === 0) {
-      return
+    if (this.resetResultsPosition && this.results.length > 0) {
+      this.resetResultsPosition = false
+      this.autocomplete.updateResultsPosition(
+        this.$refs.input,
+        this.$refs.results
+      )
     }
-    this.resetResultsPosition = false
-
-    const inputPosition = this.$refs.input.getBoundingClientRect()
-    const resultsPosition = this.$refs.results.getBoundingClientRect()
-
-    // Place results below input, unless there isn't enough room
-    let yPosition = { key: 'top', value: inputPosition.bottom + 'px' }
-    let resetYPosition = 'bottom'
-    if (inputPosition.bottom + resultsPosition.height > window.innerHeight) {
-      yPosition = {
-        key: 'bottom',
-        value: window.innerHeight - inputPosition.top + 'px',
-      }
-      resetYPosition = 'top'
-    }
-    this.$refs.results.style[resetYPosition] = null
-    this.$refs.results.style[yPosition.key] = yPosition.value
-    this.$refs.results.style.left = inputPosition.left + 'px'
-    this.$refs.results.style.width = inputPosition.width + 'px'
   },
 
   methods: {

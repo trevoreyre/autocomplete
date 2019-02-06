@@ -7,6 +7,7 @@ class AutocompleteCore {
   results = []
   selectedIndex = -1
   scrollBarWidth = window.innerWidth - document.documentElement.clientWidth
+  resizeTimeout = null
 
   constructor({
     search,
@@ -28,6 +29,7 @@ class AutocompleteCore {
     this.onSubmit = onSubmit
     this.onShow = onShow
     this.onHide = onHide
+    window.addEventListener('resize', this.handleWindowResize)
   }
 
   handleInput = event => {
@@ -132,6 +134,35 @@ class AutocompleteCore {
     this.setAttribute('aria-activedescendant', '')
     this.onUpdate(this.results, this.selectedIndex)
     this.onHide()
+  }
+
+  updateResultsPosition = (inputElement, resultsElement) => {
+    const inputPosition = inputElement.getBoundingClientRect()
+    const resultsPosition = resultsElement.getBoundingClientRect()
+
+    // Place results below input, unless there isn't enough room
+    const positionAbove =
+      inputPosition.bottom + resultsPosition.height > window.innerHeight
+    const yPosition = positionAbove
+      ? { key: 'bottom', value: `${window.innerHeight - inputPosition.top}px` }
+      : { key: 'top', value: `${inputPosition.bottom}px` }
+    const yPositionReset = positionAbove ? 'top' : 'bottom'
+
+    resultsElement.style[yPositionReset] = null
+    resultsElement.style[yPosition.key] = yPosition.value
+    resultsElement.style.left = inputPosition.left + 'px'
+    resultsElement.style.width = inputPosition.width + 'px'
+  }
+
+  // Recalculate scrollBarWidth on window resize. Throttled slightly for better performance.
+  handleWindowResize = () => {
+    if (!this.resizeTimeout) {
+      this.resizeTimeout = setTimeout(() => {
+        this.resizeTimeout = null
+        this.scrollBarWidth =
+          window.innerWidth - document.documentElement.clientWidth
+      }, 66)
+    }
   }
 }
 

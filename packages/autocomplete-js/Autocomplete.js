@@ -66,32 +66,6 @@ class Autocomplete {
     this.results.addEventListener('click', this.autocomplete.handleResultClick)
   }
 
-  updateResultsPosition = () => {
-    // Prevent results from flipping from above input to below while open
-    if (!this.resetResultsPosition) {
-      return
-    }
-    this.resetResultsPosition = false
-
-    const inputPosition = this.input.getBoundingClientRect()
-    const resultsPosition = this.results.getBoundingClientRect()
-
-    // Place results below input, unless there isn't enough room
-    let yPosition = { key: 'top', value: inputPosition.bottom + 'px' }
-    let resetYPosition = 'bottom'
-    if (inputPosition.bottom + resultsPosition.height > window.innerHeight) {
-      yPosition = {
-        key: 'bottom',
-        value: window.innerHeight - inputPosition.top + 'px',
-      }
-      resetYPosition = 'top'
-    }
-    this.results.style[resetYPosition] = null
-    this.results.style[yPosition.key] = yPosition.value
-    this.results.style.left = inputPosition.left + 'px'
-    this.results.style.width = inputPosition.width + 'px'
-  }
-
   setAttribute = (attribute, value) => {
     this.input.setAttribute(attribute, value)
   }
@@ -127,7 +101,11 @@ class Autocomplete {
       'aria-activedescendant',
       selectedIndex > -1 ? `${this.baseClass}-result-${selectedIndex}` : ''
     )
-    this.updateResultsPosition()
+
+    if (this.resetResultsPosition) {
+      this.resetResultsPosition = false
+      this.autocomplete.updateResultsPosition(this.input, this.results)
+    }
   }
 
   handleShow = () => {
