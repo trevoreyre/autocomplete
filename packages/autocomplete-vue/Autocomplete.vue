@@ -99,7 +99,7 @@ export default {
     rootProps() {
       return {
         'data-expanded': this.expanded ? true : false,
-        'data-position': this.position.bottom ? 'above': 'below',
+        'data-position': this.position.bottom ? 'above' : 'below',
         'data-loading': this.loading ? true : false,
       }
     },
