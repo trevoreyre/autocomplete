@@ -1,5 +1,5 @@
 <template>
-  <div ref="root" :class="baseClass">
+  <div ref="root" :class="baseClass" v-bind="rootProps">
     <input
       ref="input"
       v-model="value"
@@ -20,6 +20,7 @@
       :id="resultsId"
       ref="results"
       :class="resultsClass"
+      :style="resultsStyle"
       role="listbox"
       @click="handleResultClick"
     >
@@ -39,6 +40,7 @@
 <script>
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
+import '../style.css'
 
 export default {
   name: 'Autocomplete',
@@ -57,10 +59,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    onSubmit: {
-      type: Function,
-      default: () => {},
-    },
     getResultValue: {
       type: Function,
       default: result => result,
@@ -68,6 +66,10 @@ export default {
     defaultValue: {
       type: String,
       default: '',
+    },
+    onSubmit: {
+      type: Function,
+      default: () => {},
     },
   },
 
@@ -86,13 +88,44 @@ export default {
       resultsId: uniqueId(`${this.baseClass}-results-`),
       results: [],
       selectedIndex: -1,
-      resetResultsPosition: true,
+      expanded: false,
+      loading: false,
+      position: {},
+      resetPosition: true,
     }
   },
 
   computed: {
+    rootProps() {
+      return {
+        'data-expanded': this.expanded ? true : false,
+        'data-position': this.position.bottom ? 'above': 'below',
+        'data-loading': this.loading ? true : false,
+      }
+    },
+    inputClass() {
+      return `${this.baseClass}-input`
+    },
+    inputProps() {
+      return {
+        'aria-expanded': this.expanded ? 'true' : 'false',
+        'aria-activedescendant':
+          this.selectedIndex > -1
+            ? this.resultProps[this.selectedIndex].id
+            : '',
+      }
+    },
     resultsClass() {
       return `${this.baseClass}-results`
+    },
+    resultsStyle() {
+      return {
+        position: 'fixed',
+        zIndex: 1,
+        visibility: this.expanded ? 'visible' : 'hidden',
+        pointerEvents: this.expanded ? 'auto' : 'none',
+        ...this.position,
+      }
     },
     resultProps() {
       return this.results.map((result, index) => ({
@@ -103,24 +136,9 @@ export default {
         ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
       }))
     },
-    inputClass() {
-      return `${this.baseClass}-input`
-    },
-    inputProps() {
-      return {
-        'aria-expanded': this.results.length ? 'true' : 'false',
-        'aria-activedescendant':
-          this.selectedIndex > -1
-            ? this.resultProps[this.selectedIndex].id
-            : '',
-      }
-    },
   },
 
   mounted() {
-    this.$refs.results.style.position = 'fixed'
-    this.$refs.results.style.zIndex = '1'
-    this.handleHide()
     document.body.addEventListener('click', this.handleDocumentClick)
   },
 
@@ -129,9 +147,9 @@ export default {
   },
 
   updated() {
-    if (this.resetResultsPosition && this.results.length > 0) {
-      this.resetResultsPosition = false
-      this.autocomplete.updateResultsPosition(
+    if (this.resetPosition && this.results.length > 0) {
+      this.resetPosition = false
+      this.position = this.autocomplete.getResultsPosition(
         this.$refs.input,
         this.$refs.results
       )
@@ -149,14 +167,12 @@ export default {
     },
 
     handleShow() {
-      this.$refs.results.style.visibility = 'visible'
-      this.$refs.results.style.pointerEvents = 'auto'
+      this.expanded = true
     },
 
     handleHide() {
-      this.$refs.results.style.visibility = 'hidden'
-      this.$refs.results.style.pointerEvents = 'none'
-      this.resetResultsPosition = true
+      this.expanded = false
+      this.resetPosition = true
     },
 
     handleInput(event) {

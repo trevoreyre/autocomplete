@@ -1,7 +1,13 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
+import '../style.css'
 
 class Autocomplete {
+  expanded = false
+  loading = false
+  position = {}
+  resetPosition = true
+
   constructor(
     root,
     {
@@ -34,7 +40,6 @@ class Autocomplete {
       onHide: this.handleHide,
     })
 
-    this.resetResultsPosition = true
     this.initialize()
   }
 
@@ -56,9 +61,7 @@ class Autocomplete {
     this.input.setAttribute('aria-owns', this.results.id)
 
     this.results.setAttribute('role', 'listbox')
-    this.results.style.position = 'fixed'
-    this.results.style.zIndex = '1'
-    this.handleHide()
+    this.updateResultsStyle()
 
     document.body.addEventListener('click', this.handleDocumentClick)
     this.input.addEventListener('input', this.autocomplete.handleInput)
@@ -77,11 +80,12 @@ class Autocomplete {
   handleUpdate = (results, selectedIndex) => {
     const resultProps = results.map((result, index) => {
       const isSelected = selectedIndex === index
-      return `id='${this.baseClass}-result-${index}' class='${
-        this.baseClass
-      }-result' data-result-index='${index}' role='option' ${
-        isSelected ? "aria-selected='true'" : ''
-      }`
+      return `
+        id='${this.baseClass}-result-${index}'
+        class='${this.baseClass}-result'
+        data-result-index='${index}'
+        role='option'
+        ${isSelected ? "aria-selected='true'" : ''}`
     })
 
     this.results.innerHTML =
@@ -102,21 +106,25 @@ class Autocomplete {
       selectedIndex > -1 ? `${this.baseClass}-result-${selectedIndex}` : ''
     )
 
-    if (this.resetResultsPosition) {
-      this.resetResultsPosition = false
+    if (this.resetPosition) {
+      this.resetPosition = false
       this.autocomplete.updateResultsPosition(this.input, this.results)
     }
   }
 
   handleShow = () => {
-    this.results.style.visibility = 'visible'
-    this.results.style.pointerEvents = 'auto'
+    // this.results.style.visibility = 'visible'
+    // this.results.style.pointerEvents = 'auto'
+    this.expanded = true
+    this.updateResultsStyle()
   }
 
   handleHide = () => {
-    this.results.style.visibility = 'hidden'
-    this.results.style.pointerEvents = 'none'
-    this.resetResultsPosition = true
+    // this.results.style.visibility = 'hidden'
+    // this.results.style.pointerEvents = 'none'
+    this.expanded = false
+    this.resetPosition = true
+    this.updateResultsStyle()
   }
 
   handleDocumentClick = event => {
@@ -124,6 +132,22 @@ class Autocomplete {
       return
     }
     this.autocomplete.hideResults()
+  }
+
+  updateResultsStyle = () => {
+    this.results.style = `
+      position: fixed;
+      z-index: 1;
+      visibility: ${this.expanded ? 'visible' : 'hidden'};
+      pointer-events: ${this.expanded ? 'auto' : 'none'};
+      ${
+        this.position.top
+          ? 'top: ' + this.position.top
+          : 'bottom: ' + this.position.bottom
+      };
+      left: ${this.position.left};
+      width: ${this.position.width};
+    `
   }
 }
 

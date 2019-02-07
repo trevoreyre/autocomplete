@@ -1,8 +1,8 @@
-/* global Vue */
+/* eslint-disable */
 import sortBy from 'lodash/sortBy'
 import AutocompleteJs from '../packages/autocomplete-js/index.js'
 import AutocompleteVue from '../packages/autocomplete-vue/index.js'
-import '../packages/autocomplete/style.css'
+import '../packages/style.css'
 import data from './data'
 
 const search = input => {
@@ -15,23 +15,12 @@ const search = input => {
   return sortBy(results, ['type'])
 }
 
-// const search = input =>
-//   new Promise(resolve => {
-//     const search = () => {
-//       if (input.length < 1) {
-//         return []
-//       }
-//       const results = data.filter(item =>
-//         item.value.toLowerCase().startsWith(input.toLowerCase())
-//       )
-//       return sortBy(results, ['type'])
-//     }
-
-//     setTimeout(() => {
-//       resolve(search())
-//     // }, Math.floor(500 + Math.random() * 2000))
-//     }, 0)
-//   })
+const searchAsync = input =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve(search(input))
+    }, Math.floor(500 + Math.random() * 2000))
+  })
 
 const getResultValue = result => result.value
 
@@ -67,7 +56,6 @@ new AutocompleteJs('.autocomplete-1', {
   search,
   getResultValue,
   onSubmit: handleSubmit,
-  renderResults,
 })
 
 new AutocompleteJs('.autocomplete-2', {
@@ -75,7 +63,6 @@ new AutocompleteJs('.autocomplete-2', {
   search,
   getResultValue,
   onSubmit: handleSubmit,
-  renderResults,
 })
 
 new Vue({

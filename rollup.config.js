@@ -2,14 +2,17 @@ import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import commonjs from 'rollup-plugin-commonjs'
 import vue from 'rollup-plugin-vue'
+import postcss from 'rollup-plugin-postcss'
 
 // Creates three bundles, a CommonJS bundle for Node, an ES modules bundle for use in
 // other bundlers such as Webpack or Rollup, and an IIFE bundle for use in the browser
 // in a <script> tag. All three bundles are transpiled to ES5 (with exception of
-// the import/export statements in the ES bundle).
+// the import/export statements in the ES bundle). Function is async to allow importing
+// package.json file to reference for bundle names.
 const createConfig = async ({ root, plugins = [] }) => {
   const pkg = await import(`./${root}/package.json`)
   return Promise.resolve([
+    // CommonJS and ES modules bundles use same configuration with two outputs
     {
       input: `${root}/index.js`,
       output: [
@@ -26,9 +29,14 @@ const createConfig = async ({ root, plugins = [] }) => {
         babel({
           exclude: 'node_modules/**',
         }),
+        postcss({
+          extract: `${root}/dist/style.css`,
+          minimize: true,
+        }),
         ...plugins,
       ],
     },
+    // IIFE bundle uses separate configuration to minify JS as additional step
     {
       input: `${root}/index.js`,
       output: {
@@ -39,6 +47,10 @@ const createConfig = async ({ root, plugins = [] }) => {
       plugins: [
         babel({
           exclude: 'node_modules/**',
+        }),
+        postcss({
+          extract: `${root}/dist/style.css`,
+          minimize: true,
         }),
         ...plugins,
         terser(),
