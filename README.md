@@ -1,4 +1,4 @@
-# Autocomplete [![version][version-badge]][package] [![MIT License][license-badge]][LICENSE]
+# Autocomplete [![version][version-badge]][package] [![MIT License][license-badge]][license]
 
 A simple, accessible, zero-dependency autocomplete component, usable in vanilla JavaScript and Vue (React coming soon).
 
@@ -25,3 +25,8 @@ The core package doesn't actually render anything. It includes only the base fun
 ```
 npm install --save @trevoreyre/autocomplete
 ```
+
+[version-badge]: https://img.shields.io/npm/v/@trevoreyre/autocomplete.svg?style=flat-square
+[package]: https://www.npmjs.com/package/@trevoreyre/autocomplete
+[license-badge]: https://img.shields.io/npm/l/@trevoreyre/autocomplete.svg?style=flat-square
+[license]: https://github.com/trevoreyre/autocomplete/blob/master/LICENSE
