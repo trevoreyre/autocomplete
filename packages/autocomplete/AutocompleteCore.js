@@ -169,6 +169,7 @@ class AutocompleteCore {
         this.resizeTimeout = null
         this.scrollBarWidth =
           window.innerWidth - document.documentElement.clientWidth
+        this.hideResults()
       }, 66)
     }
   }
