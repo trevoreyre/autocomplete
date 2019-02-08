@@ -3,6 +3,7 @@ import { terser } from 'rollup-plugin-terser'
 import commonjs from 'rollup-plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import postcss from 'rollup-plugin-postcss'
+import copy from 'rollup-plugin-copy'
 
 // Creates three bundles, a CommonJS bundle for Node, an ES modules bundle for use in
 // other bundlers such as Webpack or Rollup, and an IIFE bundle for use in the browser
@@ -32,6 +33,9 @@ const createConfig = async ({ root, plugins = [] }) => {
         postcss({
           extract: `${root}/dist/style.css`,
           minimize: true,
+        }),
+        copy({
+          LICENSE: `${root}/LICENSE`,
         }),
         ...plugins,
       ],
