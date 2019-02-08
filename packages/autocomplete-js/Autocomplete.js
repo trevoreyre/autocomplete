@@ -38,6 +38,8 @@ class Autocomplete {
       onSubmit,
       onShow: this.handleShow,
       onHide: this.handleHide,
+      onLoading: this.handleLoading,
+      onLoaded: this.handleLoaded,
     })
 
     this.initialize()
@@ -53,6 +55,7 @@ class Autocomplete {
     this.input.setAttribute('aria-autocomplete', 'list')
     this.input.setAttribute('aria-haspopup', 'listbox')
     this.input.setAttribute('aria-expanded', 'false')
+    this.results.setAttribute('role', 'listbox')
 
     // Generate ID for results list if it doesn't have one
     if (!this.results.id) {
@@ -60,13 +63,11 @@ class Autocomplete {
     }
     this.input.setAttribute('aria-owns', this.results.id)
 
-    this.results.setAttribute('role', 'listbox')
-    this.updateResultsStyle()
-
     document.body.addEventListener('click', this.handleDocumentClick)
     this.input.addEventListener('input', this.autocomplete.handleInput)
     this.input.addEventListener('keydown', this.autocomplete.handleKeydown)
     this.results.addEventListener('click', this.autocomplete.handleResultClick)
+    this.updateStyle()
   }
 
   setAttribute = (attribute, value) => {
@@ -85,7 +86,8 @@ class Autocomplete {
         class='${this.baseClass}-result'
         data-result-index='${index}'
         role='option'
-        ${isSelected ? "aria-selected='true'" : ''}`
+        ${isSelected ? "aria-selected='true'" : ''}
+      `
     })
 
     this.results.innerHTML =
@@ -94,10 +96,10 @@ class Autocomplete {
         : results
             .map(
               (result, index) => `
-              <li ${resultProps[index]}>
-                ${this.getResultValue(result)}
-              </li>
-            `
+                <li ${resultProps[index]}>
+                  ${this.getResultValue(result)}
+                </li>
+              `
             )
             .join('')
 
@@ -108,23 +110,33 @@ class Autocomplete {
 
     if (this.resetPosition) {
       this.resetPosition = false
-      this.autocomplete.updateResultsPosition(this.input, this.results)
+      this.position = this.autocomplete.getResultsPosition(
+        this.input,
+        this.results
+      )
+      this.updateStyle()
     }
   }
 
   handleShow = () => {
-    // this.results.style.visibility = 'visible'
-    // this.results.style.pointerEvents = 'auto'
     this.expanded = true
-    this.updateResultsStyle()
+    this.updateStyle()
   }
 
   handleHide = () => {
-    // this.results.style.visibility = 'hidden'
-    // this.results.style.pointerEvents = 'none'
     this.expanded = false
     this.resetPosition = true
-    this.updateResultsStyle()
+    this.updateStyle()
+  }
+
+  handleLoading = () => {
+    this.loading = true
+    this.updateStyle()
+  }
+
+  handleLoaded = () => {
+    this.loading = false
+    this.updateStyle()
   }
 
   handleDocumentClick = event => {
@@ -134,7 +146,11 @@ class Autocomplete {
     this.autocomplete.hideResults()
   }
 
-  updateResultsStyle = () => {
+  updateStyle = () => {
+    this.root.dataset.expanded = this.expanded
+    this.root.dataset.loading = this.loading
+    this.root.dataset.position = this.position.bottom ? 'above' : 'below'
+
     this.results.style = `
       position: fixed;
       z-index: 1;

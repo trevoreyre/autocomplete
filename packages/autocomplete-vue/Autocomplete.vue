@@ -83,6 +83,8 @@ export default {
         onSubmit: this.onSubmit,
         onShow: this.handleShow,
         onHide: this.handleHide,
+        onLoading: this.handleLoading,
+        onLoaded: this.handleLoaded,
       }),
       value: this.defaultValue,
       resultsId: uniqueId(`${this.baseClass}-results-`),
@@ -98,9 +100,9 @@ export default {
   computed: {
     rootProps() {
       return {
-        'data-expanded': this.expanded ? true : false,
+        'data-expanded': this.expanded,
+        'data-loading': this.loading,
         'data-position': this.position.bottom ? 'above' : 'below',
-        'data-loading': this.loading ? true : false,
       }
     },
     inputClass() {
@@ -173,6 +175,14 @@ export default {
     handleHide() {
       this.expanded = false
       this.resetPosition = true
+    },
+
+    handleLoading() {
+      this.loading = true
+    },
+
+    handleLoaded() {
+      this.loading = false
     },
 
     handleInput(event) {

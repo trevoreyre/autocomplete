@@ -17,6 +17,9 @@ const search = input => {
 
 const searchAsync = input =>
   new Promise(resolve => {
+    if (input.length < 1) {
+      return resolve([])
+    }
     setTimeout(() => {
       resolve(search(input))
     }, Math.floor(500 + Math.random() * 2000))
@@ -52,14 +55,12 @@ const handleSubmit = value => {
 }
 
 new AutocompleteJs('.autocomplete-1', {
-  baseClass: 'search',
-  search,
+  search: searchAsync,
   getResultValue,
   onSubmit: handleSubmit,
 })
 
 new AutocompleteJs('.autocomplete-2', {
-  baseClass: 'search',
   search,
   getResultValue,
   onSubmit: handleSubmit,
@@ -73,6 +74,7 @@ new Vue({
   data() {
     return {
       search,
+      searchAsync,
       handleSubmit,
       getResultValue,
     }
@@ -87,6 +89,7 @@ new Vue({
   data() {
     return {
       search,
+      searchAsync,
       handleSubmit,
       getResultValue,
     }

@@ -12,146 +12,10 @@
     content='ie=edge'
   >
   <title>Autocomplete</title>
-  <style>
-    @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400");
-
-    * {
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    html {
-      font-size: 16px;
-      height: 100%;
-    }
-
-    body {
-      font-family: Open Sans, Verdana, sans-serif;
-      color: rgba(0, 0, 0, .87);
-      font-weight: 400;
-      line-height: 1.45;
-      min-height: 100%;
-      margin: 0;
-    }
-
-    body,
-    header {
-      background: #fafafa;
-    }
-
-    main {
-      padding: 64px 16px;
-    }
-
-    .container {
-      margin: 0 auto 64px auto;
-      width: 100%;
-      max-width: 800px;
-    }
-
-    .flex {
-      margin: 0 auto 64px auto;
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-    }
-
-    .flex>div {
-      flex: 1;
-      margin: 0 24px;
-    }
-
-    input {
-      font-family: inherit;
-    }
-
-    select {
-      border: 1px solid rgba(0, 0, 0, 0.54);
-      border-radius: 4px;
-      padding: 16px;
-      width: 100%;
-      font-size: 16px;
-      line-height: 1;
-      -webkit-appearance: none;
-      background: #fff;
-    }
-
-    p {
-      margin-bottom: 1.3em;
-      line-height: 1.618
-    }
-
-    a {
-      color: #e03616;
-      text-decoration: none
-    }
-
-    .search-input {
-      border: 1px solid #eee;
-      border-radius: 8px;
-      width: 100%;
-      padding: 12px 12px 12px 48px;
-      font-size: 16px;
-      line-height: 1.5;
-      flex: 1;
-      background-color: #eee;
-      background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="%23666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Ccircle cx="11" cy="11" r="8"/%3E%3Cpath d="M21 21l-4.35-4.35"/%3E%3C/svg%3E');
-      background-repeat: no-repeat;
-      background-position: 12px center;
-    }
-
-    .search-input:focus {
-      background-color: #fff;
-      outline: none;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24);
-    }
-
-    [data-position="below"] .search-input[aria-expanded="true"] {
-      border-bottom: none;
-      border-radius: 8px 8px 0 0;
-    }
-
-    [data-position="above"] .search-input[aria-expanded="true"] {
-      border-top: none;
-      border-radius: 0 0 8px 8px;
-      z-index: 2;
-    }
-
-    .search-results {
-      margin: 0;
-      border: 1px solid #eee;
-      padding: 0;
-      z-index: 1;
-      background: #fff;
-      list-style: none;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.24);
-    }
-
-    [data-position="below"] .search-results {
-      border-top: none;
-      border-radius: 0 0 8px 8px;
-      padding-bottom: 8px;
-    }
-
-    [data-position="above"] .search-results {
-      border-bottom: none;
-      border-radius: 8px 8px 0 0;
-      padding-top: 8px;
-    }
-
-    .search-result {
-      cursor: default;
-      padding: 8px 8px 8px 48px;
-      background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="%23ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Ccircle cx="11" cy="11" r="8"/%3E%3Cpath d="M21 21l-4.35-4.35"/%3E%3C/svg%3E');
-      background-repeat: no-repeat;
-      background-position: 12px center;
-    }
-
-    .search-result:hover,
-    .search-result[aria-selected="true"] {
-      background-color: rgba(0, 0, 0, 0.12);
-    }
-  </style>
+  <link
+    rel='stylesheet'
+    href='style.css'
+  >
 </head>
 
 <body>
@@ -161,20 +25,19 @@
         <h2>JavaScript</h2>
         <div class='autocomplete autocomplete-1'>
           <input
-            class='search-input'
+            class='autocomplete-input'
             placeholder='Search for a fruit or vegetable'
             aria-label='Search for a fruit or vegetable'
           >
-          <ul class='search-results'></ul>
+          <ul class='autocomplete-results'></ul>
         </div>
       </div>
       <div id='app'>
         <h2>Vue.js</h2>
         <autocomplete
-          base-class="search"
           placeholder='Search for a fruit or vegetable'
           aria-label='Search for a fruit or vegetable'
-          :search='search'
+          :search='searchAsync'
           :get-result-value='getResultValue'
           :on-submit='handleSubmit'
         >
@@ -448,17 +311,16 @@
         <h2>JavaScript</h2>
         <div class='autocomplete autocomplete-2'>
           <input
-            class='search-input'
+            class='autocomplete-input'
             placeholder='Search for a fruit or vegetable'
             aria-label='Search for a fruit or vegetable'
           >
-          <ul class='search-results'></ul>
+          <ul class='autocomplete-results'></ul>
         </div>
       </div>
       <div id='app-2'>
         <h2>Vue.js</h2>
         <autocomplete
-          base-class="search"
           placeholder='Search for a fruit or vegetable'
           aria-label='Search for a fruit or vegetable'
           :search='search'

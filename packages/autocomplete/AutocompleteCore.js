@@ -18,6 +18,8 @@ class AutocompleteCore {
     onSubmit = () => {},
     onShow = () => {},
     onHide = () => {},
+    onLoading = () => {},
+    onLoaded = () => {},
   } = {}) {
     this.search = isPromise(search)
       ? search
@@ -29,6 +31,8 @@ class AutocompleteCore {
     this.onSubmit = onSubmit
     this.onShow = onShow
     this.onHide = onHide
+    this.onLoading = onLoading
+    this.onLoaded = onLoaded
     window.addEventListener('resize', this.handleWindowResize)
   }
 
@@ -101,11 +105,13 @@ class AutocompleteCore {
 
   updateResults = value => {
     const currentSearch = ++this.searchCounter
+    this.onLoading()
     this.search(value).then(results => {
       if (currentSearch !== this.searchCounter) {
         return
       }
       this.results = results
+      this.onLoaded()
 
       if (this.results.length === 0) {
         this.hideResults()
@@ -136,24 +142,8 @@ class AutocompleteCore {
     this.onHide()
   }
 
-  updateResultsPosition = (inputElement, resultsElement) => {
-    const inputPosition = inputElement.getBoundingClientRect()
-    const resultsPosition = resultsElement.getBoundingClientRect()
-
-    // Place results below input, unless there isn't enough room
-    const positionAbove =
-      inputPosition.bottom + resultsPosition.height > window.innerHeight
-    const yPosition = positionAbove
-      ? { key: 'bottom', value: `${window.innerHeight - inputPosition.top}px` }
-      : { key: 'top', value: `${inputPosition.bottom}px` }
-    const yPositionReset = positionAbove ? 'top' : 'bottom'
-
-    resultsElement.style[yPositionReset] = null
-    resultsElement.style[yPosition.key] = yPosition.value
-    resultsElement.style.left = inputPosition.left + 'px'
-    resultsElement.style.width = inputPosition.width + 'px'
-  }
-
+  // Returns an object of CSS styles to position result list relative
+  // to the input element
   getResultsPosition = (inputElement, resultsElement) => {
     const inputPosition = inputElement.getBoundingClientRect()
     const resultsPosition = resultsElement.getBoundingClientRect()
@@ -172,7 +162,7 @@ class AutocompleteCore {
     }
   }
 
-  // Recalculate scrollBarWidth on window resize. Throttled slightly for better performance.
+  // Recalculates scrollBarWidth on resize. Throttled slightly for better performance.
   handleWindowResize = () => {
     if (!this.resizeTimeout) {
       this.resizeTimeout = setTimeout(() => {

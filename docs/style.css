@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400");
+
+* {
+  box-sizing: border-box;
+  position: relative;
+}
+
+html {
+  font-size: 16px;
+  height: 100%;
+}
+
+body {
+  font-family: Open Sans, Verdana, sans-serif;
+  color: rgba(0, 0, 0, .87);
+  font-weight: 400;
+  line-height: 1.45;
+  min-height: 100%;
+  margin: 0;
+}
+
+body,
+header {
+  background: #fafafa;
+}
+
+main {
+  padding: 64px 16px;
+}
+
+.container {
+  margin: 0 auto 64px auto;
+  width: 100%;
+  max-width: 800px;
+}
+
+.flex {
+  margin: 0 auto 64px auto;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+}
+
+.flex>div {
+  flex: 1;
+  margin: 0 24px;
+}
+
+input {
+  font-family: inherit;
+}
+
+select {
+  border: 1px solid rgba(0, 0, 0, 0.54);
+  border-radius: 4px;
+  padding: 16px;
+  width: 100%;
+  font-size: 16px;
+  line-height: 1;
+  -webkit-appearance: none;
+  background: #fff;
+}
+
+p {
+  margin-bottom: 1.3em;
+  line-height: 1.618
+}
+
+a {
+  color: #e03616;
+  text-decoration: none
+}
