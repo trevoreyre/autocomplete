@@ -8,15 +8,10 @@ action "Master branch filter" {
   args = "branch master"
 }
 
-action "Tag filter" {
-  uses = "actions/bin/filter@707718ee26483624de00bd146e073d915139a3d8"
-  args = "tag"
-}
-
 action "Install" {
   uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
   args = "install"
-  needs = ["Master branch filter", "Tag filter"]
+  needs = ["Master branch filter"]
 }
 
 action "Build" {
