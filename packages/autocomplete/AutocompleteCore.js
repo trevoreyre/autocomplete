@@ -148,9 +148,11 @@ class AutocompleteCore {
     const inputPosition = inputElement.getBoundingClientRect()
     const resultsPosition = resultsElement.getBoundingClientRect()
 
-    // Place results below input, unless there isn't enough room
+    // Place results below input, unless there isn't enough room. If so, place
+    // results wherever there is more room, above or below.
     const positionAbove =
-      inputPosition.bottom + resultsPosition.height > window.innerHeight
+      inputPosition.bottom + resultsPosition.height > window.innerHeight &&
+      window.innerHeight - inputPosition.bottom < inputPosition.top
     const yPosition = positionAbove
       ? { key: 'bottom', value: `${window.innerHeight - inputPosition.top}px` }
       : { key: 'top', value: `${inputPosition.bottom}px` }
