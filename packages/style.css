@@ -42,6 +42,7 @@
   border-radius: 8px;
   width: 100%;
   padding: 12px 12px 12px 48px;
+  box-sizing: border-box;
   font-size: 16px;
   line-height: 1.5;
   flex: 1;
@@ -88,6 +89,7 @@
   margin: 0;
   border: 1px solid rgba(0, 0, 0, 0.12);
   padding: 0;
+  box-sizing: border-box;
   z-index: 1;
   background: #fff;
   list-style: none;
