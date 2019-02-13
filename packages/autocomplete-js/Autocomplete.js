@@ -11,12 +11,12 @@ class Autocomplete {
   constructor(
     root,
     {
-      baseClass = 'autocomplete',
       search,
+      onSubmit = () => {},
+      baseClass = 'autocomplete',
       autoSelect,
       getResultValue = result => result,
       renderResults,
-      onSubmit = () => {},
     } = {}
   ) {
     if (typeof root === 'string') {

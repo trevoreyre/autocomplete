@@ -1,4 +1,4 @@
-# autocomplete-js
+# JavaScript component
 
 ## Installation
 
@@ -37,7 +37,12 @@ The `Autocomplete` constructor takes two arguments, the `root`, and an `options`
 new Autocomplete('#autocomplete', options)
 ```
 
-The `root` can be either a reference to the container element, or a selector for it. Upon initialization, the component will take care of initializing all of the proper ARIA attributes.
+The `root` can be either a reference to the container element, or a selector for it. Upon initialization, the component will take care of initializing all of the proper ARIA attributes. See the example below.
+
+<iframe height="496" style="width: 100%;" scrolling="no" title="Basic Autocomplete" src="//codepen.io/trevoreyre/embed/NoBKKp/?height=496&theme-id=36113&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/NoBKKp/'>Basic Autocomplete</a> by Trevor Eyre
+  (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
 
 ## Arguments
 

@@ -47,13 +47,17 @@ export default {
   inheritAttrs: false,
 
   props: {
-    baseClass: {
-      type: String,
-      default: 'autocomplete',
-    },
     search: {
       type: Function,
       required: true,
+    },
+    onSubmit: {
+      type: Function,
+      default: () => {},
+    },
+    baseClass: {
+      type: String,
+      default: 'autocomplete',
     },
     autoSelect: {
       type: Boolean,
@@ -66,10 +70,6 @@ export default {
     defaultValue: {
       type: String,
       default: '',
-    },
-    onSubmit: {
-      type: Function,
-      default: () => {},
     },
   },
 
