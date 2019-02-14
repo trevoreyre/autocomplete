@@ -139,6 +139,7 @@ You would get the following DOM (simplified for demonstration purposes):
       Second result
     </li>
   </ul>
+</div>
 ```
 
 This option can be useful if you need a certain class in your DOM for styling purposes. See the section on [Styling and customization](#styling-and-customization) for more info.
@@ -165,9 +166,14 @@ If your search function returns more complex results like an array of objects, y
 
 You can use the `renderResults` function to take full control of the rendering of your results list. This function takes the following arguments:
 
-- `results` - A list of results
-- `resultProps` - A list of props for each result. Each prop item is an `String` of HTML attributes.
+- `results` - A list of results.
+- `resultProps` - A list of props for each result. Each item in the list is a `String` of HTML attributes, which are expected to be rendered on your result `li` element.
 
-The function should return an HTML string to be written to the DOM.
+The function should return an HTML string to be rendered to the DOM.
+
+<iframe height="496" style="width: 100%;" scrolling="no" title="Autocomplete renderResults" src="//codepen.io/trevoreyre/embed/vbzzEd/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/vbzzEd/'>Autocomplete renderResults</a> by Trevor Eyre
+  (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
 
 ## Styling and customization
