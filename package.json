@@ -2,10 +2,11 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "start:docs": "docsify serve docs",
-    "prebuild": "lerna exec -- rimraf dist && lerna exec -- rm -f LICENSE",
+    "start": "docsify serve docs",
+    "prebuild": "npm run clean:build",
     "build": "rollup -c",
-    "clean": "lerna exec -- rimraf dist && lerna clean",
+    "clean": "npm run clean:build && lerna clean",
+    "clean:build": "lerna exec -- rimraf dist LICENSE",
     "lint": "eslint --fix --ignore-path .gitignore --ext .js,.vue .",
     "publish": "lerna exec -- npm publish"
   },
@@ -26,6 +27,7 @@
     "@babel/preset-env": "^7.2.3",
     "@vue/eslint-config-prettier": "^4.0.1",
     "babel-eslint": "^10.0.1",
+    "docsify-cli": "^4.3.0",
     "eslint": "^5.12.0",
     "eslint-config-prettier": "^3.5.0",
     "eslint-plugin-prettier": "^3.0.1",
