@@ -1,40 +1,6 @@
-/* .autocomplete-input {
-  border: 1px solid rgba(0, 0, 0, 0.54);
-  border-radius: 4px;
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  line-height: 1.5;
-  flex: 1;
-  background-repeat: no-repeat;
-  background-position: 8px center;
+.autocomplete {
+  position: relative;
 }
-
-.autocomplete-results {
-  border: 1px solid rgba(0, 0, 0, 0.54);
-  border-radius: 4px;
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  list-style: none;
-}
-
-.autocomplete-result {
-  cursor: default;
-  padding: 4px 8px;
-}
-
-.autocomplete-result:hover {
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.autocomplete-result[aria-selected="true"] {
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.hidden {
-  display: none;
-} */
 
 .autocomplete-input {
   border: 1px solid #eee;
@@ -70,6 +36,7 @@
   z-index: 2;
 }
 
+/* Loading spinner */
 .autocomplete[data-loading="true"]::after {
   content: "";
   border: 3px solid rgba(0, 0, 0, 0.12);
@@ -110,6 +77,7 @@
   padding-top: 8px;
 }
 
+/* Single result item */
 .autocomplete-result {
   cursor: default;
   padding: 8px 8px 8px 48px;
