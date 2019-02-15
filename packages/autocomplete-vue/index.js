@@ -1,4 +1,5 @@
 import Autocomplete from './Autocomplete.vue'
+import '../style.css'
 
 function install(Vue) {
   if (install.installed) {

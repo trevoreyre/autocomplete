@@ -1,6 +1,5 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
-import '../style.css'
 
 class Autocomplete {
   expanded = false
@@ -116,6 +115,7 @@ class Autocomplete {
       )
       this.updateStyle()
     }
+    this.autocomplete.checkSelectedResultVisible(this.results)
   }
 
   handleShow = () => {

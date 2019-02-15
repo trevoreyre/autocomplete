@@ -164,6 +164,28 @@ class AutocompleteCore {
     }
   }
 
+  // Make sure selected result isn't scrolled out of view
+  checkSelectedResultVisible = resultsElement => {
+    const selectedResultElement = resultsElement.querySelector(
+      `[data-result-index="${this.selectedIndex}"]`
+    )
+    if (!selectedResultElement) {
+      return
+    }
+
+    const resultsPosition = resultsElement.getBoundingClientRect()
+    const selectedPosition = selectedResultElement.getBoundingClientRect()
+
+    if (selectedPosition.top < resultsPosition.top) {
+      // Element is above viewable area
+      resultsElement.scrollTop -= resultsPosition.top - selectedPosition.top
+    } else if (selectedPosition.bottom > resultsPosition.bottom) {
+      // Element is below viewable area
+      resultsElement.scrollTop +=
+        selectedPosition.bottom - resultsPosition.bottom
+    }
+  }
+
   // Recalculates scrollBarWidth on resize. Throttled slightly for better performance.
   handleWindowResize = () => {
     if (!this.resizeTimeout) {

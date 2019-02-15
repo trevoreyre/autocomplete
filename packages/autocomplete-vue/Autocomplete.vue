@@ -40,7 +40,6 @@
 <script>
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
-import '../style.css'
 
 export default {
   name: 'Autocomplete',
@@ -156,6 +155,7 @@ export default {
         this.$refs.results
       )
     }
+    this.autocomplete.checkSelectedResultVisible(this.$refs.results)
   },
 
   methods: {
