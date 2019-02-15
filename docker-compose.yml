@@ -9,5 +9,6 @@ services:
       - /home/node/app/node_modules
     ports:
       - '3000:3000'
+      - '35729:35729'
     stdin_open: true
     tty: true

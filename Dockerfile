@@ -4,5 +4,6 @@ USER node
 
 RUN mkdir /home/node/app
 RUN mkdir /home/node/app/node_modules
+RUN npm install -g lerna
 
 WORKDIR /home/node/app
