@@ -20,6 +20,12 @@ You can also use the browser bundle in a script tag.
 <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
 ```
 
+To add the default styling for the component, include the CSS file on your page as well.
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css">
+```
+
 ## Usage
 
 The JavaScript component expects a fairly simple HTML structure consisting of a root container element, with an `input` and `ul` children.
@@ -177,3 +183,67 @@ The function should return an HTML string to be rendered to the DOM.
 </iframe>
 
 ## Styling and customization
+
+To include the default styling of the autocomplete component that you see here in the docs, include the CSS file on your page.
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css">
+```
+
+This styling is intentionally opinionated, however, it's relatively easy to write your own CSS if you want a different style. All positional styling is handled inline, so you don't have to worry about positioning the results list in your CSS. Below is an example of what the component looks like completely unstyled.
+
+<iframe height="496" style="width: 100%;" scrolling="no" title="Unstyled autocomplete" src="//codepen.io/trevoreyre/embed/gqBQGm/?height=496&theme-id=36113&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/gqBQGm/'>Unstyled autocomplete</a> by Trevor Eyre
+  (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseClass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of your results list using the [`renderResults`](#render-results) option.
+
+Below is an example of a typical DOM structure, and all the properties that might be relevant for styling.
+
+```html
+<div
+  id="autocomplete"
+  class="autocomplete"
+  data-expanded="true"
+  data-loading="false"
+  data-position="below"
+>
+  <input class="autocomplete-input" aria-expanded="true">
+  <ul id="autocomplete-results-1" class="autocomplete-results">
+    <li
+      id="autocomplete-result-0"
+      class="autocomplete-result"
+      data-result-index="0"
+      aria-selected="true"
+    >
+      First result
+    </li>
+    <li
+      id="autocomplete-result-1"
+      class="autocomplete-result"
+      data-result-index="1"
+    >
+      Second result
+    </li>
+  </ul>
+</div>
+```
+
+There are a few data attributes that are added to the root element as well to show the current state of the component.
+
+- `data-expanded="true"` - This is added when the results list is open
+- `data-loading="true"` - This is added if your `search` function is a Promise, and hasn't resolved yet
+- `data-position="below"` - This shows if the results list is positioned `above` or `below` the `input` element
+
+In addition, an `aria-expanded` attribute is added to the `input` element, and `aria-selected` is added to the currently selected `li` element.
+
+Below is an example of how you could use these attributes in your CSS.
+
+```css
+/* Change border if results are above input */
+[data-position="above"] .autocomplete-results {
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+```
