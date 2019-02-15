@@ -14,7 +14,9 @@ A simple, accessible, zero-dependency autocomplete component, usable in vanilla 
 - Customizable. Easily bring your own CSS, or take full control of the component rendering.
 - Support for asynchronous data fetching.
 
-For more information on the individual packages, jump to the docs for that package below.
+## Packages
+
+Autocomplete is available as a JavaScript component, a Vue component, or a core package. See the docs on an individual package to learn more.
 
 - [JavaScript component][javascript-component]
 - [Vue component][vue-component]
