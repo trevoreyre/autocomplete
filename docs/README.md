@@ -12,6 +12,7 @@
     <img alt="undefined" src="https://img.shields.io/github/license/trevoreyre/autocomplete.svg?style=flat">
   </a>
 </p>
+<br>
 <div id='autocomplete-demo'>
   <input class='autocomplete-input' placeholder='Search for a country' aria-label='Search for a country'>
   <ul class='autocomplete-results'></ul>
