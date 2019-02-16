@@ -6,7 +6,7 @@
 </p>
 <p align="center">
   <a href="https://www.npmjs.com/package/@trevoreyre/autocomplete">
-    <img src="https://img.shields.io/npm/v/@trevoreyre/autocomplete.svg?style=flat-square">
+    <img src="https://img.shields.io/npm/v/@trevoreyre/autocomplete.svg?style=flat">
   </a>
   <a href="LICENSE">
     <img alt="undefined" src="https://img.shields.io/github/license/trevoreyre/autocomplete.svg?style=flat">
