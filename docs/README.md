@@ -1,10 +1,21 @@
-# Autocomplete
-
-[![version][version-badge]][package] [![MIT License][license-badge]][license]
-
-A simple, accessible, zero-dependency autocomplete component, usable in vanilla JavaScript and Vue (React coming soon).
-
-![Autocomplete][autocomplete-image]
+<h2 align="center">
+  Autocomplete
+</h2>
+<p align="center">
+  Accessible autocomplete component for vanilla JavaScript and Vue.
+</p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/@trevoreyre/autocomplete">
+    <img src="https://img.shields.io/npm/v/@trevoreyre/autocomplete.svg?style=flat-square">
+  </a>
+  <a href="LICENSE">
+    <img alt="undefined" src="https://img.shields.io/github/license/trevoreyre/autocomplete.svg?style=flat">
+  </a>
+</p>
+<div id='autocomplete-demo'>
+  <input class='autocomplete-input' placeholder='Search for a country' aria-label='Search for a country'>
+  <ul class='autocomplete-results'></ul>
+</div>
 
 ## Features
 
@@ -30,3 +41,15 @@ Autocomplete is available as a JavaScript component, a Vue component, or a core 
 [javascript-component]: javascript-component.md
 [vue-component]: vue-component.md
 [core-package]: core-package.md
+
+<script>
+new Autocomplete('#autocomplete-demo', {
+  search: input => {
+    if (input.length === 0) { return [] }
+    return countries.filter(country =>
+      country.toLowerCase().startsWith(input.toLowerCase())
+    )
+  },
+  onSubmit: result => alert(`You selected ${result}`)
+})
+</script>

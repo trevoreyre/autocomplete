@@ -17,9 +17,27 @@
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
   >
   <link
+    rel='stylesheet'
+    href='//unpkg.com/@trevoreyre/autocomplete-js/dist/style.css'
+  >
+  <link
     rel="stylesheet"
     href="//unpkg.com/docsify/lib/themes/vue.css"
   >
+  <style>
+    #autocomplete-demo {
+      margin: 96px auto;
+      max-width: 400px;
+    }
+
+    #autocomplete-demo .autocomplete-results {
+      padding: 0;
+    }
+
+    .github-corner {
+      padding: inherit;
+    }
+  </style>
 </head>
 
 <body>
@@ -33,8 +51,11 @@
       maxLevel: 3,
       subMaxLevel: 2,
       auto2top: true,
+      executeScript: true,
     }
   </script>
+  <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>
+  <script src="./data/data.js"></script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 </body>
 

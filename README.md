@@ -1,8 +1,24 @@
-# Autocomplete [![version][version-badge]][package] [![MIT License][license-badge]][license]
+<h3 align="center">
+  Autocomplete
+</h3>
+<p align="center">
+  Accessible autocomplete component for vanilla JavaScript and Vue.
+</p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/@trevoreyre/autocomplete">
+    <img src="https://img.shields.io/npm/v/@trevoreyre/autocomplete.svg?style=flat-square">
+  </a>
+  <a href="LICENSE">
+    <img alt="undefined" src="https://img.shields.io/github/license/trevoreyre/autocomplete.svg?style=flat">
+  </a>
+</p>
+<p align="center">
+  <img src="docs/autocomplete.gif">
+</p>
 
-A simple, accessible, zero-dependency autocomplete component, usable in vanilla JavaScript and Vue (React coming soon).
+## Demo
 
-![Autocomplete][autocomplete-image]
+Take a look at the [documentation page](https://autocomplete.trevoreyre.com), and the [Codepen examples](https://codepen.io/collection/DrwmoR/).
 
 ## Features
 
@@ -24,6 +40,7 @@ Autocomplete is available as a JavaScript component, a Vue component, or a core 
 [package]: https://www.npmjs.com/package/@trevoreyre/autocomplete
 [license-badge]: https://img.shields.io/npm/l/@trevoreyre/autocomplete.svg?style=flat-square
 [license]: LICENSE
+[autocomplete-gif]: docs/autocomplete.gif
 [autocomplete-image]: docs/autocomplete.png
 [javascript-component]: packages/autocomplete-js/README.md
 [vue-component]: packages/autocomplete-vue/README.md

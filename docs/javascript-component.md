@@ -37,7 +37,7 @@ The JavaScript component expects a fairly simple HTML structure consisting of a 
 </div>
 ```
 
-The `Autocomplete` constructor takes two arguments, the `root`, and an `options` object.
+The constructor takes two arguments, the `root`, and an `options` object.
 
 ```js
 new Autocomplete('#autocomplete', options)
@@ -82,11 +82,11 @@ Note that if using a selector, it's expected that the selector only matches one 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | [`search`](#search) | Function (required) | | The search funtion to be executed on user input. Can be a synchronous function or a `Promise`. |
-| [`onSubmit`](#onSubmit) | Function | | Executed on input submission |
-| [`baseClass`](#baseClass) | String | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements |
-| [`autoSelect`](#autoSelect) | Boolean | `false` | Controls whether first result should be highlighted after input |
-| [`getResultValue`](#getResultValue) | Function | | For complex search results, this function is executed to get the value to display in the input |
-| [`renderResults`](#renderResults) | Function | | Override default rendering of results list |
+| [`onSubmit`](#onsubmit) | Function | | Executed on input submission |
+| [`baseClass`](#baseclass) | String | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements |
+| [`autoSelect`](#autoselect) | Boolean | `false` | Controls whether first result should be highlighted after input |
+| [`getResultValue`](#getresultvalue) | Function | | For complex search results, this function is executed to get the value to display in the input |
+| [`renderResults`](#renderresults) | Function | | Override default rendering of results list |
 
 #### search
 
@@ -103,8 +103,8 @@ The `search` function can also return a `Promise`, to make asynchronous calls to
 
 Below is a more advanced search example showing these options.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Asynchronous autocomplete search" src="//codepen.io/trevoreyre/embed/RvBvRN/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/RvBvRN/'>Asynchronous autocomplete search</a> by Trevor Eyre
+<iframe height="496" style="width: 100%;" scrolling="no" title="Advanced autocomplete searchh" src="//codepen.io/trevoreyre/embed/RvBvRN/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/RvBvRN/'>Advanced autocomplete searchh</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -197,7 +197,7 @@ This styling is intentionally opinionated, however, it's relatively easy to writ
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseClass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of your results list using the [`renderResults`](#render-results) option.
+You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseclass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of your results list using the [`renderResults`](#renderresults) option.
 
 Below is an example of a typical DOM structure, and all the properties that might be relevant for styling.
 
@@ -233,7 +233,7 @@ Below is an example of a typical DOM structure, and all the properties that migh
 There are a few data attributes that are added to the root element as well to show the current state of the component.
 
 - `data-expanded="true"` - This is added when the results list is open
-- `data-loading="true"` - This is added if your `search` function is a Promise, and hasn't resolved yet
+- `data-loading="true"` - This is added if your `search` function is a `Promise`, and hasn't resolved yet
 - `data-position="below"` - This shows if the results list is positioned `above` or `below` the `input` element
 
 In addition, an `aria-expanded` attribute is added to the `input` element, and `aria-selected` is added to the currently selected `li` element.
