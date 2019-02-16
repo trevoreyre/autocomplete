@@ -8,6 +8,7 @@
   width: 100%;
   padding: 12px 12px 12px 48px;
   box-sizing: border-box;
+  position: relative;
   font-size: 16px;
   line-height: 1.5;
   flex: 1;
@@ -26,12 +27,12 @@
 }
 
 [data-position="below"] .autocomplete-input[aria-expanded="true"] {
-  border-bottom: none;
+  border-bottom-color: transparent;
   border-radius: 8px 8px 0 0;
 }
 
 [data-position="above"] .autocomplete-input[aria-expanded="true"] {
-  border-top: none;
+  border-top-color: transparent;
   border-radius: 0 0 8px 8px;
   z-index: 2;
 }
@@ -65,14 +66,14 @@
 
 [data-position="below"] .autocomplete-results {
   margin-top: -1px;
-  border-top: none;
+  border-top-color: transparent;
   border-radius: 0 0 8px 8px;
   padding-bottom: 8px;
 }
 
 [data-position="above"] .autocomplete-results {
   margin-bottom: -1px;
-  border-bottom: none;
+  border-bottom-color: transparent;
   border-radius: 8px 8px 0 0;
   padding-top: 8px;
 }
