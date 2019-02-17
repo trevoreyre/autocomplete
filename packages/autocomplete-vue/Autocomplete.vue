@@ -1,5 +1,10 @@
 <template>
-  <div ref="root" :class="baseClass" style="position: relative" v-bind="rootProps">
+  <div
+    ref="root"
+    :class="baseClass"
+    style="position: relative"
+    v-bind="rootProps"
+  >
     <input
       ref="input"
       v-model="value"
