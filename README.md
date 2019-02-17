@@ -1,6 +1,6 @@
-<h2 align="center">
+<h3 align="center">
   Autocomplete
-</h2>
+</h3>
 
 <p align="center">
   Accessible autocomplete component for vanilla JavaScript and Vue.
