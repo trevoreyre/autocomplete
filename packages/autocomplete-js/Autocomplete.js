@@ -155,6 +155,7 @@ class Autocomplete {
     this.results.style = `
       position: absolute;
       z-index: 1;
+      width: 100%;
       visibility: ${this.expanded ? 'visible' : 'hidden'};
       pointer-events: ${this.expanded ? 'auto' : 'none'};
       ${

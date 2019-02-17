@@ -128,6 +128,7 @@ export default {
       return {
         position: 'absolute',
         zIndex: 1,
+        width: '100%',
         visibility: this.expanded ? 'visible' : 'hidden',
         pointerEvents: this.expanded ? 'auto' : 'none',
         ...this.position,
