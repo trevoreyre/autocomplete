@@ -1,5 +1,5 @@
 <template>
-  <div ref="root" :class="baseClass" v-bind="rootProps">
+  <div ref="root" :class="baseClass" style="position: relative" v-bind="rootProps">
     <input
       ref="input"
       v-model="value"
@@ -121,7 +121,7 @@ export default {
     },
     resultsStyle() {
       return {
-        position: 'fixed',
+        position: 'absolute',
         zIndex: 1,
         visibility: this.expanded ? 'visible' : 'hidden',
         pointerEvents: this.expanded ? 'auto' : 'none',

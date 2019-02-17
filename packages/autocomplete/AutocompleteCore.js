@@ -6,7 +6,6 @@ class AutocompleteCore {
   searchCounter = 0
   results = []
   selectedIndex = -1
-  scrollBarWidth = window.innerWidth - document.documentElement.clientWidth
   resizeTimeout = null
 
   constructor({
@@ -33,7 +32,6 @@ class AutocompleteCore {
     this.onHide = onHide
     this.onLoading = onLoading
     this.onLoaded = onLoaded
-    window.addEventListener('resize', this.handleWindowResize)
   }
 
   handleInput = event => {
@@ -126,8 +124,6 @@ class AutocompleteCore {
 
   showResults = () => {
     this.setAttribute('aria-expanded', true)
-    document.body.style.overflow = 'hidden'
-    document.body.style.paddingRight = this.scrollBarWidth + 'px'
     this.onShow()
   }
 
@@ -135,8 +131,6 @@ class AutocompleteCore {
     this.selectedIndex = -1
     this.results = []
     this.setAttribute('aria-expanded', false)
-    document.body.style.overflow = null
-    document.body.style.paddingRight = null
     this.setAttribute('aria-activedescendant', '')
     this.onUpdate(this.results, this.selectedIndex)
     this.onHide()
@@ -153,15 +147,9 @@ class AutocompleteCore {
     const positionAbove =
       inputPosition.bottom + resultsPosition.height > window.innerHeight &&
       window.innerHeight - inputPosition.bottom < inputPosition.top
-    const yPosition = positionAbove
-      ? { key: 'bottom', value: `${window.innerHeight - inputPosition.top}px` }
-      : { key: 'top', value: `${inputPosition.bottom}px` }
+    const yPosition = positionAbove ? 'bottom' : 'top'
 
-    return {
-      [yPosition.key]: yPosition.value,
-      left: inputPosition.left + 'px',
-      width: inputPosition.width + 'px',
-    }
+    return { [yPosition]: '100%' }
   }
 
   // Make sure selected result isn't scrolled out of view
@@ -183,18 +171,6 @@ class AutocompleteCore {
       // Element is below viewable area
       resultsElement.scrollTop +=
         selectedPosition.bottom - resultsPosition.bottom
-    }
-  }
-
-  // Recalculates scrollBarWidth on resize. Throttled slightly for better performance.
-  handleWindowResize = () => {
-    if (!this.resizeTimeout) {
-      this.resizeTimeout = setTimeout(() => {
-        this.resizeTimeout = null
-        this.scrollBarWidth =
-          window.innerWidth - document.documentElement.clientWidth
-        this.hideResults()
-      }, 66)
     }
   }
 }

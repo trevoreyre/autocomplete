@@ -1,18 +1,20 @@
 <h2 align="center">
   Autocomplete
 </h2>
+
 <p align="center">
   Accessible autocomplete component for vanilla JavaScript and Vue.
 </p>
+
 <p align="center">
-  <a href="https://www.npmjs.com/package/@trevoreyre/autocomplete">
+  <a class="badge" href="https://www.npmjs.com/package/@trevoreyre/autocomplete">
     <img src="https://img.shields.io/npm/v/@trevoreyre/autocomplete.svg?style=flat">
   </a>
-  <a href="LICENSE">
-    <img alt="undefined" src="https://img.shields.io/github/license/trevoreyre/autocomplete.svg?style=flat">
+  <a class="badge" href="https://github.com/trevoreyre/autocomplete/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/trevoreyre/autocomplete.svg?style=flat">
   </a>
 </p>
-<br>
+
 <div id='autocomplete-demo'>
   <input class='autocomplete-input' placeholder='Search for a country' aria-label='Search for a country'>
   <ul class='autocomplete-results'></ul>

@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "start": "docsify serve docs",
+    "start": "docsify serve .",
+    "start:docs": "docsify serve docs",
     "prebuild": "npm run clean:build",
     "build": "rollup -c",
     "clean": "npm run clean:build && lerna clean",

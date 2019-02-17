@@ -46,6 +46,7 @@ class Autocomplete {
 
   // Set up aria attributes and events
   initialize = () => {
+    this.root.style.position = 'relative'
     this.input.setAttribute('role', 'combobox')
     this.input.setAttribute('autocomplete', 'off')
     this.input.setAttribute('autocapitalize', 'off')
@@ -152,7 +153,7 @@ class Autocomplete {
     this.root.dataset.position = this.position.bottom ? 'above' : 'below'
 
     this.results.style = `
-      position: fixed;
+      position: absolute;
       z-index: 1;
       visibility: ${this.expanded ? 'visible' : 'hidden'};
       pointer-events: ${this.expanded ? 'auto' : 'none'};
@@ -161,8 +162,6 @@ class Autocomplete {
           ? 'top: ' + this.position.top
           : 'bottom: ' + this.position.bottom
       };
-      left: ${this.position.left};
-      width: ${this.position.width};
     `
   }
 }
