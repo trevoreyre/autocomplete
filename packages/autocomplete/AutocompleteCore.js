@@ -136,22 +136,6 @@ class AutocompleteCore {
     this.onHide()
   }
 
-  // Returns an object of CSS styles to position result list relative
-  // to the input element
-  getResultsPosition = (inputElement, resultsElement) => {
-    const inputPosition = inputElement.getBoundingClientRect()
-    const resultsPosition = resultsElement.getBoundingClientRect()
-
-    // Place results below input, unless there isn't enough room. If so, place
-    // results wherever there is more room, above or below.
-    const positionAbove =
-      inputPosition.bottom + resultsPosition.height > window.innerHeight &&
-      window.innerHeight - inputPosition.bottom < inputPosition.top
-    const yPosition = positionAbove ? 'bottom' : 'top'
-
-    return { [yPosition]: '100%' }
-  }
-
   // Make sure selected result isn't scrolled out of view
   checkSelectedResultVisible = resultsElement => {
     const selectedResultElement = resultsElement.querySelector(

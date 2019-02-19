@@ -45,6 +45,7 @@
 <script>
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
+import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
 
 export default {
   name: 'Autocomplete',
@@ -79,7 +80,7 @@ export default {
 
   data() {
     return {
-      autocomplete: new AutocompleteCore({
+      core: new AutocompleteCore({
         search: this.search,
         autoSelect: this.autoSelect,
         setValue: this.setValue,
@@ -106,7 +107,7 @@ export default {
       return {
         'data-expanded': this.expanded,
         'data-loading': this.loading,
-        'data-position': this.position.bottom ? 'above' : 'below',
+        'data-position': this.position,
       }
     },
     inputClass() {
@@ -125,13 +126,14 @@ export default {
       return `${this.baseClass}-results`
     },
     resultsStyle() {
+      const yPosition = this.position === 'below' ? 'top' : 'bottom'
       return {
         position: 'absolute',
         zIndex: 1,
         width: '100%',
         visibility: this.expanded ? 'visible' : 'hidden',
         pointerEvents: this.expanded ? 'auto' : 'none',
-        ...this.position,
+        [yPosition]: '100%',
       }
     },
     resultProps() {
@@ -156,12 +158,9 @@ export default {
   updated() {
     if (this.resetPosition && this.results.length > 0) {
       this.resetPosition = false
-      this.position = this.autocomplete.getResultsPosition(
-        this.$refs.input,
-        this.$refs.results
-      )
+      this.position = getRelativePosition(this.$refs.input, this.$refs.results)
     }
-    this.autocomplete.checkSelectedResultVisible(this.$refs.results)
+    this.core.checkSelectedResultVisible(this.$refs.results)
   },
 
   methods: {
@@ -193,22 +192,22 @@ export default {
 
     handleInput(event) {
       this.value = event.target.value
-      this.autocomplete.handleInput(event)
+      this.core.handleInput(event)
     },
 
     handleKeydown(event) {
-      this.autocomplete.handleKeydown(event)
+      this.core.handleKeydown(event)
     },
 
     handleResultClick(event) {
-      this.autocomplete.handleResultClick(event)
+      this.core.handleResultClick(event)
     },
 
     handleDocumentClick(event) {
       if (this.$refs.root.contains(event.target)) {
         return
       }
-      this.autocomplete.hideResults()
+      this.core.hideResults()
     },
   },
 }

@@ -1,5 +1,6 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
+import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
 
 class Autocomplete {
   expanded = false
@@ -28,7 +29,7 @@ class Autocomplete {
     this.baseClass = baseClass
     this.getResultValue = getResultValue
     this.renderResults = renderResults
-    this.autocomplete = new AutocompleteCore({
+    this.core = new AutocompleteCore({
       search,
       autoSelect,
       setValue: this.setValue,
@@ -64,9 +65,9 @@ class Autocomplete {
     this.input.setAttribute('aria-owns', this.results.id)
 
     document.body.addEventListener('click', this.handleDocumentClick)
-    this.input.addEventListener('input', this.autocomplete.handleInput)
-    this.input.addEventListener('keydown', this.autocomplete.handleKeydown)
-    this.results.addEventListener('click', this.autocomplete.handleResultClick)
+    this.input.addEventListener('input', this.core.handleInput)
+    this.input.addEventListener('keydown', this.core.handleKeydown)
+    this.results.addEventListener('click', this.core.handleResultClick)
     this.updateStyle()
   }
 
@@ -110,13 +111,10 @@ class Autocomplete {
 
     if (this.resetPosition) {
       this.resetPosition = false
-      this.position = this.autocomplete.getResultsPosition(
-        this.input,
-        this.results
-      )
+      this.position = getRelativePosition(this.input, this.results)
       this.updateStyle()
     }
-    this.autocomplete.checkSelectedResultVisible(this.results)
+    this.core.checkSelectedResultVisible(this.results)
   }
 
   handleShow = () => {
@@ -144,13 +142,13 @@ class Autocomplete {
     if (this.root.contains(event.target)) {
       return
     }
-    this.autocomplete.hideResults()
+    this.core.hideResults()
   }
 
   updateStyle = () => {
     this.root.dataset.expanded = this.expanded
     this.root.dataset.loading = this.loading
-    this.root.dataset.position = this.position.bottom ? 'above' : 'below'
+    this.root.dataset.position = this.position
 
     this.results.style = `
       position: absolute;
@@ -158,11 +156,7 @@ class Autocomplete {
       width: 100%;
       visibility: ${this.expanded ? 'visible' : 'hidden'};
       pointer-events: ${this.expanded ? 'auto' : 'none'};
-      ${
-        this.position.top
-          ? 'top: ' + this.position.top
-          : 'bottom: ' + this.position.bottom
-      };
+      ${this.position === 'below' ? 'top: 100%;' : 'bottom: 100%;'};
     `
   }
 }
