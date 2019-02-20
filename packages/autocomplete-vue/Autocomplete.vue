@@ -19,7 +19,7 @@
       :aria-owns="resultsId"
       v-bind="{ ...inputProps, ...$attrs }"
       @input="handleInput"
-      @keydown="handleKeydown"
+      @keydown="handleKeyDown"
     />
     <ul
       :id="resultsId"
@@ -28,6 +28,8 @@
       :style="resultsStyle"
       role="listbox"
       @click="handleResultClick"
+      @mouseover="handleMouseOver"
+      @mouseout="handleMouseOut"
     >
       <slot :results="results" :resultProps="resultProps">
         <li
@@ -195,12 +197,20 @@ export default {
       this.core.handleInput(event)
     },
 
-    handleKeydown(event) {
-      this.core.handleKeydown(event)
+    handleKeyDown(event) {
+      this.core.handleKeyDown(event)
     },
 
     handleResultClick(event) {
       this.core.handleResultClick(event)
+    },
+
+    handleMouseOver(event) {
+      this.core.handleMouseOver(event)
+    },
+
+    handleMouseOut(event) {
+      this.core.handleMouseOut(event)
     },
 
     handleDocumentClick(event) {

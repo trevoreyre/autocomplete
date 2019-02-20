@@ -66,8 +66,10 @@ class Autocomplete {
 
     document.body.addEventListener('click', this.handleDocumentClick)
     this.input.addEventListener('input', this.core.handleInput)
-    this.input.addEventListener('keydown', this.core.handleKeydown)
+    this.input.addEventListener('keydown', this.core.handleKeyDown)
     this.results.addEventListener('click', this.core.handleResultClick)
+    this.results.addEventListener('mouseover', this.core.handleMouseOver)
+    this.results.addEventListener('mouseout', this.core.handleMouseOut)
     this.updateStyle()
   }
 
@@ -154,6 +156,7 @@ class Autocomplete {
       position: absolute;
       z-index: 1;
       width: 100%;
+      box-sizing: border-box;
       visibility: ${this.expanded ? 'visible' : 'hidden'};
       pointer-events: ${this.expanded ? 'auto' : 'none'};
       ${this.position === 'below' ? 'top: 100%;' : 'bottom: 100%;'};

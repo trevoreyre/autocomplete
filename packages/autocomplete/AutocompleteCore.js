@@ -6,6 +6,7 @@ class AutocompleteCore {
   searchCounter = 0
   results = []
   selectedIndex = -1
+  hoveredIndex = null
   resizeTimeout = null
 
   constructor({
@@ -40,7 +41,7 @@ class AutocompleteCore {
     this.value = value
   }
 
-  handleKeydown = event => {
+  handleKeyDown = event => {
     const { key } = event
 
     switch (key) {
@@ -81,6 +82,24 @@ class AutocompleteCore {
       this.selectResult()
       this.onSubmit(selectedResult)
     }
+  }
+
+  handleMouseOver = event => {
+    const { target } = event
+    const result = closest(target, '[data-result-index')
+    if (result) {
+      const resultIndex = Number.parseInt(result.dataset.resultIndex, 10)
+      if (resultIndex === this.hoveredIndex) {
+        return
+      }
+      this.hoveredIndex = resultIndex
+      this.selectedIndex = resultIndex
+      this.onUpdate(this.results, this.selectedIndex)
+    }
+  }
+
+  handleMouseOut = () => {
+    this.hoveredIndex = null
   }
 
   handleArrows = selectedIndex => {
