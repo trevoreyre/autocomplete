@@ -67,6 +67,7 @@ class Autocomplete {
     document.body.addEventListener('click', this.handleDocumentClick)
     this.input.addEventListener('input', this.core.handleInput)
     this.input.addEventListener('keydown', this.core.handleKeyDown)
+    this.input.addEventListener('blur', this.core.handleBlur)
     this.results.addEventListener('click', this.core.handleResultClick)
     this.results.addEventListener('mouseover', this.core.handleMouseOver)
     this.results.addEventListener('mouseout', this.core.handleMouseOut)

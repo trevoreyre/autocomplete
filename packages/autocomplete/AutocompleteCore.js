@@ -73,6 +73,10 @@ class AutocompleteCore {
     }
   }
 
+  handleBlur = () => {
+    this.hideResults()
+  }
+
   handleResultClick = event => {
     const { target } = event
     const result = closest(target, '[data-result-index]')

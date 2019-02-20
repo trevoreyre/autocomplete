@@ -20,6 +20,7 @@
       v-bind="{ ...inputProps, ...$attrs }"
       @input="handleInput"
       @keydown="handleKeyDown"
+      @blur="handleBlur"
     />
     <ul
       :id="resultsId"
@@ -199,6 +200,10 @@ export default {
 
     handleKeyDown(event) {
       this.core.handleKeyDown(event)
+    },
+
+    handleBlur(event) {
+      this.core.handleBlur(event)
     },
 
     handleResultClick(event) {
