@@ -6,8 +6,6 @@ class AutocompleteCore {
   searchCounter = 0
   results = []
   selectedIndex = -1
-  hoveredIndex = null
-  resizeTimeout = null
 
   constructor({
     search,
@@ -77,6 +75,13 @@ class AutocompleteCore {
     this.hideResults()
   }
 
+  // The mousedown event fires before the blur event. Calling preventDefault() when
+  // the results list is clicked will prevent it from taking focus, firing the
+  // blur event on the input element, and closing the results list before click fires.
+  handleResultMouseDown = event => {
+    event.preventDefault()
+  }
+
   handleResultClick = event => {
     const { target } = event
     const result = closest(target, '[data-result-index]')
@@ -86,24 +91,6 @@ class AutocompleteCore {
       this.selectResult()
       this.onSubmit(selectedResult)
     }
-  }
-
-  handleMouseOver = event => {
-    const { target } = event
-    const result = closest(target, '[data-result-index')
-    if (result) {
-      const resultIndex = Number.parseInt(result.dataset.resultIndex, 10)
-      if (resultIndex === this.hoveredIndex) {
-        return
-      }
-      this.hoveredIndex = resultIndex
-      this.selectedIndex = resultIndex
-      this.onUpdate(this.results, this.selectedIndex)
-    }
-  }
-
-  handleMouseOut = () => {
-    this.hoveredIndex = null
   }
 
   handleArrows = selectedIndex => {

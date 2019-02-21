@@ -19,8 +19,8 @@
       :aria-owns="resultsId"
       v-bind="{ ...inputProps, ...$attrs }"
       @input="handleInput"
-      @keydown="handleKeyDown"
-      @blur="handleBlur"
+      @keydown="core.handleKeyDown"
+      @blur="core.handleBlur"
     />
     <ul
       :id="resultsId"
@@ -28,9 +28,8 @@
       :class="resultsClass"
       :style="resultsStyle"
       role="listbox"
-      @click="handleResultClick"
-      @mouseover="handleMouseOver"
-      @mouseout="handleMouseOut"
+      @mousedown="core.handleResultMouseDown"
+      @click="core.handleResultClick"
     >
       <slot :results="results" :resultProps="resultProps">
         <li
@@ -100,7 +99,7 @@ export default {
       selectedIndex: -1,
       expanded: false,
       loading: false,
-      position: {},
+      position: 'below',
       resetPosition: true,
     }
   },
@@ -196,26 +195,6 @@ export default {
     handleInput(event) {
       this.value = event.target.value
       this.core.handleInput(event)
-    },
-
-    handleKeyDown(event) {
-      this.core.handleKeyDown(event)
-    },
-
-    handleBlur(event) {
-      this.core.handleBlur(event)
-    },
-
-    handleResultClick(event) {
-      this.core.handleResultClick(event)
-    },
-
-    handleMouseOver(event) {
-      this.core.handleMouseOver(event)
-    },
-
-    handleMouseOut(event) {
-      this.core.handleMouseOut(event)
     },
 
     handleDocumentClick(event) {

@@ -83,6 +83,7 @@
   background-position: 12px center;
 }
 
+.autocomplete-result:hover,
 .autocomplete-result[aria-selected="true"] {
   background-color: rgba(0, 0, 0, 0.06);
 }
