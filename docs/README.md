@@ -52,7 +52,6 @@ new Autocomplete('#autocomplete-demo', {
     return countries.filter(country =>
       country.toLowerCase().startsWith(input.toLowerCase())
     )
-  },
-  onSubmit: result => alert(`You selected ${result}`)
+  }
 })
 </script>
