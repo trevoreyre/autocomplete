@@ -37,6 +37,12 @@
     .badge {
       text-decoration: none;
     }
+
+    /* Prevent iframe horizontal overflow on mobile Safari */
+    .markdown-section iframe {
+      width: 1px;
+      min-width: 100%;
+    }
   </style>
 </head>
 
@@ -48,7 +54,7 @@
       repo: 'trevoreyre/autocomplete',
       themeColor: '#1c5b72',
       loadSidebar: true,
-      maxLevel: 3,
+      maxLevel: 2,
       subMaxLevel: 2,
       auto2top: true,
       executeScript: true,

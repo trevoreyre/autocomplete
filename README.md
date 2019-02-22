@@ -45,6 +45,6 @@ Autocomplete is available as a JavaScript component, a Vue component, or a core 
 [license]: LICENSE
 [autocomplete-gif]: docs/autocomplete.gif
 [autocomplete-image]: docs/autocomplete.png
-[javascript-component]: packages/autocomplete-js/README.md
-[vue-component]: packages/autocomplete-vue/README.md
-[core-package]: packages/autocomplete/README.md
+[javascript-component]: packages/autocomplete-js
+[vue-component]: packages/autocomplete-vue
+[core-package]: packages/autocomplete

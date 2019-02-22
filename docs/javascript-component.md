@@ -45,8 +45,8 @@ new Autocomplete('#autocomplete', options)
 
 Upon initialization, the component will take care of initializing all of the proper ARIA attributes. See the example below.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Basic Autocomplete" src="//codepen.io/trevoreyre/embed/NoBKKp/?height=496&theme-id=36113&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/NoBKKp/'>Basic Autocomplete</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Simple autocomplete - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/NoBKKp/?height=496&theme-id=36113&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/NoBKKp/'>Simple autocomplete - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -72,8 +72,8 @@ new Autocomplete('#autocomplete', options)
 
 Note that if using a selector, it's expected that the selector only matches one DOM element. In the case of a selector that matches multiple elements, the autocomplete component is only attached to the first match. If you need to attach to multiple elements, you will need to loop through them manually. See example below.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Multiple autocomplete components" src="//codepen.io/trevoreyre/embed/dajwvK/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/dajwvK/'>Multiple autocomplete components</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Multiple autocomplete components - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/dajwvK/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/dajwvK/'>Multiple autocomplete components - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -94,8 +94,8 @@ The `search` function is executed on user input. It is expected to return either
 
 In the simplest case, `search` can return an array of strings.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Basic Autocomplete" src="//codepen.io/trevoreyre/embed/NoBKKp/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/NoBKKp/'>Basic Autocomplete</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Simple autocomplete - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/NoBKKp/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/NoBKKp/'>Simple autocomplete - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -103,8 +103,8 @@ The `search` function can also return a `Promise`, to make asynchronous calls to
 
 Below is a more advanced search example showing these options.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Advanced autocomplete searchh" src="//codepen.io/trevoreyre/embed/RvBvRN/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/RvBvRN/'>Advanced autocomplete searchh</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Advanced autocomplete search - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/RvBvRN/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/RvBvRN/'>Advanced autocomplete search - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -112,8 +112,8 @@ Below is a more advanced search example showing these options.
 
 The `onSubmit` function is executed when the user submits their result by either selecting a result from the list, or pressing `enter/return`. The function receives the selected result as an argument.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Autocomplete onSubmit" src="//codepen.io/trevoreyre/embed/MLBNBp/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/MLBNBp/'>Autocomplete onSubmit</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Autocomplete onSubmit option - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/MLBNBp/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/MLBNBp/'>Autocomplete onSubmit option - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -154,8 +154,8 @@ This option can be useful if you need a certain class in your DOM for styling pu
 
 If the `autoSelect` option is set to `true`, the first result in the list will automatically be highlighted after user input.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Autocomplete autoSelect" src="//codepen.io/trevoreyre/embed/XOPrjB/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/XOPrjB/'>Autocomplete autoSelect</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Autocomplete autoSelect option - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/XOPrjB/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/XOPrjB/'>Autocomplete autoSelect option - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -163,8 +163,8 @@ If the `autoSelect` option is set to `true`, the first result in the list will a
 
 If your search function returns more complex results like an array of objects, you can use the `getResultValue` function to tell the autocomplete component what value to display in the results list and input. The function receives a result as an argument, and is expected to return a `String` to display for that result.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Autocomplete getResultValue" src="//codepen.io/trevoreyre/embed/RvYwVZ/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/RvYwVZ/'>Autocomplete getResultValue</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Autocomplete getResultValue option - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/RvYwVZ/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/RvYwVZ/'>Autocomplete getResultValue option - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -172,13 +172,13 @@ If your search function returns more complex results like an array of objects, y
 
 You can use the `renderResults` function to take full control of the rendering of your results list. This function takes the following arguments:
 
-- `results` - A list of results.
-- `resultProps` - A list of props for each result. Each item in the list is a `String` of HTML attributes, which are expected to be rendered on your result `li` element.
+- `results` - The list of results returned from your `search` function
+- `resultProps` - A list of props for each result. Each item in the list is a `String` of HTML attributes, which are expected to be rendered on your result `li` element. This way, you don't have to worry about generating the proper IDs, classes, and ARIA attributes yourself.
 
 The function should return an HTML string to be rendered to the DOM.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Autocomplete renderResults" src="//codepen.io/trevoreyre/embed/vbzzEd/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/vbzzEd/'>Autocomplete renderResults</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Autocomplete renderResults option - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/vbzzEd/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/vbzzEd/'>Autocomplete renderResults option - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -192,8 +192,8 @@ To include the default styling of the autocomplete component that you see here i
 
 This styling is intentionally opinionated, however, it's relatively easy to write your own CSS if you want a different style. All positional styling is handled inline, so you don't have to worry about positioning the results list in your CSS. Below is an example of what the component looks like completely unstyled.
 
-<iframe height="496" style="width: 100%;" scrolling="no" title="Unstyled autocomplete" src="//codepen.io/trevoreyre/embed/gqBQGm/?height=496&theme-id=36113&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/gqBQGm/'>Unstyled autocomplete</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Unstyled autocomplete - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/gqBQGm/?height=496&theme-id=36113&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/gqBQGm/'>Unstyled autocomplete - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 

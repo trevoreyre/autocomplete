@@ -1,5 +1,9 @@
 # @trevoreyre/autocomplete-js
 
+## Demo
+
+Take a look at the [documentation page](https://autocomplete.trevoreyre.com), and the [Codepen examples](https://codepen.io/collection/DrwmoR/).
+
 ## Installation
 
 Install the component from npm.
@@ -265,7 +269,7 @@ new Autocomplete('#autocomplete', {
   //   ]
   // }
   //
-  // We want to display the name from this object
+  // We want to display the name
   getResultValue: result => result.name
 })
 ```
@@ -274,8 +278,8 @@ new Autocomplete('#autocomplete', {
 
 You can use the `renderResults` function to take full control of the rendering of your results list. This function takes the following arguments:
 
-- `results` - A list of results.
-- `resultProps` - A list of props for each result. Each item in the list is a `String` of HTML attributes, which are expected to be rendered on your result `li` element.
+- `results` - The list of results returned from your `search` function
+- `resultProps` - A list of props for each result. Each item in the list is a `String` of HTML attributes, which are expected to be rendered on your result `li` element. This way, you don't have to worry about generating the proper IDs, classes, and ARIA attributes yourself.
 
 The function should return an HTML string to be rendered to the DOM.
 
