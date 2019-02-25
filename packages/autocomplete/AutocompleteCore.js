@@ -43,10 +43,14 @@ class AutocompleteCore {
     const { key } = event
 
     switch (key) {
+      case 'Up': // IE/Edge
+      case 'Down': // IE/Edge
       case 'ArrowUp':
       case 'ArrowDown': {
         const selectedIndex =
-          key === 'ArrowUp' ? this.selectedIndex - 1 : this.selectedIndex + 1
+          key === 'ArrowUp' || key === 'Up'
+            ? this.selectedIndex - 1
+            : this.selectedIndex + 1
         event.preventDefault()
         this.handleArrows(selectedIndex)
         break
@@ -61,6 +65,7 @@ class AutocompleteCore {
         this.onSubmit(selectedResult)
         break
       }
+      case 'Esc': // IE/Edge
       case 'Escape': {
         this.hideResults()
         this.setValue()
@@ -86,7 +91,7 @@ class AutocompleteCore {
     const { target } = event
     const result = closest(target, '[data-result-index]')
     if (result) {
-      this.selectedIndex = Number.parseInt(result.dataset.resultIndex, 10)
+      this.selectedIndex = parseInt(result.dataset.resultIndex, 10)
       const selectedResult = this.results[this.selectedIndex]
       this.selectResult()
       this.onSubmit(selectedResult)

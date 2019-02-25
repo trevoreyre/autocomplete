@@ -48,6 +48,7 @@ class Autocomplete {
   // Set up aria attributes and events
   initialize = () => {
     this.root.style.position = 'relative'
+
     this.input.setAttribute('role', 'combobox')
     this.input.setAttribute('autocomplete', 'off')
     this.input.setAttribute('autocapitalize', 'off')
@@ -56,7 +57,12 @@ class Autocomplete {
     this.input.setAttribute('aria-autocomplete', 'list')
     this.input.setAttribute('aria-haspopup', 'listbox')
     this.input.setAttribute('aria-expanded', 'false')
+
     this.results.setAttribute('role', 'listbox')
+    this.results.style.position = 'absolute'
+    this.results.style.zIndex = '1'
+    this.results.style.width = '100%'
+    this.results.style.boxSizing = 'border-box'
 
     // Generate ID for results list if it doesn't have one
     if (!this.results.id) {
@@ -152,15 +158,15 @@ class Autocomplete {
     this.root.dataset.loading = this.loading
     this.root.dataset.position = this.position
 
-    this.results.style = `
-      position: absolute;
-      z-index: 1;
-      width: 100%;
-      box-sizing: border-box;
-      visibility: ${this.expanded ? 'visible' : 'hidden'};
-      pointer-events: ${this.expanded ? 'auto' : 'none'};
-      ${this.position === 'below' ? 'top: 100%;' : 'bottom: 100%;'};
-    `
+    this.results.style.visibility = this.expanded ? 'visible' : 'hidden'
+    this.results.style.pointerEvents = this.expanded ? 'auto' : 'none'
+    if (this.position === 'below') {
+      this.results.style.bottom = null
+      this.results.style.top = '100%'
+    } else {
+      this.results.style.top = null
+      this.results.style.bottom = '100%'
+    }
   }
 }
 
