@@ -21,6 +21,7 @@
       @input="handleInput"
       @keydown="core.handleKeyDown"
       @blur="core.handleBlur"
+      v-on="$listeners"
     />
     <ul
       :id="resultsId"
