@@ -1,28 +1,39 @@
-workflow "Build and publish on push" {
+workflow "Build on push" {
+  resolves = ["build: Build"]
   on = "push"
-  resolves = "Publish"
 }
 
-action "Master branch filter" {
-  uses = "actions/bin/filter@b2bea0749eed6beb495a8fa194c071847af60ea1"
-  args = "branch master"
-}
-
-action "Install" {
-  uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
+action "build: Install" {
+  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   args = "install"
-  needs = ["Master branch filter"]
 }
 
-action "Build" {
-  uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
-  needs = ["Install"]
+action "build: Build" {
+  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
+  needs = ["build: Install"]
   args = "run build"
 }
 
-action "Publish" {
-  uses = "actions/npm@e7aaefed7c9f2e83d493ff810f17fa5ccd7ed437"
-  needs = ["Build"]
+workflow "Publish on release" {
+  on = "release"
+  resolves = ["publish: Publish"]
+}
+
+action "publish: Install" {
+  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
+  args = "install"
+}
+
+action "publish: Build" {
+  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
+  needs = ["publish: Install"]
+  args = "run build"
+}
+
+action "publish: Publish" {
+  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
+  needs = ["publish: Build"]
   args = "run publish"
   secrets = ["NPM_AUTH_TOKEN"]
 }
+
