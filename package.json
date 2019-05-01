@@ -9,7 +9,10 @@
     "clean": "npm run clean:build && lerna clean",
     "clean:build": "lerna exec -- rimraf dist LICENSE",
     "lint": "eslint --fix --ignore-path .gitignore --ext .js,.vue .",
-    "publish": "lerna exec -- npm publish"
+    "publish": "lerna exec -- npm publish",
+    "storybook": "npm run storybook:vue",
+    "storybook:vue": "start-storybook -c .storybook-vue -p 6006 --ci",
+    "build-storybook": "build-storybook"
   },
   "husky": {
     "hooks": {
@@ -26,8 +29,11 @@
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
     "@babel/preset-env": "^7.2.3",
+    "@storybook/vue": "^5.0.6",
     "@vue/eslint-config-prettier": "^4.0.1",
     "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "babel-preset-vue": "^2.0.2",
     "docsify-cli": "^4.3.0",
     "eslint": "^5.12.0",
     "eslint-config-prettier": "^3.5.0",
@@ -44,6 +50,9 @@
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-terser": "^4.0.2",
     "rollup-plugin-vue": "^4.6.1",
-    "vue-template-compiler": "^2.6.6"
+    "storybook-addon-styles": "^1.0.0",
+    "vue": "^2.6.10",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10"
   }
 }

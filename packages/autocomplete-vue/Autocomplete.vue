@@ -1,46 +1,33 @@
 <template>
-  <div
-    ref="root"
-    :class="baseClass"
-    style="position: relative"
-    v-bind="rootProps"
-  >
-    <input
-      ref="input"
-      v-model="value"
-      :class="inputClass"
-      role="combobox"
-      autocomplete="off"
-      autocapitalize="off"
-      autocorrect="off"
-      spellcheck="false"
-      aria-autocomplete="list"
-      aria-haspopup="listbox"
-      :aria-owns="resultsId"
-      v-bind="{ ...inputProps, ...$attrs }"
-      @input="handleInput"
-      @keydown="core.handleKeyDown"
-      @blur="core.handleBlur"
-    />
-    <ul
-      :id="resultsId"
-      ref="results"
-      :class="resultsClass"
-      :style="resultsStyle"
-      role="listbox"
-      @mousedown="core.handleResultMouseDown"
-      @click="core.handleResultClick"
+  <div ref="root">
+    <slot
+      :rootProps="rootProps"
+      :inputProps="inputProps"
+      :inputListeners="inputListeners"
+      :resultListProps="resultListProps"
+      :resultListListeners="resultListListeners"
+      :results="results"
+      :resultProps="resultProps"
     >
-      <slot :results="results" :resultProps="resultProps">
-        <li
-          v-for="(result, index) in results"
-          :key="resultProps[index].id"
-          v-bind="resultProps[index]"
-        >
-          {{ getResultValue(result) }}
-        </li>
-      </slot>
-    </ul>
+      <div v-bind="rootProps">
+        <input
+          ref="input"
+          v-bind="{ ...inputProps, ...$attrs }"
+          v-on="inputListeners"
+        />
+        <ul ref="results" v-bind="resultListProps" v-on="resultListListeners">
+          <slot name="results" :results="results" :resultProps="resultProps">
+            <li
+              v-for="(result, index) in results"
+              :key="resultProps[index].id"
+              v-bind="resultProps[index]"
+            >
+              {{ getResultValue(result) }}
+            </li>
+          </slot>
+        </ul>
+      </div>
+    </slot>
   </div>
 </template>
 
@@ -107,16 +94,25 @@ export default {
   computed: {
     rootProps() {
       return {
+        class: this.baseClass,
+        style: { position: 'relative' },
         'data-expanded': this.expanded,
         'data-loading': this.loading,
         'data-position': this.position,
       }
     },
-    inputClass() {
-      return `${this.baseClass}-input`
-    },
     inputProps() {
       return {
+        class: `${this.baseClass}-input`,
+        value: this.value,
+        role: 'combobox',
+        autocomplete: 'off',
+        autocapitalize: 'off',
+        autocorrect: 'off',
+        spellcheck: 'false',
+        'aria-autocomplete': 'list',
+        'aria-haspopup': 'listbox',
+        'aria-owns': this.resultsId,
         'aria-expanded': this.expanded ? 'true' : 'false',
         'aria-activedescendant':
           this.selectedIndex > -1
@@ -124,18 +120,33 @@ export default {
             : '',
       }
     },
-    resultsClass() {
-      return `${this.baseClass}-results`
+    inputListeners() {
+      return {
+        input: this.handleInput,
+        keydown: this.core.handleKeyDown,
+        blur: this.core.handleBlur,
+      }
     },
-    resultsStyle() {
+    resultListProps() {
       const yPosition = this.position === 'below' ? 'top' : 'bottom'
       return {
-        position: 'absolute',
-        zIndex: 1,
-        width: '100%',
-        visibility: this.expanded ? 'visible' : 'hidden',
-        pointerEvents: this.expanded ? 'auto' : 'none',
-        [yPosition]: '100%',
+        id: this.resultsId,
+        class: `${this.baseClass}-results`,
+        role: 'listbox',
+        style: {
+          position: 'absolute',
+          zIndex: 1,
+          width: '100%',
+          visibility: this.expanded ? 'visible' : 'hidden',
+          pointerEvents: this.expanded ? 'auto' : 'none',
+          [yPosition]: '100%',
+        },
+      }
+    },
+    resultListListeners() {
+      return {
+        mousedown: this.core.handleResultMouseDown,
+        click: this.core.handleResultClick,
       }
     },
     resultProps() {
@@ -158,6 +169,9 @@ export default {
   },
 
   updated() {
+    if (!this.$refs.input || !this.$refs.results) {
+      return
+    }
     if (this.resetPosition && this.results.length > 0) {
       this.resetPosition = false
       this.position = getRelativePosition(this.$refs.input, this.$refs.results)
