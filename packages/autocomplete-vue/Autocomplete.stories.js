@@ -18,38 +18,168 @@ const CustomInput = Vue.component('CustomInput', {
   `,
 })
 
+const search = input => {
+  if (input.length < 1) {
+    return []
+  }
+  return countries.filter(country => {
+    return country.toLowerCase().startsWith(input.toLowerCase())
+  })
+}
+
+const wikiUrl = 'https://en.wikipedia.org'
+const wikiParams = 'action=query&list=search&format=json&origin=*'
+const searchWikipedia = input =>
+  new Promise(resolve => {
+    const url = `${wikiUrl}/w/api.php?${wikiParams}&srsearch=${encodeURI(
+      input
+    )}`
+
+    if (input.length < 3) {
+      return resolve([])
+    }
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        resolve(data.query.search)
+      })
+  })
+
 storiesOf('Autocomplete', module)
-  .add('default', () => ({
+  .add('Default', () => ({
     components: { Autocomplete },
-    template: `<Autocomplete placeholder="Search for a country" :search="search" />`,
+    template: `
+      <Autocomplete
+        aria-label="Search for a country"
+        placeholder="Search for a country"
+        :search="search"
+      />
+    `,
+    methods: {
+      search,
+    },
+  }))
+  .add('Advanced search', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="Search Wikipedia"
+        placeholder="Search Wikipedia"
+        :search="search"
+        :get-result-value="getResultValue"
+        :on-submit="onSubmit"
+      />
+    `,
     methods: {
       search(input) {
-        return search(input)
+        return searchWikipedia(input)
+      },
+      getResultValue(result) {
+        return result.title
+      },
+      onSubmit(result) {
+        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
       },
     },
   }))
-  .add('render custom results', () => ({
+  .add('Submit event', () => ({
     components: { Autocomplete },
     template: `
-      <Autocomplete placeholder="Search for a country" :search="search">
+      <Autocomplete
+        aria-label="Search for a country"
+        placeholder="Search for a country"
+        :search="search"
+        :on-submit="onSubmit"
+      />
+    `,
+    methods: {
+      search,
+      onSubmit(result) {
+        alert(`You selected ${result}`)
+      },
+    },
+  }))
+  .add('Custom class', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="Search for a country"
+        placeholder="Search for a country"
+        :search="search"
+        base-class="search"
+      />
+    `,
+    methods: {
+      search,
+    },
+  }))
+  .add('Auto select', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="Search for a country"
+        placeholder="Search for a country"
+        :search="search"
+        auto-select
+      />
+    `,
+    methods: {
+      search,
+    },
+  }))
+  .add('Default value', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="Search for a country"
+        placeholder="Search for a country"
+        :search="search"
+        default-value="United Kingdom"
+      />
+    `,
+    methods: {
+      search,
+    },
+  }))
+  .add('Results slot', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="Search Wikipedia"
+        placeholder="Search Wikipedia"
+        :search="search"
+        :get-result-value="getResultValue"
+        :on-submit="onSubmit"
+      >
         <template v-slot:results="{ results, resultProps }">
           <li
             v-for="(result, index) in results"
             :key="resultProps[index].id"
             v-bind="resultProps[index]"
+            class="autocomplete-result wiki-result"
           >
-            Result: {{ result }}
+            <div class="wiki-title">
+              {{ result.title }}
+            </div>
+            <div class="wiki-snippet" v-html="result.snippet" />
           </li>
         </template>
       </Autocomplete>
     `,
     methods: {
       search(input) {
-        return search(input)
+        return searchWikipedia(input)
+      },
+      getResultValue(result) {
+        return result.title
+      },
+      onSubmit(result) {
+        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
       },
     },
   }))
-  .add('full control', () => ({
+  .add('Default slot (full control)', () => ({
     components: { Autocomplete, CustomInput },
     template: `
       <Autocomplete :search="search">
@@ -69,10 +199,17 @@ storiesOf('Autocomplete', module)
               placeholder="Search for a country"
               v-bind="inputProps"
               v-on="inputListeners"
+              :class="['autocomplete-input', { 'autocomplete-input-no-results': value && results.length === 0}]"
             />
-            <div v-if="value && results.length === 0">
-              No results found
-            </div>
+            <ul
+              v-if="value && results.length === 0"
+              class="autocomplete-results"
+              style="position: absolute; z-index: 1; width: 100%; top: 100%;"
+            >
+              <li class="autocomplete-result">
+                No results found
+              </li>
+            </ul>
             <ul v-bind="resultListProps" v-on="resultListListeners">
               <li
                 v-for="(result, index) in results"
@@ -98,15 +235,6 @@ storiesOf('Autocomplete', module)
       },
     },
   }))
-
-const search = input => {
-  if (input.length < 1) {
-    return []
-  }
-  return countries.filter(country => {
-    return country.toLowerCase().startsWith(input.toLowerCase())
-  })
-}
 
 const countries = [
   'Afghanistan',

@@ -1,6 +1,7 @@
 import { configure, addDecorator, addParameters } from '@storybook/vue';
 import { withStyles } from 'storybook-addon-styles/vue'
 import '../packages/style.css'
+import './style.css'
 
 addDecorator(withStyles)
 addParameters({
