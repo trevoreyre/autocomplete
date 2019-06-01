@@ -13,7 +13,7 @@
         <input
           ref="input"
           v-bind="{ ...inputProps, ...$attrs }"
-          v-on="inputListeners"
+          v-on="{ ...inputListeners, ...$listeners }"
         />
         <ul
           ref="resultList"
