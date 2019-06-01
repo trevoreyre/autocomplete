@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { storiesOf } from '@storybook/vue'
+import { action } from '@storybook/addon-actions'
 import Autocomplete from './Autocomplete.vue'
 
 const CustomInput = Vue.component('CustomInput', {
@@ -127,11 +128,32 @@ storiesOf('Autocomplete', module)
         aria-label="Search for a country"
         placeholder="Search for a country"
         :search="search"
-        base-class="search"
+        class-prefix="search"
       />
     `,
     methods: {
       search,
+    },
+  }))
+  .add('Custom events', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="Search for a country"
+        placeholder="Search for a country"
+        :search="search"
+        @input="handleInput"
+        @keyup="handleKeyup"
+      />
+    `,
+    methods: {
+      search,
+      handleInput(event) {
+        return action('input')(event)
+      },
+      handleKeyup(event) {
+        return action('keyup')(event)
+      },
     },
   }))
   .add('Auto select', () => ({

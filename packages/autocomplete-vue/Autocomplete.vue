@@ -13,7 +13,11 @@
         <input
           ref="input"
           v-bind="{ ...inputProps, ...$attrs }"
-          v-on="{ ...inputListeners, ...$listeners }"
+          @input="handleInput"
+          @keydown="core.handleKeyDown"
+          @focus="core.handleFocus"
+          @blur="core.handleBlur"
+          v-on="$listeners"
         />
         <ul
           ref="resultList"
