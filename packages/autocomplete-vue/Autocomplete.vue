@@ -15,7 +15,7 @@
           v-bind="{ ...inputProps, ...$attrs }"
           v-on="inputListeners"
         />
-        <ul ref="results" v-bind="resultListProps" v-on="resultListListeners">
+        <ul ref="resultList" v-bind="resultListProps" v-on="resultListListeners">
           <slot name="results" :results="results" :resultProps="resultProps">
             <li
               v-for="(result, index) in results"
@@ -45,11 +45,7 @@ export default {
       type: Function,
       required: true,
     },
-    onSubmit: {
-      type: Function,
-      default: () => {},
-    },
-    baseClass: {
+    classPrefix: {
       type: String,
       default: 'autocomplete',
     },
@@ -74,14 +70,14 @@ export default {
         autoSelect: this.autoSelect,
         setValue: this.setValue,
         onUpdate: this.handleUpdate,
-        onSubmit: this.onSubmit,
+        onSubmit: this.handleSubmit,
         onShow: this.handleShow,
         onHide: this.handleHide,
         onLoading: this.handleLoading,
         onLoaded: this.handleLoaded,
       }),
       value: this.defaultValue,
-      resultsId: uniqueId(`${this.baseClass}-results-`),
+      resultListId: uniqueId(`${this.classPrefix}-results-`),
       results: [],
       selectedIndex: -1,
       expanded: false,
@@ -94,7 +90,7 @@ export default {
   computed: {
     rootProps() {
       return {
-        class: this.baseClass,
+        class: this.classPrefix,
         style: { position: 'relative' },
         'data-expanded': this.expanded,
         'data-loading': this.loading,
@@ -103,7 +99,7 @@ export default {
     },
     inputProps() {
       return {
-        class: `${this.baseClass}-input`,
+        class: `${this.classPrefix}-input`,
         value: this.value,
         role: 'combobox',
         autocomplete: 'off',
@@ -112,7 +108,7 @@ export default {
         spellcheck: 'false',
         'aria-autocomplete': 'list',
         'aria-haspopup': 'listbox',
-        'aria-owns': this.resultsId,
+        'aria-owns': this.resultListId,
         'aria-expanded': this.expanded ? 'true' : 'false',
         'aria-activedescendant':
           this.selectedIndex > -1
@@ -124,14 +120,15 @@ export default {
       return {
         input: this.handleInput,
         keydown: this.core.handleKeyDown,
+        focus: this.core.handleFocus,
         blur: this.core.handleBlur,
       }
     },
     resultListProps() {
       const yPosition = this.position === 'below' ? 'top' : 'bottom'
       return {
-        id: this.resultsId,
-        class: `${this.baseClass}-results`,
+        id: this.resultListId,
+        class: `${this.classPrefix}-result-list`,
         role: 'listbox',
         style: {
           position: 'absolute',
@@ -151,8 +148,8 @@ export default {
     },
     resultProps() {
       return this.results.map((result, index) => ({
-        id: `${this.baseClass}-result-${index}`,
-        class: `${this.baseClass}-result`,
+        id: `${this.classPrefix}-result-${index}`,
+        class: `${this.classPrefix}-result`,
         'data-result-index': index,
         role: 'option',
         ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
@@ -209,6 +206,10 @@ export default {
     handleInput(event) {
       this.value = event.target.value
       this.core.handleInput(event)
+    },
+
+    handleSubmit(selectedResult) {
+      this.$emit('submit', selectedResult)
     },
 
     handleDocumentClick(event) {

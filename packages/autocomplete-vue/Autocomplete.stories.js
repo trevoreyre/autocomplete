@@ -60,6 +60,26 @@ storiesOf('Autocomplete', module)
       search,
     },
   }))
+  .add('Default results', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="Search for a country"
+        placeholder="Search for a country"
+        :search="search"
+      />
+    `,
+    methods: {
+      search(input) {
+        if (input.length < 1) {
+          return ['Canada', 'Mexico', 'United Kingdom', 'Russia']
+        }
+        return countries.filter(country => {
+          return country.toLowerCase().startsWith(input.toLowerCase())
+        })
+      },
+    },
+  }))
   .add('Advanced search', () => ({
     components: { Autocomplete },
     template: `
@@ -68,7 +88,7 @@ storiesOf('Autocomplete', module)
         placeholder="Search Wikipedia"
         :search="search"
         :get-result-value="getResultValue"
-        :on-submit="onSubmit"
+        @submit="onSubmit"
       />
     `,
     methods: {
@@ -90,7 +110,7 @@ storiesOf('Autocomplete', module)
         aria-label="Search for a country"
         placeholder="Search for a country"
         :search="search"
-        :on-submit="onSubmit"
+        @submit="onSubmit"
       />
     `,
     methods: {
@@ -150,7 +170,7 @@ storiesOf('Autocomplete', module)
         placeholder="Search Wikipedia"
         :search="search"
         :get-result-value="getResultValue"
-        :on-submit="onSubmit"
+        @submit="onSubmit"
       >
         <template v-slot:results="{ results, resultProps }">
           <li

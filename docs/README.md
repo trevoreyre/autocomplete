@@ -17,7 +17,7 @@
 
 <div id='autocomplete-demo'>
   <input class='autocomplete-input' placeholder='Search for a country' aria-label='Search for a country'>
-  <ul class='autocomplete-results'></ul>
+  <ul class='autocomplete-result-list'></ul>
 </div>
 
 ## Features

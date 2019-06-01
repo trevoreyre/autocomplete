@@ -13,7 +13,7 @@ class Autocomplete {
     {
       search,
       onSubmit = () => {},
-      baseClass = 'autocomplete',
+      classPrefix = 'autocomplete',
       autoSelect,
       getResultValue = result => result,
       renderResults,
@@ -26,7 +26,7 @@ class Autocomplete {
     }
     this.input = this.root.querySelector('input')
     this.results = this.root.querySelector('ul')
-    this.baseClass = baseClass
+    this.classPrefix = classPrefix
     this.getResultValue = getResultValue
     this.renderResults = renderResults
     this.core = new AutocompleteCore({
@@ -66,7 +66,7 @@ class Autocomplete {
 
     // Generate ID for results list if it doesn't have one
     if (!this.results.id) {
-      this.results.id = uniqueId(`${this.baseClass}-results-`)
+      this.results.id = uniqueId(`${this.classPrefix}-results-`)
     }
     this.input.setAttribute('aria-owns', this.results.id)
 
@@ -91,8 +91,8 @@ class Autocomplete {
     const resultProps = results.map((result, index) => {
       const isSelected = selectedIndex === index
       return `
-        id='${this.baseClass}-result-${index}'
-        class='${this.baseClass}-result'
+        id='${this.classPrefix}-result-${index}'
+        class='${this.classPrefix}-result'
         data-result-index='${index}'
         role='option'
         ${isSelected ? "aria-selected='true'" : ''}
@@ -114,7 +114,7 @@ class Autocomplete {
 
     this.input.setAttribute(
       'aria-activedescendant',
-      selectedIndex > -1 ? `${this.baseClass}-result-${selectedIndex}` : ''
+      selectedIndex > -1 ? `${this.classPrefix}-result-${selectedIndex}` : ''
     )
 
     if (this.resetPosition) {
