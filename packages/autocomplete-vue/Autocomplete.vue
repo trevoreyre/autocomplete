@@ -15,7 +15,11 @@
           v-bind="{ ...inputProps, ...$attrs }"
           v-on="inputListeners"
         />
-        <ul ref="resultList" v-bind="resultListProps" v-on="resultListListeners">
+        <ul
+          ref="resultList"
+          v-bind="resultListProps"
+          v-on="resultListListeners"
+        >
           <slot name="results" :results="results" :resultProps="resultProps">
             <li
               v-for="(result, index) in results"
