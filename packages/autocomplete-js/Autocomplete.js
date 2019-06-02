@@ -66,7 +66,7 @@ class Autocomplete {
 
     // Generate ID for results list if it doesn't have one
     if (!this.results.id) {
-      this.results.id = uniqueId(`${this.classPrefix}-results-`)
+      this.results.id = uniqueId(`${this.classPrefix}-result-list-`)
     }
     this.input.setAttribute('aria-owns', this.results.id)
 
