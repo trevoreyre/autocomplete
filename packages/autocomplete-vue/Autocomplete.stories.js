@@ -11,7 +11,7 @@ const CustomInput = Vue.component('CustomInput', {
     },
   },
   template: `
-    <input
+    input
       style="padding: 40px; color: red;"
       :value="value"
       v-on="$listeners"
@@ -128,7 +128,7 @@ storiesOf('Autocomplete Vue', module)
         aria-label="Search for a country"
         placeholder="Search for a country"
         :search="search"
-        class-prefix="search"
+        base-class="search"
       />
     `,
     methods: {

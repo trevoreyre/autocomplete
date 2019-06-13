@@ -102,6 +102,7 @@ storiesOf('Autocomplete JS', module)
   })
   .add('Custom class', () => {
     const root = document.createElement('div')
+    root.classList.add('search')
     root.innerHTML = `
       <input
         class='search-input'
@@ -110,7 +111,7 @@ storiesOf('Autocomplete JS', module)
       >
       <ul class='search-result-list'></ul>
     `
-    new Autocomplete(root, { search, classPrefix: 'search' })
+    new Autocomplete(root, { search, baseClass: 'search' })
     return root
   })
   .add('Custom events', () => {
