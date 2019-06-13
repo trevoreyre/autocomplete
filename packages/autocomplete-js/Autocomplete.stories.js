@@ -30,7 +30,7 @@ const searchWikipedia = input =>
       })
   })
 
-storiesOf('Autocomplete', module)
+storiesOf('Autocomplete JS', module)
   .add('Default', () => {
     const root = document.createElement('div')
     root.innerHTML = `
@@ -157,7 +157,7 @@ storiesOf('Autocomplete', module)
     new Autocomplete(root, { search })
     return root
   })
-  .add('Results slot', () => {
+  .add('Render results', () => {
     const root = document.createElement('div')
     root.innerHTML = `
       <input

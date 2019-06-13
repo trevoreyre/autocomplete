@@ -47,7 +47,7 @@ const searchWikipedia = input =>
       })
   })
 
-storiesOf('Autocomplete', module)
+storiesOf('Autocomplete Vue', module)
   .add('Default', () => ({
     components: { Autocomplete },
     template: `
