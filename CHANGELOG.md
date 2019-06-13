@@ -1,6 +1,5 @@
-## 2.0.0 (June 1, 2019)
+## 2.0.0 (June 13, 2019)
 
-- BREAKING: Renamed `baseClass` prop to `classPrefix`
 - BREAKING: Changed default class for results list from `autocomplete-results` to `autocomplete-result-list`
 - BREAKING: Call `search` function on focus
 

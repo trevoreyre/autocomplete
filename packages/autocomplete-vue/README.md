@@ -296,7 +296,7 @@ Below is an example of a typical DOM structure, and all the properties that migh
   data-position="below"
 >
   <input class="autocomplete-input" aria-expanded="true">
-  <ul id="autocomplete-results-1" class="autocomplete-results">
+  <ul id="autocomplete-result-list-1" class="autocomplete-result-list">
     <li
       id="autocomplete-result-0"
       class="autocomplete-result"
@@ -328,7 +328,7 @@ Below is an example of how you could use these attributes in your CSS.
 
 ```css
 /* Change border if results are above input */
-[data-position="above"] .autocomplete-results {
+[data-position="above"] .autocomplete-result-list {
   border-bottom: none;
   border-radius: 8px 8px 0 0;
 }

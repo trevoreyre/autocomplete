@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "start": "docsify serve .",
+    "start": "concurrently \"npm:storybook:js\" \"npm:storybook:vue\"",
     "start:docs": "docsify serve docs",
     "prebuild": "npm run clean:build",
     "build": "rollup -c",
@@ -10,7 +10,6 @@
     "clean:build": "lerna exec -- rimraf dist LICENSE",
     "lint": "eslint --fix --ignore-path .gitignore --ext .js,.vue .",
     "publish": "lerna exec -- npm publish",
-    "storybook": "concurrently \"npm:storybook:js\" \"npm:storybook:vue\"",
     "storybook:js": "start-storybook -c .storybook-js -p 4003 --ci",
     "storybook:vue": "start-storybook -c .storybook-vue -p 4004 --ci",
     "build-storybook": "build-storybook"

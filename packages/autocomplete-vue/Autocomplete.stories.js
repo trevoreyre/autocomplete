@@ -245,7 +245,7 @@ storiesOf('Autocomplete Vue', module)
             />
             <ul
               v-if="value && results.length === 0"
-              class="autocomplete-results"
+              class="autocomplete-result-list"
               style="position: absolute; z-index: 1; width: 100%; top: 100%;"
             >
               <li class="autocomplete-result">
