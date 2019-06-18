@@ -25,7 +25,7 @@ class Autocomplete {
       this.root = root
     }
     this.input = this.root.querySelector('input')
-    this.results = this.root.querySelector('ul')
+    this.resultList = this.root.querySelector('ul')
     this.baseClass = baseClass
     this.getResultValue = getResultValue
     this.renderResults = renderResults
@@ -58,25 +58,28 @@ class Autocomplete {
     this.input.setAttribute('aria-haspopup', 'listbox')
     this.input.setAttribute('aria-expanded', 'false')
 
-    this.results.setAttribute('role', 'listbox')
-    this.results.style.position = 'absolute'
-    this.results.style.zIndex = '1'
-    this.results.style.width = '100%'
-    this.results.style.boxSizing = 'border-box'
+    this.resultList.setAttribute('role', 'listbox')
+    this.resultList.style.position = 'absolute'
+    this.resultList.style.zIndex = '1'
+    this.resultList.style.width = '100%'
+    this.resultList.style.boxSizing = 'border-box'
 
     // Generate ID for results list if it doesn't have one
-    if (!this.results.id) {
-      this.results.id = uniqueId(`${this.baseClass}-result-list-`)
+    if (!this.resultList.id) {
+      this.resultList.id = uniqueId(`${this.baseClass}-result-list-`)
     }
-    this.input.setAttribute('aria-owns', this.results.id)
+    this.input.setAttribute('aria-owns', this.resultList.id)
 
     document.body.addEventListener('click', this.handleDocumentClick)
     this.input.addEventListener('input', this.core.handleInput)
     this.input.addEventListener('keydown', this.core.handleKeyDown)
     this.input.addEventListener('focus', this.core.handleFocus)
     this.input.addEventListener('blur', this.core.handleBlur)
-    this.results.addEventListener('mousedown', this.core.handleResultMouseDown)
-    this.results.addEventListener('click', this.core.handleResultClick)
+    this.resultList.addEventListener(
+      'mousedown',
+      this.core.handleResultMouseDown
+    )
+    this.resultList.addEventListener('click', this.core.handleResultClick)
     this.updateStyle()
   }
 
@@ -100,7 +103,7 @@ class Autocomplete {
       `
     })
 
-    this.results.innerHTML =
+    this.resultList.innerHTML =
       typeof this.renderResults === 'function'
         ? this.renderResults(results, resultProps)
         : results
@@ -120,10 +123,10 @@ class Autocomplete {
 
     if (this.resetPosition) {
       this.resetPosition = false
-      this.position = getRelativePosition(this.input, this.results)
+      this.position = getRelativePosition(this.input, this.resultList)
       this.updateStyle()
     }
-    this.core.checkSelectedResultVisible(this.results)
+    this.core.checkSelectedResultVisible(this.resultList)
   }
 
   handleShow = () => {
@@ -159,14 +162,14 @@ class Autocomplete {
     this.root.dataset.loading = this.loading
     this.root.dataset.position = this.position
 
-    this.results.style.visibility = this.expanded ? 'visible' : 'hidden'
-    this.results.style.pointerEvents = this.expanded ? 'auto' : 'none'
+    this.resultList.style.visibility = this.expanded ? 'visible' : 'hidden'
+    this.resultList.style.pointerEvents = this.expanded ? 'auto' : 'none'
     if (this.position === 'below') {
-      this.results.style.bottom = null
-      this.results.style.top = '100%'
+      this.resultList.style.bottom = null
+      this.resultList.style.top = '100%'
     } else {
-      this.results.style.top = null
-      this.results.style.bottom = '100%'
+      this.resultList.style.top = null
+      this.resultList.style.bottom = '100%'
     }
   }
 }

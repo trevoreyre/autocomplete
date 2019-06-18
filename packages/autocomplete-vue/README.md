@@ -39,7 +39,7 @@ Vue.use(Autocomplete)
 You can also import autocomplete locally in your component if you prefer.
 
 ```js
-import Autocomplete from '@trevoreyre-autocomplete-vue'
+import Autocomplete from '@trevoreyre/autocomplete-vue'
 
 export default {
   name: 'my-component',
@@ -59,16 +59,21 @@ Then, use the component in your app.
 
 ## Props
 
-| Option | Type | Default | Description |
+| Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | [`search`](#search) | Function (required) | | The search funtion to be executed on user input. Can be a synchronous function or a `Promise`. |
-| [`onSubmit`](#onsubmit) | Function | | Executed on input submission |
 | [`baseClass`](#baseclass) | String | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements |
 | [`autoSelect`](#autoselect) | Boolean | `false` | Controls whether first result should be highlighted after input |
 | [`getResultValue`](#getresultvalue) | Function | | For complex search results, this function is executed to get the value to display in the input |
 | [`defaultValue`](#defaultvalue) | String | | Initial value of the component |
 
 **Note:** Any extra props you pass will be spread on the `input` element of the autocomplete component.
+
+## Events
+
+| Event | Signature | Description |
+| :--- | :--- | :--- |
+| [`submit`](#submit) | `function (result: any): void` | Executed on input submission |
 
 #### search
 
@@ -97,7 +102,7 @@ Below is a more advanced search example showing these props.
     placeholder="Search Wikipedia"
     aria-label="Search Wikipedia"
     :get-result-value="getResultValue"
-    :on-submit="onSubmit"
+    @submit="onSubmit"
   ></autocomplete>
 </div>
 ```
@@ -157,16 +162,6 @@ new Vue({
     }
   }
 })
-```
-
-#### onSubmit
-
-The `onSubmit` function is executed when the user submits their result by either selecting a result from the list, or pressing `enter/return`. The function receives the selected result as an argument.
-
-```js
-onSubmit(result) {
-  alert(`You selected ${result}`)
-}
 ```
 
 #### baseClass
@@ -234,9 +229,23 @@ The `defaultValue` prop can be used to set the initial value of the `input` fiel
 <autocomplete :search="search" default-value="some value..."></autocomplete>
 ```
 
+#### submit
+
+The `submit` event is executed when the user submits their result by either selecting a result from the list, or pressing `enter/return`. The function receives the selected result as an argument.
+
+```js
+submit(result) {
+  alert(`You selected ${result}`)
+}
+```
+
 ## Slots
 
-A default slot is provided if you need to take full control of the rendering of your results list. Using [scoped slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots), you can access the following data in your slot.
+Two slots are provided for controlling rendering of different parts of the component. A named slot, `results`, if you need to control rendering of result items in the result list, and a default slot if you need to control rendering of the entire component.
+
+## results
+
+The named `results` slot allows you to take control of the rendering of the result list. Using [scoped slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots), you can access the following data in the slot.
 
 - `results` - The list of results returned from your `search` function.
 - `resultProps` - A list of props for each result item. Each item in the list is an object of attributes that you can `v-bind` on your `li` element. This way, you don't have to worry about generating the proper IDs, classes, and ARIA attributes yourself.
@@ -247,9 +256,9 @@ A default slot is provided if you need to take full control of the rendering of 
   placeholder="Search Wikipedia"
   aria-label="Search Wikipedia"
   :get-result-value="getResultValue"
-  :on-submit="onSubmit"
+  @submit="onSubmit"
 >
-  <template v-slot="{ results, resultProps }">
+  <template v-slot:results="{ results, resultProps }">
     <li
       v-for="(result, index) in results"
       v-bind="resultProps[index]"
@@ -267,6 +276,18 @@ A default slot is provided if you need to take full control of the rendering of 
 </autocomplete>
 ```
 
+## default slot
+
+The default slot allows you to take full control of rendering for the entire component. Using [scoped slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots), you can access the following data in the slot.
+
+- `rootProps` - Object of attributes to `v-bind` on the root container element.
+- `inputProps` - Object of attributes to `v-bind` on the `input` element.
+- `inputListeners` - Event listeners to listen on the `input` element.
+- `resultListProps` - Object of attributes to `v-bind` on the `ul` element.
+- `resultListListeners` - Event listeners to listen on the `ul` element.
+- `results` - The list of results returned from your `search` function.
+- `resultProps` - A list of props for each result item. Each item in the list is an object of attributes that you can `v-bind` on your `li` element.
+
 ## Styling and customization
 
 To include the default styling of the autocomplete component that you see here in the docs, include the CSS file on your page.
@@ -283,7 +304,7 @@ import '@trevoreyre/autocomplete-vue/dist/style.css'
 
 This styling is intentionally opinionated, however, it's relatively easy to write your own CSS if you want a different style. All positional styling is handled inline, so you don't have to worry about positioning the results list in your CSS.
 
-The IDs and classes of the component can be customized using the [`baseClass`](#baseclass) prop. If you need more control than the `baseClass` prop can provide, you can also take full control of the rendering of your results list using [slots](#slots).
+The IDs and classes of the component can be customized using the [`baseClass`](#baseclass) prop. If you need more control than the `baseClass` prop can provide, you can also control rendering of different parts of the component using [slots](#slots).
 
 Below is an example of a typical DOM structure, and all the properties that might be relevant for styling.
 

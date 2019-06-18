@@ -7,7 +7,6 @@
       :resultListProps="resultListProps"
       :resultListListeners="resultListListeners"
       :results="results"
-      :resultProps="resultProps"
     >
       <div v-bind="rootProps">
         <input
@@ -24,15 +23,13 @@
           v-bind="resultListProps"
           v-on="resultListListeners"
         >
-          <slot name="results" :results="results" :resultProps="resultProps">
-            <li
-              v-for="(result, index) in results"
-              :key="resultProps[index].id"
-              v-bind="resultProps[index]"
-            >
-              {{ getResultValue(result) }}
-            </li>
-          </slot>
+          <template v-for="result in results">
+            <slot name="result" :result="result">
+              <li v-bind="result.props" :key="result.props.id">
+                {{ getResultValue(result.value) }}
+              </li>
+            </slot>
+          </template>
         </ul>
       </div>
     </slot>
@@ -85,8 +82,8 @@ export default {
         onLoaded: this.handleLoaded,
       }),
       value: this.defaultValue,
-      resultListId: uniqueId(`${this.baseClass}-results-`),
-      results: [],
+      resultListId: uniqueId(`${this.baseClass}-result-list-`),
+      searchResults: [],
       selectedIndex: -1,
       expanded: false,
       loading: false,
@@ -120,7 +117,7 @@ export default {
         'aria-expanded': this.expanded ? 'true' : 'false',
         'aria-activedescendant':
           this.selectedIndex > -1
-            ? this.resultProps[this.selectedIndex].id
+            ? this.results[this.selectedIndex].props.id
             : '',
       }
     },
@@ -154,13 +151,16 @@ export default {
         click: this.core.handleResultClick,
       }
     },
-    resultProps() {
-      return this.results.map((result, index) => ({
-        id: `${this.baseClass}-result-${index}`,
-        class: `${this.baseClass}-result`,
-        'data-result-index': index,
-        role: 'option',
-        ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
+    results() {
+      return this.searchResults.map((result, index) => ({
+        value: result,
+        props: {
+          id: `${this.baseClass}-result-${index}`,
+          class: `${this.baseClass}-result`,
+          'data-result-index': index,
+          role: 'option',
+          ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
+        }
       }))
     },
   },
@@ -174,14 +174,14 @@ export default {
   },
 
   updated() {
-    if (!this.$refs.input || !this.$refs.results) {
+    if (!this.$refs.input || !this.$refs.resultList) {
       return
     }
-    if (this.resetPosition && this.results.length > 0) {
+    if (this.resetPosition && this.searchResults.length > 0) {
       this.resetPosition = false
-      this.position = getRelativePosition(this.$refs.input, this.$refs.results)
+      this.position = getRelativePosition(this.$refs.input, this.$refs.resultList)
     }
-    this.core.checkSelectedResultVisible(this.$refs.results)
+    this.core.checkSelectedResultVisible(this.$refs.resultList)
   },
 
   methods: {
@@ -190,7 +190,7 @@ export default {
     },
 
     handleUpdate(results, selectedIndex) {
-      this.results = results
+      this.searchResults = results
       this.selectedIndex = selectedIndex
     },
 

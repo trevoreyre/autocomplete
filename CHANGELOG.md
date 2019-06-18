@@ -5,8 +5,8 @@
 
 ### autocomplete-vue
 
-- BREAKING: Renamed default slot to "results"
-- BREAKING: Added default slot to control rendering of entire component
+- BREAKING: Renamed old default slot to "results"
+- BREAKING: Added new default slot to control rendering of entire component
 - BREAKING: Removed `onSubmit` prop to use custom `submit` event instead
 
 ## 1.0.2 (May 1, 2019)
