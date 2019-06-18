@@ -25,7 +25,7 @@
         >
           <template v-for="result in results">
             <slot name="result" :result="result">
-              <li v-bind="result.props" :key="result.props.id">
+              <li :key="result.props.id" v-bind="result.props">
                 {{ getResultValue(result.value) }}
               </li>
             </slot>
@@ -160,7 +160,7 @@ export default {
           'data-result-index': index,
           role: 'option',
           ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
-        }
+        },
       }))
     },
   },
@@ -179,7 +179,10 @@ export default {
     }
     if (this.resetPosition && this.searchResults.length > 0) {
       this.resetPosition = false
-      this.position = getRelativePosition(this.$refs.input, this.$refs.resultList)
+      this.position = getRelativePosition(
+        this.$refs.input,
+        this.$refs.resultList
+      )
     }
     this.core.checkSelectedResultVisible(this.$refs.resultList)
   },
