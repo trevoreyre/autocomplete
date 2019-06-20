@@ -179,7 +179,7 @@ You would get the following DOM (simplified for demonstration purposes):
 ```html
 <div class="search">
   <input class="search-input">
-  <ul id="search-results-1" class="search-results">
+  <ul id="search-result-list-1" class="search-result-list">
     <li id="search-result-0" class="search-result">
       First result
     </li>
@@ -241,14 +241,14 @@ submit(result) {
 
 ## Slots
 
-Two slots are provided for controlling rendering of different parts of the component. A named slot, `results`, if you need to control rendering of result items in the result list, and a default slot if you need to control rendering of the entire component.
+Two slots are provided for controlling rendering of different parts of the component. A named slot, `result`, if you need to control rendering of result items in the result list, and a default slot if you need to control rendering of the entire component.
 
-## results
+## result
 
-The named `results` slot allows you to take control of the rendering of the result list. Using [scoped slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots), you can access the following data in the slot.
+The named `result` slot allows you to take control of the rendering of individual result items. Using [scoped slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slots), you can access the following data in the slot.
 
-- `results` - The list of results returned from your `search` function.
-- `resultProps` - A list of props for each result item. Each item in the list is an object of attributes that you can `v-bind` on your `li` element. This way, you don't have to worry about generating the proper IDs, classes, and ARIA attributes yourself.
+- `result` - The result value returned from your `search` function.
+- `props` - An object containing generated attributes for the result item. You can easily `v-bind` this object on your `li` element, so you don't have to worry about generating the necessary IDs, classes, and ARIA attributes yourself.
 
 ```html
 <autocomplete
@@ -258,19 +258,12 @@ The named `results` slot allows you to take control of the rendering of the resu
   :get-result-value="getResultValue"
   @submit="onSubmit"
 >
-  <template v-slot:results="{ results, resultProps }">
-    <li
-      v-for="(result, index) in results"
-      v-bind="resultProps[index]"
-      :key="'autocomplete-result-' + index"
-    >
+  <template v-slot:result="{ result, props }">
+    <li v-bind="props">
       <div class="wiki-title">
         {{ result.title }}
       </div>
-      <div
-        class="wiki-snippet"
-        v-html="result.snippet"
-      ></div>
+      <div class="wiki-snippet" v-html="result.snippet" />
     </li>
   </template>
 </autocomplete>
