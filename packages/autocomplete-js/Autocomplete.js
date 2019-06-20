@@ -2,6 +2,27 @@ import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
 import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
 
+// Creates a props object with overridden toString function. toString returns an attributes
+// string in the format: `key1="value1" key2="value2"` for easy use in an HTML string.
+class Props {
+  constructor(index, selectedIndex, baseClass) {
+    this.id = `${baseClass}-result-${index}`
+    this.class = `${baseClass}-result`
+    this['data-result-index'] = index
+    this.role = 'option'
+    if (index === selectedIndex) {
+      this['aria-selected'] = 'true'
+    }
+  }
+
+  toString() {
+    return Object.keys(this).reduce(
+      (str, key) => `${str} ${key}="${this[key]}"`,
+      ''
+    )
+  }
+}
+
 class Autocomplete {
   expanded = false
   loading = false
@@ -16,19 +37,17 @@ class Autocomplete {
       baseClass = 'autocomplete',
       autoSelect,
       getResultValue = result => result,
-      renderResults,
+      renderResult,
     } = {}
   ) {
-    if (typeof root === 'string') {
-      this.root = document.querySelector(root)
-    } else {
-      this.root = root
-    }
+    this.root = typeof root === 'string' ? document.querySelector(root) : root
     this.input = this.root.querySelector('input')
     this.resultList = this.root.querySelector('ul')
     this.baseClass = baseClass
     this.getResultValue = getResultValue
-    this.renderResults = renderResults
+    if (typeof renderResult === 'function') {
+      this.renderResult = renderResult
+    }
     this.core = new AutocompleteCore({
       search,
       autoSelect,
@@ -91,30 +110,20 @@ class Autocomplete {
     this.input.value = result ? this.getResultValue(result) : ''
   }
 
-  handleUpdate = (results, selectedIndex) => {
-    const resultProps = results.map((result, index) => {
-      const isSelected = selectedIndex === index
-      return `
-        id='${this.baseClass}-result-${index}'
-        class='${this.baseClass}-result'
-        data-result-index='${index}'
-        role='option'
-        ${isSelected ? "aria-selected='true'" : ''}
-      `
-    })
+  renderResult = (result, props) =>
+    `<li ${props}>${this.getResultValue(result)}</li>`
 
-    this.resultList.innerHTML =
-      typeof this.renderResults === 'function'
-        ? this.renderResults(results, resultProps)
-        : results
-            .map(
-              (result, index) => `
-                <li ${resultProps[index]}>
-                  ${this.getResultValue(result)}
-                </li>
-              `
-            )
-            .join('')
+  handleUpdate = (results, selectedIndex) => {
+    this.resultList.innerHTML = ''
+    results.forEach((result, index) => {
+      const props = new Props(index, selectedIndex, this.baseClass)
+      const resultHTML = this.renderResult(result, props)
+      if (typeof resultHTML === 'string') {
+        this.resultList.insertAdjacentHTML('beforeend', resultHTML)
+      } else {
+        this.resultList.insertAdjacentElement('beforeend', resultHTML)
+      }
+    })
 
     this.input.setAttribute(
       'aria-activedescendant',

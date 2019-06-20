@@ -11,8 +11,8 @@ const CustomInput = Vue.component('CustomInput', {
     },
   },
   template: `
-    input
-      style="padding: 40px; color: red;"
+    <input
+      style="padding: 32px 32px 32px 48px;"
       :value="value"
       v-on="$listeners"
     />
@@ -184,7 +184,7 @@ storiesOf('Autocomplete Vue', module)
       search,
     },
   }))
-  .add('Results slot', () => ({
+  .add('Result slot', () => ({
     components: { Autocomplete },
     template: `
       <Autocomplete
@@ -194,11 +194,9 @@ storiesOf('Autocomplete Vue', module)
         :get-result-value="getResultValue"
         @submit="onSubmit"
       >
-        <template v-slot:results="{ results, resultProps }">
+        <template v-slot:result="{ result, props }">
           <li
-            v-for="(result, index) in results"
-            :key="resultProps[index].id"
-            v-bind="resultProps[index]"
+            v-bind="props"
             class="autocomplete-result wiki-result"
           >
             <div class="wiki-title">
@@ -258,7 +256,7 @@ storiesOf('Autocomplete Vue', module)
                 :key="resultProps[index].id"
                 v-bind="resultProps[index]"
               >
-                Result: {{ result }}
+                {{ result }}
               </li>
             </ul>
           </div>

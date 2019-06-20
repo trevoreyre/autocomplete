@@ -2,6 +2,12 @@ import { storiesOf } from '@storybook/html'
 import { action } from '@storybook/addon-actions'
 import Autocomplete from './Autocomplete'
 
+const createRoot = () => {
+  const root = document.createElement('div')
+  root.setAttribute('class', 'autocomplete')
+  return root
+}
+
 const search = input => {
   if (input.length < 1) {
     return []
@@ -32,7 +38,7 @@ const searchWikipedia = input =>
 
 storiesOf('Autocomplete JS', module)
   .add('Default', () => {
-    const root = document.createElement('div')
+    const root = createRoot()
     root.innerHTML = `
       <input
         class='autocomplete-input'
@@ -45,7 +51,7 @@ storiesOf('Autocomplete JS', module)
     return root
   })
   .add('Default results', () => {
-    const root = document.createElement('div')
+    const root = createRoot()
     root.innerHTML = `
       <input
         class='autocomplete-input'
@@ -67,7 +73,7 @@ storiesOf('Autocomplete JS', module)
     return root
   })
   .add('Advanced search', () => {
-    const root = document.createElement('div')
+    const root = createRoot()
     root.innerHTML = `
       <input
         class='autocomplete-input'
@@ -85,7 +91,7 @@ storiesOf('Autocomplete JS', module)
     return root
   })
   .add('Submit event', () => {
-    const root = document.createElement('div')
+    const root = createRoot()
     root.innerHTML = `
       <input
         class='autocomplete-input'
@@ -101,7 +107,7 @@ storiesOf('Autocomplete JS', module)
     return root
   })
   .add('Custom class', () => {
-    const root = document.createElement('div')
+    const root = createRoot()
     root.classList.add('search')
     root.innerHTML = `
       <input
@@ -115,7 +121,7 @@ storiesOf('Autocomplete JS', module)
     return root
   })
   .add('Custom events', () => {
-    const root = document.createElement('div')
+    const root = createRoot()
     root.innerHTML = `
       <input
         class='autocomplete-input'
@@ -132,7 +138,7 @@ storiesOf('Autocomplete JS', module)
     return root
   })
   .add('Auto select', () => {
-    const root = document.createElement('div')
+    const root = createRoot()
     root.innerHTML = `
       <input
         class='autocomplete-input'
@@ -145,7 +151,7 @@ storiesOf('Autocomplete JS', module)
     return root
   })
   .add('Default value', () => {
-    const root = document.createElement('div')
+    const root = createRoot()
     root.innerHTML = `
       <input
         class='autocomplete-input'
@@ -158,8 +164,8 @@ storiesOf('Autocomplete JS', module)
     new Autocomplete(root, { search })
     return root
   })
-  .add('Render results', () => {
-    const root = document.createElement('div')
+  .add('Render result string', () => {
+    const root = createRoot()
     root.innerHTML = `
       <input
         class='autocomplete-input'
@@ -173,21 +179,50 @@ storiesOf('Autocomplete JS', module)
       getResultValue: result => result.title,
       onSubmit: result =>
         window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
-      renderResults: (results, resultProps) => {
-        return results
-          .map(
-            (result, index) => `
-              <li ${resultProps[index]}>
-                <div class="wiki-title">
-                  ${result.title}
-                </div>
-                <div class="wiki-snippet">
-                  ${result.snippet}
-                </div>
-              </li>
-            `
-          )
-          .join('\n')
+      renderResult: (result, props) => {
+        props.class = 'autocomplete-result wiki-result'
+        return `
+          <li ${props}>
+            <div class="wiki-title">
+              ${result.title}
+            </div>
+            <div class="wiki-snippet">
+              ${result.snippet}
+            </div>
+          </li>
+        `
+      },
+    })
+    return root
+  })
+  .add('Render result element', () => {
+    const root = createRoot()
+    root.innerHTML = `
+      <input
+        class='autocomplete-input'
+        placeholder='Search Wikipedia'
+        aria-label='Search Wikipedia'
+      >
+      <ul class='autocomplete-result-list'></ul>
+    `
+    new Autocomplete(root, {
+      search: searchWikipedia,
+      getResultValue: result => result.title,
+      onSubmit: result =>
+        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
+      renderResult: (result, props) => {
+        props.class = 'autocomplete-result wiki-result'
+        const item = document.createElement('li')
+        Object.keys(props).forEach(key => item.setAttribute(key, props[key]))
+        item.innerHTML = `
+          <div class="wiki-title">
+            ${result.title}
+          </div>
+          <div class="wiki-snippet">
+            ${result.snippet}
+          </div>
+        `
+        return item
       },
     })
     return root

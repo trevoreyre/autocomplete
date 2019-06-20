@@ -7,6 +7,7 @@
       :resultListProps="resultListProps"
       :resultListListeners="resultListListeners"
       :results="results"
+      :resultProps="resultProps"
     >
       <div v-bind="rootProps">
         <input
@@ -23,10 +24,10 @@
           v-bind="resultListProps"
           v-on="resultListListeners"
         >
-          <template v-for="result in results">
-            <slot name="result" :result="result">
-              <li :key="result.props.id" v-bind="result.props">
-                {{ getResultValue(result.value) }}
+          <template v-for="(result, index) in results">
+            <slot name="result" :result="result" :props="resultProps[index]">
+              <li :key="resultProps[index].id" v-bind="resultProps[index]">
+                {{ getResultValue(result) }}
               </li>
             </slot>
           </template>
@@ -83,7 +84,7 @@ export default {
       }),
       value: this.defaultValue,
       resultListId: uniqueId(`${this.baseClass}-result-list-`),
-      searchResults: [],
+      results: [],
       selectedIndex: -1,
       expanded: false,
       loading: false,
@@ -151,16 +152,13 @@ export default {
         click: this.core.handleResultClick,
       }
     },
-    results() {
-      return this.searchResults.map((result, index) => ({
-        value: result,
-        props: {
-          id: `${this.baseClass}-result-${index}`,
-          class: `${this.baseClass}-result`,
-          'data-result-index': index,
-          role: 'option',
-          ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
-        },
+    resultProps() {
+      return this.results.map((result, index) => ({
+        id: `${this.baseClass}-result-${index}`,
+        class: `${this.baseClass}-result`,
+        'data-result-index': index,
+        role: 'option',
+        ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {}),
       }))
     },
   },
@@ -177,7 +175,7 @@ export default {
     if (!this.$refs.input || !this.$refs.resultList) {
       return
     }
-    if (this.resetPosition && this.searchResults.length > 0) {
+    if (this.resetPosition && this.results.length > 0) {
       this.resetPosition = false
       this.position = getRelativePosition(
         this.$refs.input,
@@ -193,7 +191,7 @@ export default {
     },
 
     handleUpdate(results, selectedIndex) {
-      this.searchResults = results
+      this.results = results
       this.selectedIndex = selectedIndex
     },
 
