@@ -197,7 +197,7 @@ This styling is intentionally opinionated, however, it's relatively easy to writ
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseclass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of your results list using the [`renderResults`](#renderresults) option.
+You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseclass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of items in your results list using the [`renderResult`](#renderresult) option.
 
 Below is an example of a typical DOM structure, and all the properties that might be relevant for styling.
 
