@@ -3,9 +3,15 @@
   "packages": [
     "packages/*"
   ],
-  "bootstrap": {
-    "npmClientArgs": [
-      "--no-package-lock"
-    ]
+  "command": {
+    "bootstrap": {
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
+    },
+    "version": {
+      "allowBranch": "master",
+      "forcePublish": "*"
+    }
   }
 }
