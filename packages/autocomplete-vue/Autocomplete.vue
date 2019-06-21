@@ -1,47 +1,39 @@
 <template>
-  <div
-    ref="root"
-    :class="baseClass"
-    style="position: relative"
-    v-bind="rootProps"
-  >
-    <input
-      ref="input"
-      v-model="value"
-      :class="inputClass"
-      role="combobox"
-      autocomplete="off"
-      autocapitalize="off"
-      autocorrect="off"
-      spellcheck="false"
-      aria-autocomplete="list"
-      aria-haspopup="listbox"
-      :aria-owns="resultsId"
-      v-bind="{ ...inputProps, ...$attrs }"
-      @input="handleInput"
-      @keydown="core.handleKeyDown"
-      @blur="core.handleBlur"
-      v-on="$listeners"
-    />
-    <ul
-      :id="resultsId"
-      ref="results"
-      :class="resultsClass"
-      :style="resultsStyle"
-      role="listbox"
-      @mousedown="core.handleResultMouseDown"
-      @click="core.handleResultClick"
+  <div ref="root">
+    <slot
+      :rootProps="rootProps"
+      :inputProps="inputProps"
+      :inputListeners="inputListeners"
+      :resultListProps="resultListProps"
+      :resultListListeners="resultListListeners"
+      :results="results"
+      :resultProps="resultProps"
     >
-      <slot :results="results" :resultProps="resultProps">
-        <li
-          v-for="(result, index) in results"
-          :key="resultProps[index].id"
-          v-bind="resultProps[index]"
+      <div v-bind="rootProps">
+        <input
+          ref="input"
+          v-bind="{ ...inputProps, ...$attrs }"
+          @input="handleInput"
+          @keydown="core.handleKeyDown"
+          @focus="core.handleFocus"
+          @blur="core.handleBlur"
+          v-on="$listeners"
+        />
+        <ul
+          ref="resultList"
+          v-bind="resultListProps"
+          v-on="resultListListeners"
         >
-          {{ getResultValue(result) }}
-        </li>
-      </slot>
-    </ul>
+          <template v-for="(result, index) in results">
+            <slot name="result" :result="result" :props="resultProps[index]">
+              <li :key="resultProps[index].id" v-bind="resultProps[index]">
+                {{ getResultValue(result) }}
+              </li>
+            </slot>
+          </template>
+        </ul>
+      </div>
+    </slot>
   </div>
 </template>
 
@@ -58,10 +50,6 @@ export default {
     search: {
       type: Function,
       required: true,
-    },
-    onSubmit: {
-      type: Function,
-      default: () => {},
     },
     baseClass: {
       type: String,
@@ -88,14 +76,14 @@ export default {
         autoSelect: this.autoSelect,
         setValue: this.setValue,
         onUpdate: this.handleUpdate,
-        onSubmit: this.onSubmit,
+        onSubmit: this.handleSubmit,
         onShow: this.handleShow,
         onHide: this.handleHide,
         onLoading: this.handleLoading,
         onLoaded: this.handleLoaded,
       }),
       value: this.defaultValue,
-      resultsId: uniqueId(`${this.baseClass}-results-`),
+      resultListId: uniqueId(`${this.baseClass}-result-list-`),
       results: [],
       selectedIndex: -1,
       expanded: false,
@@ -108,35 +96,60 @@ export default {
   computed: {
     rootProps() {
       return {
+        class: this.baseClass,
+        style: { position: 'relative' },
         'data-expanded': this.expanded,
         'data-loading': this.loading,
         'data-position': this.position,
       }
     },
-    inputClass() {
-      return `${this.baseClass}-input`
-    },
     inputProps() {
       return {
+        class: `${this.baseClass}-input`,
+        value: this.value,
+        role: 'combobox',
+        autocomplete: 'off',
+        autocapitalize: 'off',
+        autocorrect: 'off',
+        spellcheck: 'false',
+        'aria-autocomplete': 'list',
+        'aria-haspopup': 'listbox',
+        'aria-owns': this.resultListId,
         'aria-expanded': this.expanded ? 'true' : 'false',
         'aria-activedescendant':
           this.selectedIndex > -1
-            ? this.resultProps[this.selectedIndex].id
+            ? this.results[this.selectedIndex].props.id
             : '',
       }
     },
-    resultsClass() {
-      return `${this.baseClass}-results`
+    inputListeners() {
+      return {
+        input: this.handleInput,
+        keydown: this.core.handleKeyDown,
+        focus: this.core.handleFocus,
+        blur: this.core.handleBlur,
+      }
     },
-    resultsStyle() {
+    resultListProps() {
       const yPosition = this.position === 'below' ? 'top' : 'bottom'
       return {
-        position: 'absolute',
-        zIndex: 1,
-        width: '100%',
-        visibility: this.expanded ? 'visible' : 'hidden',
-        pointerEvents: this.expanded ? 'auto' : 'none',
-        [yPosition]: '100%',
+        id: this.resultListId,
+        class: `${this.baseClass}-result-list`,
+        role: 'listbox',
+        style: {
+          position: 'absolute',
+          zIndex: 1,
+          width: '100%',
+          visibility: this.expanded ? 'visible' : 'hidden',
+          pointerEvents: this.expanded ? 'auto' : 'none',
+          [yPosition]: '100%',
+        },
+      }
+    },
+    resultListListeners() {
+      return {
+        mousedown: this.core.handleResultMouseDown,
+        click: this.core.handleResultClick,
       }
     },
     resultProps() {
@@ -159,11 +172,17 @@ export default {
   },
 
   updated() {
+    if (!this.$refs.input || !this.$refs.resultList) {
+      return
+    }
     if (this.resetPosition && this.results.length > 0) {
       this.resetPosition = false
-      this.position = getRelativePosition(this.$refs.input, this.$refs.results)
+      this.position = getRelativePosition(
+        this.$refs.input,
+        this.$refs.resultList
+      )
     }
-    this.core.checkSelectedResultVisible(this.$refs.results)
+    this.core.checkSelectedResultVisible(this.$refs.resultList)
   },
 
   methods: {
@@ -196,6 +215,10 @@ export default {
     handleInput(event) {
       this.value = event.target.value
       this.core.handleInput(event)
+    },
+
+    handleSubmit(selectedResult) {
+      this.$emit('submit', selectedResult)
     },
 
     handleDocumentClick(event) {

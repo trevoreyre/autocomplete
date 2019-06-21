@@ -37,7 +37,7 @@ The JavaScript component expects a fairly simple HTML structure consisting of a 
 ```html
 <div id="autocomplete" class="autocomplete">
   <input class="autocomplete-input">
-  <ul class="autocomplete-results"></ul>
+  <ul class="autocomplete-result-list"></ul>
 </div>
 ```
 
@@ -98,7 +98,7 @@ elements.forEach(el => {
 | [`baseClass`](#baseclass) | String | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements |
 | [`autoSelect`](#autoselect) | Boolean | `false` | Controls whether first result should be highlighted after input |
 | [`getResultValue`](#getresultvalue) | Function | | For complex search results, this function is executed to get the value to display in the input |
-| [`renderResults`](#renderresults) | Function | | Override default rendering of results list |
+| [`renderResult`](#renderresult) | Function | | Override default rendering of result items |
 
 #### search
 
@@ -211,7 +211,7 @@ You would get the following DOM (simplified for demonstration purposes):
    -->
 <div class="search">
   <input class="search-input">
-  <ul id="search-results-1" class="search-results">
+  <ul id="search-result-list-1" class="search-result-list">
     <!-- The ID and class for result list items are generated from the baseClass option -->
     <li id="search-result-0" class="search-result">
       First result
@@ -274,14 +274,14 @@ new Autocomplete('#autocomplete', {
 })
 ```
 
-#### renderResults
+#### renderResult
 
-You can use the `renderResults` function to take full control of the rendering of your results list. This function takes the following arguments:
+You can use the `renderResult` function to override the default rendering of items in your result list. This function takes the following arguments:
 
-- `results` - The list of results returned from your `search` function
-- `resultProps` - A list of props for each result. Each item in the list is a `String` of HTML attributes, which are expected to be rendered on your result `li` element. This way, you don't have to worry about generating the proper IDs, classes, and ARIA attributes yourself.
+- `result` - The result value returned from your `search` function
+- `props` - An object containing generated attributes for the result item, which are expected to be set on your `li` element. The object has a custom `toString` function which lets you easily serialize it to a `String` of HTML attributes in the form `attribute1="value1" attribute2="value2"`. This way, you don't have to worry about generating the proper IDs, classes, and ARIA attributes yourself.
 
-The function should return an HTML string to be rendered to the DOM.
+The `renderResult` function should return either a DOM element or an HTML string.
 
 ```js
 const wikiUrl = 'https://en.wikipedia.org'
@@ -311,21 +311,19 @@ new Autocomplete('#autocomplete', {
     })
   },
 
-  // Control the rendering of the results
-  // list. Let's show the title and snippet
+  // Control the rendering of the result
+  // items. Let's show the title and snippet
   // from the Wikipedia results
-  renderResults: (results, resultProps) => {
-    return results.map((result, index) => `
-      <li ${resultProps[index]}>
-        <div class="wiki-title">
-          ${result.title}
-        </div>
-        <div class="wiki-snippet">
-          ${result.snippet}
-        </div>
-      </li>
-    `).join('\n')
-  },
+  renderResult: (result, props) => `
+    <li ${props}>
+      <div class="wiki-title">
+        ${result.title}
+      </div>
+      <div class="wiki-snippet">
+        ${result.snippet}
+      </div>
+    </li>
+  `,
 
   // Wikipedia returns a format like this:
   //
@@ -358,7 +356,7 @@ To include the default styling of the autocomplete component that you see here i
 
 This styling is intentionally opinionated, however, it's relatively easy to write your own CSS if you want a different style. All positional styling is handled inline, so you don't have to worry about positioning the results list in your CSS.
 
-You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseclass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of your results list using the [`renderResults`](#renderresults) option.
+You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseclass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of items in your results list using the [`renderResult`](#renderresult) option.
 
 Below is an example of a typical DOM structure, and all the properties that might be relevant for styling.
 
@@ -371,7 +369,7 @@ Below is an example of a typical DOM structure, and all the properties that migh
   data-position="below"
 >
   <input class="autocomplete-input" aria-expanded="true">
-  <ul id="autocomplete-results-1" class="autocomplete-results">
+  <ul id="autocomplete-result-list-1" class="autocomplete-result-list">
     <li
       id="autocomplete-result-0"
       class="autocomplete-result"
@@ -403,7 +401,7 @@ Below is an example of how you could use these attributes in your CSS.
 
 ```css
 /* Change border if results are above input */
-[data-position="above"] .autocomplete-results {
+[data-position="above"] .autocomplete-result-list {
   border-bottom: none;
   border-radius: 8px 8px 0 0;
 }

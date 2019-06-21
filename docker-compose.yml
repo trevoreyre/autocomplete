@@ -8,7 +8,9 @@ services:
       - .:/home/node/app
       - /home/node/app/node_modules
     ports:
-      - '3000:3000'
-      - '35729:35729'
+      - '3000:3000' # docs
+      - '4003:4003' # autocomplete-js Storybook
+      - '4004:4004' # autocomplete-vue Storybook
+      - '35729:35729' # docsify
     stdin_open: true
     tty: true

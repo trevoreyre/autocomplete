@@ -35,7 +35,9 @@ const createConfig = async ({ root, plugins = [] }) => {
           minimize: true,
         }),
         copy({
-          LICENSE: `${root}/LICENSE`,
+          targets: {
+            LICENSE: `${root}/LICENSE`,
+          },
         }),
         ...plugins,
       ],

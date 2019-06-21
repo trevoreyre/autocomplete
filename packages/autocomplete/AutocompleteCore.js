@@ -76,6 +76,12 @@ class AutocompleteCore {
     }
   }
 
+  handleFocus = event => {
+    const { value } = event.target
+    this.updateResults(value)
+    this.value = value
+  }
+
   handleBlur = () => {
     this.hideResults()
   }

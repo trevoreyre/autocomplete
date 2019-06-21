@@ -33,7 +33,7 @@ The JavaScript component expects a fairly simple HTML structure consisting of a 
 ```html
 <div id="autocomplete" class="autocomplete">
   <input class="autocomplete-input">
-  <ul class="autocomplete-results"></ul>
+  <ul class="autocomplete-result-list"></ul>
 </div>
 ```
 
@@ -86,7 +86,7 @@ Note that if using a selector, it's expected that the selector only matches one 
 | [`baseClass`](#baseclass) | String | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements |
 | [`autoSelect`](#autoselect) | Boolean | `false` | Controls whether first result should be highlighted after input |
 | [`getResultValue`](#getresultvalue) | Function | | For complex search results, this function is executed to get the value to display in the input |
-| [`renderResults`](#renderresults) | Function | | Override default rendering of results list |
+| [`renderResult`](#renderresult) | Function | | Override default rendering of result items |
 
 #### search
 
@@ -136,7 +136,7 @@ You would get the following DOM (simplified for demonstration purposes):
    -->
 <div class="search">
   <input class="search-input">
-  <ul id="search-results-1" class="search-results">
+  <ul id="search-result-list-1" class="search-result-list">
     <!-- The ID and class for result list items are generated from the baseClass option -->
     <li id="search-result-0" class="search-result">
       First result
@@ -168,14 +168,14 @@ If your search function returns more complex results like an array of objects, y
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-#### renderResults
+#### renderResult
 
-You can use the `renderResults` function to take full control of the rendering of your results list. This function takes the following arguments:
+You can use the `renderResult` function to override the default rendering of items in your result list. This function takes the following arguments:
 
-- `results` - The list of results returned from your `search` function
-- `resultProps` - A list of props for each result. Each item in the list is a `String` of HTML attributes, which are expected to be rendered on your result `li` element. This way, you don't have to worry about generating the proper IDs, classes, and ARIA attributes yourself.
+- `result` - The result value returned from your `search` function
+- `props` - An object containing generated attributes for the result item, which are expected to be set on your `li` element. The object has a custom `toString` function which lets you easily serialize it to a `String` of HTML attributes in the form `attribute1="value1" attribute2="value2"`. This way, you don't have to worry about generating the proper IDs, classes, and ARIA attributes yourself.
 
-The function should return an HTML string to be rendered to the DOM.
+The `renderResult` function should return either a DOM element or an HTML string.
 
 <iframe height="496" scrolling="no" title="Autocomplete renderResults option - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/vbzzEd/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/trevoreyre/pen/vbzzEd/'>Autocomplete renderResults option - @trevoreyre/autocomplete-js</a> by Trevor Eyre
@@ -197,7 +197,7 @@ This styling is intentionally opinionated, however, it's relatively easy to writ
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
-You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseclass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of your results list using the [`renderResults`](#renderresults) option.
+You can provide the IDs and classes for the root element, `input`, and `ul` elements yourself in your HTML template. IDs and classes for the `li` elements are generated for you, but can be customized using the [`baseClass`](#baseclass) option. If you need more control than the `baseClass` option can provide, you can also take full control of the rendering of items in your results list using the [`renderResult`](#renderresult) option.
 
 Below is an example of a typical DOM structure, and all the properties that might be relevant for styling.
 
@@ -210,7 +210,7 @@ Below is an example of a typical DOM structure, and all the properties that migh
   data-position="below"
 >
   <input class="autocomplete-input" aria-expanded="true">
-  <ul id="autocomplete-results-1" class="autocomplete-results">
+  <ul id="autocomplete-result-list-1" class="autocomplete-result-list">
     <li
       id="autocomplete-result-0"
       class="autocomplete-result"
@@ -242,7 +242,7 @@ Below is an example of how you could use these attributes in your CSS.
 
 ```css
 /* Change border if results are above input */
-[data-position="above"] .autocomplete-results {
+[data-position="above"] .autocomplete-result-list {
   border-bottom: none;
   border-radius: 8px 8px 0 0;
 }
