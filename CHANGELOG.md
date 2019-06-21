@@ -1,4 +1,4 @@
-## 2.0.0 (June 20, 2019)
+## v2.0.0 (June 21, 2019)
 
 - BREAKING: Changed default class for results list from `autocomplete-results` to `autocomplete-result-list`
 - BREAKING: Changed default ID for results list from `autocomplete-results-{id}` to `autocomplete-result-list-{id}`
@@ -14,16 +14,16 @@
 
 - BREAKING: Removed `renderResults` option and replaced with `renderResult`, which can be used to control rendering of a single result item. This function can return either a DOM element or an HTML string.
 
-## 1.0.2 (May 1, 2019)
+## v1.0.2 (May 1, 2019)
 
 ### autocomplete-vue
 
 - Fix: Added support for input events
 
-## 1.0.1 (April 5, 2019)
+## v1.0.1 (April 5, 2019)
 
 - Updated internal tooling
 
-## 1.0.0 (February 22, 2019)
+## v1.0.0 (February 22, 2019)
 
 Initial release
