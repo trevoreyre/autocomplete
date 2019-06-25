@@ -118,7 +118,7 @@ export default {
         'aria-expanded': this.expanded ? 'true' : 'false',
         'aria-activedescendant':
           this.selectedIndex > -1
-            ? this.results[this.selectedIndex].props.id
+            ? this.resultProps[this.selectedIndex].id
             : '',
       }
     },

@@ -1,3 +1,9 @@
+## v2.0.1 (June 25, 2019)
+
+### autocomplete-vue
+
+- Fix: Compute `aria-activedescendant` attribute properly
+
 ## v2.0.0 (June 21, 2019)
 
 - BREAKING: Changed default class for results list from `autocomplete-results` to `autocomplete-result-list`
