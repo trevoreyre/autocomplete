@@ -1,3 +1,9 @@
+## v2.0.2 (June 25, 2019)
+
+### autocomplete-vue
+
+- Fix: Include extra attributes in `inputProps` when using default slot
+
 ## v2.0.1 (June 25, 2019)
 
 ### autocomplete-vue

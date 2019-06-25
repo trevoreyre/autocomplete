@@ -222,7 +222,11 @@ storiesOf('Autocomplete Vue', module)
   .add('Default slot (full control)', () => ({
     components: { Autocomplete, CustomInput },
     template: `
-      <Autocomplete :search="search">
+      <Autocomplete
+        placeholder="Search for a country"
+        aria-label="Search for a country"
+        :search="search"
+      >
         <template
           v-slot="{
             rootProps,
@@ -236,13 +240,18 @@ storiesOf('Autocomplete Vue', module)
         >
           <div v-bind="rootProps">
             <CustomInput
-              placeholder="Search for a country"
               v-bind="inputProps"
               v-on="inputListeners"
-              :class="['autocomplete-input', { 'autocomplete-input-no-results': value && results.length === 0}]"
+              :class="[
+                'autocomplete-input',
+                { 'autocomplete-input-no-results': noResults },
+                { 'autocomplete-input-focused': focused }
+              ]"
+              @focus="handleFocus"
+              @blur="handleBlur"
             />
             <ul
-              v-if="value && results.length === 0"
+              v-if="noResults"
               class="autocomplete-result-list"
               style="position: absolute; z-index: 1; width: 100%; top: 100%;"
             >
@@ -265,13 +274,27 @@ storiesOf('Autocomplete Vue', module)
     `,
     data() {
       return {
+        focused: false,
         value: '',
+        results: [],
       }
+    },
+    computed: {
+      noResults() {
+        return this.value && this.results.length === 0
+      },
     },
     methods: {
       search(input) {
         this.value = input
-        return search(input)
+        this.results = search(input)
+        return this.results
+      },
+      handleFocus() {
+        this.focused = true
+      },
+      handleBlur() {
+        this.focused = false
       },
     },
   }))
