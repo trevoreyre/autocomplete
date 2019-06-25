@@ -173,8 +173,8 @@ The named `result` slot allows you to take control of the rendering of individua
 - `result` - The result value returned from your `search` function.
 - `props` - An object containing generated attributes for the result item. You can easily `v-bind` this object on your `li` element, so you don't have to worry about generating the necessary IDs, classes, and ARIA attributes yourself.
 
-<iframe height="496" scrolling="no" title="Autocomplete default slot - @trevoreyre/autocomplete-vue" src="//codepen.io/trevoreyre/embed/GzbQem/?height=496&theme-id=36113&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/trevoreyre/pen/GzbQem/'>Autocomplete default slot - @trevoreyre/autocomplete-vue</a> by Trevor Eyre
+<iframe height="496" scrolling="no" title="Autocomplete result slot - @trevoreyre/autocomplete-vue" src="//codepen.io/trevoreyre/embed/JQyJLB/?height=300&theme-id=36113&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/JQyJLB/'>Autocomplete result slot - @trevoreyre/autocomplete-vue</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -189,6 +189,11 @@ The default slot allows you to take full control of rendering for the entire com
 - `resultListListeners` - Event listeners to listen on the `ul` element.
 - `results` - The list of results returned from your `search` function.
 - `resultProps` - A list of props for each result item. Each item in the list is an object of attributes that you can `v-bind` on your `li` element.
+
+<iframe height="496" scrolling="no" title="Autocomplete default slot - @trevoreyre/autocomplete-vue" src="//codepen.io/trevoreyre/embed/GzbQem/?height=496&theme-id=36113&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/GzbQem/'>Autocomplete default slot - @trevoreyre/autocomplete-vue</a> by Trevor Eyre
+  (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
 
 ## Styling and customization
 

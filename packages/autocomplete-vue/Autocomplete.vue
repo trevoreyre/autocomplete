@@ -12,7 +12,7 @@
       <div v-bind="rootProps">
         <input
           ref="input"
-          v-bind="{ ...inputProps, ...$attrs }"
+          v-bind="inputProps"
           @input="handleInput"
           @keydown="core.handleKeyDown"
           @focus="core.handleFocus"
@@ -120,6 +120,7 @@ export default {
           this.selectedIndex > -1
             ? this.resultProps[this.selectedIndex].id
             : '',
+        ...this.$attrs,
       }
     },
     inputListeners() {
