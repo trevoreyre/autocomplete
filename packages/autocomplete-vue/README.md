@@ -281,6 +281,58 @@ The default slot allows you to take full control of rendering for the entire com
 - `results` - The list of results returned from your `search` function.
 - `resultProps` - A list of props for each result item. Each item in the list is an object of attributes that you can `v-bind` on your `li` element.
 
+```html
+<autocomplete
+  placeholder="Search for a country"
+  aria-label="Search for a country"
+  :search="search"
+>
+  <template
+    v-slot="{
+      rootProps,
+      inputProps,
+      inputListeners,
+      resultListProps,
+      resultListListeners,
+      results,
+      resultProps
+    }"
+  >
+    <div v-bind="rootProps">
+      <custom-input
+        v-bind="inputProps"
+        v-on="inputListeners"
+        :class="[
+          'autocomplete-input',
+          { 'autocomplete-input-no-results': noResults },
+          { 'autocomplete-input-focused': focused }
+        ]"
+        @focus="handleFocus"
+        @blur="handleBlur"
+      ></custom-input>
+      <ul
+        v-if="noResults"
+        class="autocomplete-result-list"
+        style="position: absolute; z-index: 1; width: 100%; top: 100%;"
+      >
+        <li class="autocomplete-result">
+          No results found
+        </li>
+      </ul>
+      <ul v-bind="resultListProps" v-on="resultListListeners">
+        <li
+          v-for="(result, index) in results"
+          :key="resultProps[index].id"
+          v-bind="resultProps[index]"
+        >
+          {{ result }}
+        </li>
+      </ul>
+    </div>
+  </template>
+</autocomplete>
+```
+
 ## Styling and customization
 
 To include the default styling of the autocomplete component that you see here in the docs, include the CSS file on your page.
