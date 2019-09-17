@@ -1,0 +1,15 @@
+name: Build on push
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12
+      - name: npm install and build
+      - run: |
+          npm install
+          npm run build
