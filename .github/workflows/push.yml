@@ -10,6 +10,6 @@ jobs:
         with:
           node-version: 12
       - name: npm install and build
-      - run: |
+        run: |
           npm install
           npm run build
