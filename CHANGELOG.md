@@ -1,3 +1,7 @@
+## v2.0.3 (October 29 2019)
+
+- Fix: Set autocomplete attibute to "disabled-autocomplete" to disable auto-fill in Chrome (Iago Leão, @iagoleao)
+
 ## v2.0.2 (June 25, 2019)
 
 ### autocomplete-vue
