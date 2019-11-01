@@ -15,36 +15,10 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: Upload autocomplete/dist
-        uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v1
         with:
-          name: dist-autocomplete
-          path: packages/autocomplete/dist
-      - name: Upload autocomplete/LICENSE
-        uses: actions/upload-artifact@v1
-        with:
-          name: license-autocomplete
-          path: packages/autocomplete/LICENSE
-      - name: Upload autocomplete-js/dist
-        uses: actions/upload-artifact@v1
-        with:
-          name: dist-autocomplete-js
-          path: packages/autocomplete-js/dist
-      - name: Upload autocomplete-js/LICENSE
-        uses: actions/upload-artifact@v1
-        with:
-          name: license-autocomplete-js
-          path: packages/autocomplete-js/LICENSE
-      - name: Upload autocomplete-vue/dist
-        uses: actions/upload-artifact@v1
-        with:
-          name: dist-autocomplete-vue
-          path: packages/autocomplete-vue/dist
-      - name: Upload autocomplete-vue/LICENSE
-        uses: actions/upload-artifact@v1
-        with:
-          name: license-autocomplete-vue
-          path: packages/autocomplete-vue/LICENSE
+          name: packages
+          path: packages
 
   publish-npm:
     name: Publish npm
@@ -56,32 +30,21 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - name: Install Lerna
-        run: npm install -g lerna
-      - name: Download autocomplete/dist
-        uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v1
         with:
-          name: dist-autocomplete
-      - name: Download autocomplete/LICENSE
-        uses: actions/download-artifact@v1
-        with:
-          name: license-autocomplete
-      - name: Download autocomplete-js/dist
-        uses: actions/download-artifact@v1
-        with:
-          name: dist-autocomplete-js
-      - name: Download autocomplete-js/LICENSE
-        uses: actions/download-artifact@v1
-        with:
-          name: license-autocomplete-js
-      - name: Download autocomplete-vue/dist
-        uses: actions/download-artifact@v1
-        with:
-          name: dist-autocomplete-vue
-      - name: Download autocomplete-vue/LICENSE
-        uses: actions/download-artifact@v1
-        with:
-          name: license-autocomplete-vue
-      - run: npm run publish
+          name: packages
+      - name: Publish autocomplete
+        working-directory: ./packages/autocomplete
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Publish autocomplete-js
+        working-directory: ./packages/autocomplete-js
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Publish autocomplete-vue
+        working-directory: ./packages/autocomplete-vue
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
