@@ -1,6 +1,6 @@
-## v2.0.3 (October 29 2019)
+## v2.0.3 (November 1, 2019)
 
-- Fix: Set autocomplete attibute to "disabled-autocomplete" to disable auto-fill in Chrome (Iago Leão, [@iagoleao](https://github.com/iagoleao))
+- Fix: Set autocomplete attribute to "disabled-autocomplete" to disable auto-fill in Chrome (Iago Leão, [@iagoleao](https://github.com/iagoleao))
 
 ## v2.0.2 (June 25, 2019)
 
