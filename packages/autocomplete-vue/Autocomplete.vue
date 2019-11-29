@@ -17,6 +17,8 @@
           @keydown="core.handleKeyDown"
           @focus="core.handleFocus"
           @blur="core.handleBlur"
+          @compositionstart="handleCompositionStart"
+          @compositionend="handleCompositionEnd"
           v-on="$listeners"
         />
         <ul
@@ -90,6 +92,7 @@ export default {
       loading: false,
       position: 'below',
       resetPosition: true,
+      composition: false,
     }
   },
 
@@ -214,12 +217,16 @@ export default {
     },
 
     handleInput(event) {
-      this.value = event.target.value
-      this.core.handleInput(event)
+      if (this.composition !== -1) {
+        this.value = event.target.value
+        this.core.handleInput(event)
+      }
     },
 
     handleSubmit(selectedResult) {
-      this.$emit('submit', selectedResult)
+      if (selectedResult && selectedResult.length > 2) {
+        this.$emit('submit', selectedResult)
+      }
     },
 
     handleDocumentClick(event) {
@@ -227,6 +234,13 @@ export default {
         return
       }
       this.core.hideResults()
+    },
+    handleCompositionStart: function() {
+      this.composition = true //when IME mode start give composition=true 如果打开了IME则将复合状态标识设置为true
+    },
+    handleCompositionEnd: function($event) {
+      this.composition = false //when IME mode end give composition=false and trigger the input event
+      this.handleInput($event)
     },
   },
 }
