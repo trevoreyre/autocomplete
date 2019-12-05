@@ -6,6 +6,7 @@ class AutocompleteCore {
   searchCounter = 0
   results = []
   selectedIndex = -1
+  composition = false //IME Mode flag
 
   constructor({
     search,
@@ -35,8 +36,10 @@ class AutocompleteCore {
 
   handleInput = event => {
     const { value } = event.target
-    this.updateResults(value)
-    this.value = value
+    if (!this.composition) {
+      this.updateResults(value)
+      this.value = value
+    }
   }
 
   handleKeyDown = event => {
@@ -84,6 +87,15 @@ class AutocompleteCore {
 
   handleBlur = () => {
     this.hideResults()
+  }
+
+  handleCompositionStart = () => {
+    this.composition = true //when IME mode start give composition=true 如果打开了IME则将复合状态标识设置为true
+  }
+
+  handleCompositionEnd = $event => {
+    this.composition = false //when IME mode end give composition=false and trigger the input event
+    this.handleInput($event)
   }
 
   // The mousedown event fires before the blur event. Calling preventDefault() when
