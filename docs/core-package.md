@@ -36,7 +36,7 @@ const autocomplete = new Autocomplete(options)
 
 | Argument | Type | Description |
 | :--- | :--- | :--- |
-| `search` | Function (required) | The search funtion to be executed on user input. Can be a synchronous function or a `Promise`. |
+| `search` | Function (required) | The search function to be executed on user input. Can be a synchronous function or a `Promise`. |
 | `autoSelect` | Boolean | Controls whether first result should be highlighted after input |
 | `setValue` | Function | Sets the value of the calling component's `input` element |
 | `setAttribute` | Function | Sets attributes on the calling component's `input` element |
