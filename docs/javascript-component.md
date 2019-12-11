@@ -23,7 +23,10 @@ You can also use the browser bundle in a script tag.
 To add the default styling for the component, include the CSS file on your page as well.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css">
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"
+/>
 ```
 
 ## Usage
@@ -32,7 +35,7 @@ The JavaScript component expects a fairly simple HTML structure consisting of a 
 
 ```html
 <div id="autocomplete" class="autocomplete">
-  <input class="autocomplete-input">
+  <input class="autocomplete-input" />
   <ul class="autocomplete-result-list"></ul>
 </div>
 ```
@@ -52,10 +55,10 @@ Upon initialization, the component will take care of initializing all of the pro
 
 ## Arguments
 
-| Argument | Type | Description |
-| :--- | :--- | :--- |
-| `root` | String \| DOM Element (required) | Either the container DOM element, or a selector for it |
-| `options` | Object | An object of options to pass to the component. See below for more details. |
+| Argument  | Type                             | Description                                                                |
+| :-------- | :------------------------------- | :------------------------------------------------------------------------- |
+| `root`    | String \| DOM Element (required) | Either the container DOM element, or a selector for it                     |
+| `options` | Object                           | An object of options to pass to the component. See below for more details. |
 
 #### root
 
@@ -79,14 +82,14 @@ Note that if using a selector, it's expected that the selector only matches one 
 
 ## Options
 
-| Option | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| [`search`](#search) | Function (required) | | The search funtion to be executed on user input. Can be a synchronous function or a `Promise`. |
-| [`onSubmit`](#onsubmit) | Function | | Executed on input submission |
-| [`baseClass`](#baseclass) | String | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements |
-| [`autoSelect`](#autoselect) | Boolean | `false` | Controls whether first result should be highlighted after input |
-| [`getResultValue`](#getresultvalue) | Function | | For complex search results, this function is executed to get the value to display in the input |
-| [`renderResult`](#renderresult) | Function | | Override default rendering of result items |
+| Option                              | Type                | Default          | Description                                                                                     |
+| :---------------------------------- | :------------------ | :--------------- | :---------------------------------------------------------------------------------------------- |
+| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`. |
+| [`onSubmit`](#onsubmit)             | Function            |                  | Executed on input submission                                                                    |
+| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                            |
+| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                 |
+| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input  |
+| [`renderResult`](#renderresult)     | Function            |                  | Override default rendering of result items                                                      |
 
 #### search
 
@@ -135,7 +138,7 @@ You would get the following DOM (simplified for demonstration purposes):
    - to generate an ID for the ul element only if you didn't provide one.
    -->
 <div class="search">
-  <input class="search-input">
+  <input class="search-input" />
   <ul id="search-result-list-1" class="search-result-list">
     <!-- The ID and class for result list items are generated from the baseClass option -->
     <li id="search-result-0" class="search-result">
@@ -187,7 +190,10 @@ The `renderResult` function should return either a DOM element or an HTML string
 To include the default styling of the autocomplete component that you see here in the docs, include the CSS file on your page.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css">
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"
+/>
 ```
 
 This styling is intentionally opinionated, however, it's relatively easy to write your own CSS if you want a different style. All positional styling is handled inline, so you don't have to worry about positioning the results list in your CSS. Below is an example of what the component looks like completely unstyled.
@@ -209,7 +215,7 @@ Below is an example of a typical DOM structure, and all the properties that migh
   data-loading="false"
   data-position="below"
 >
-  <input class="autocomplete-input" aria-expanded="true">
+  <input class="autocomplete-input" aria-expanded="true" />
   <ul id="autocomplete-result-list-1" class="autocomplete-result-list">
     <li
       id="autocomplete-result-0"
@@ -242,7 +248,7 @@ Below is an example of how you could use these attributes in your CSS.
 
 ```css
 /* Change border if results are above input */
-[data-position="above"] .autocomplete-result-list {
+[data-position='above'] .autocomplete-result-list {
   border-bottom: none;
   border-radius: 8px 8px 0 0;
 }

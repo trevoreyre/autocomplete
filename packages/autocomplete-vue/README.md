@@ -59,20 +59,20 @@ Then, use the component in your app.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| [`search`](#search) | Function (required) | | The search funtion to be executed on user input. Can be a synchronous function or a `Promise`. |
-| [`baseClass`](#baseclass) | String | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements |
-| [`autoSelect`](#autoselect) | Boolean | `false` | Controls whether first result should be highlighted after input |
-| [`getResultValue`](#getresultvalue) | Function | | For complex search results, this function is executed to get the value to display in the input |
-| [`defaultValue`](#defaultvalue) | String | | Initial value of the component |
+| Prop                                | Type                | Default          | Description                                                                                     |
+| :---------------------------------- | :------------------ | :--------------- | :---------------------------------------------------------------------------------------------- |
+| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`. |
+| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                            |
+| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                 |
+| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input  |
+| [`defaultValue`](#defaultvalue)     | String              |                  | Initial value of the component                                                                  |
 
 **Note:** Any extra props you pass will be spread on the `input` element of the autocomplete component.
 
 ## Events
 
-| Event | Signature | Description |
-| :--- | :--- | :--- |
+| Event               | Signature                      | Description                  |
+| :------------------ | :----------------------------- | :--------------------------- |
 | [`submit`](#submit) | `function (result: any): void` | Executed on input submission |
 
 #### search
@@ -114,18 +114,15 @@ const params = 'action=query&list=search&format=json&origin=*'
 new Vue({
   el: '#app',
   components: {
-    Autocomplete
+    Autocomplete,
   },
   data: {
-
     // Search function can return a promise
     // which resolves with an array of
     // results. In this case we're using
     // the Wikipedia search API.
     search(input) {
-      const url = `${wikiUrl}/w/api.php?${
-        params
-      }&srsearch=${encodeURI(input)}`
+      const url = `${wikiUrl}/w/api.php?${params}&srsearch=${encodeURI(input)}`
 
       return new Promise(resolve => {
         if (input.length < 3) {
@@ -156,11 +153,9 @@ new Vue({
     // Open the selected article in
     // a new window
     onSubmit(result) {
-      window.open(`${wikiUrl}/wiki/${
-        encodeURI(result.title)
-      }`)
-    }
-  }
+      window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
+    },
+  },
 })
 ```
 
@@ -178,7 +173,7 @@ You would get the following DOM (simplified for demonstration purposes):
 
 ```html
 <div class="search">
-  <input class="search-input">
+  <input class="search-input" />
   <ul id="search-result-list-1" class="search-result-list">
     <li id="search-result-0" class="search-result">
       First result
@@ -338,7 +333,10 @@ The default slot allows you to take full control of rendering for the entire com
 To include the default styling of the autocomplete component that you see here in the docs, include the CSS file on your page.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-vue/dist/style.css">
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@trevoreyre/autocomplete-vue/dist/style.css"
+/>
 ```
 
 Or import it into your app.
@@ -361,7 +359,7 @@ Below is an example of a typical DOM structure, and all the properties that migh
   data-loading="false"
   data-position="below"
 >
-  <input class="autocomplete-input" aria-expanded="true">
+  <input class="autocomplete-input" aria-expanded="true" />
   <ul id="autocomplete-result-list-1" class="autocomplete-result-list">
     <li
       id="autocomplete-result-0"
@@ -394,7 +392,7 @@ Below is an example of how you could use these attributes in your CSS.
 
 ```css
 /* Change border if results are above input */
-[data-position="above"] .autocomplete-result-list {
+[data-position='above'] .autocomplete-result-list {
   border-bottom: none;
   border-radius: 8px 8px 0 0;
 }
