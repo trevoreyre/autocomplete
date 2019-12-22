@@ -253,7 +253,7 @@ The named `result` slot allows you to take control of the rendering of individua
   :get-result-value="getResultValue"
   @submit="onSubmit"
 >
-  <template v-slot:result="{ result, props }">
+  <template #result="{ result, props }">
     <li v-bind="props">
       <div class="wiki-title">
         {{ result.title }}
@@ -283,7 +283,7 @@ The default slot allows you to take full control of rendering for the entire com
   :search="search"
 >
   <template
-    v-slot="{
+    #default="{
       rootProps,
       inputProps,
       inputListeners,

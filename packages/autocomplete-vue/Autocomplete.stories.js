@@ -194,7 +194,7 @@ storiesOf('Autocomplete Vue', module)
         :get-result-value="getResultValue"
         @submit="onSubmit"
       >
-        <template v-slot:result="{ result, props }">
+        <template #result="{ result, props }">
           <li
             v-bind="props"
             class="autocomplete-result wiki-result"
@@ -228,7 +228,7 @@ storiesOf('Autocomplete Vue', module)
         :search="search"
       >
         <template
-          v-slot="{
+          #default="{
             rootProps,
             inputProps,
             inputListeners,
