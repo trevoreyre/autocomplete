@@ -108,7 +108,7 @@ export default {
         class: `${this.baseClass}-input`,
         value: this.value,
         role: 'combobox',
-        autocomplete: 'disabled-autocomplete',
+        autocomplete: 'off',
         autocapitalize: 'off',
         autocorrect: 'off',
         spellcheck: 'false',
