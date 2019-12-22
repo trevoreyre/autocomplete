@@ -1,3 +1,9 @@
+## v2.0.4 (December 22, 2019)
+
+- Fix: Reverted back to autocomplete="off" to disable browser auto-fill
+- Documentation: Fixed some typos (Tadeusz Stępnikowski, [@versedi](https://github.com/versedi))
+- Documentation: Updated slot syntax in Vue examples
+
 ## v2.0.3 (November 1, 2019)
 
 - Fix: Set autocomplete attribute to "disabled-autocomplete" to disable auto-fill in Chrome (Iago Leão, [@iagoleao](https://github.com/iagoleao))
