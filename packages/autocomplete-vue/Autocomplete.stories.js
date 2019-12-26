@@ -298,7 +298,26 @@ storiesOf('Autocomplete Vue', module)
       },
     },
   }))
-
+  .add('Try some chinese', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="按地名搜索美食"
+        placeholder="按地名搜索美食，试试‘重庆’"
+        :search="search"
+      />
+    `,
+    methods: {
+      search: input => {
+        if (input.length < 1) {
+          return []
+        }
+        return foods.filter(food => {
+          return food.startsWith(input)
+        })
+      },
+    },
+  }))
 const countries = [
   'Afghanistan',
   'Albania',
@@ -497,4 +516,13 @@ const countries = [
   'Yemen',
   'Zambia',
   'Zimbabwe',
+]
+const foods = [
+  '重庆小面',
+  '重庆火锅',
+  '陕西肉夹馍',
+  '陕西臊子面',
+  '黄山烧饼',
+  '四川麻辣烫',
+  '湖南木桶饭',
 ]
