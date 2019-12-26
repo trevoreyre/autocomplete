@@ -69,7 +69,7 @@ class Autocomplete {
     this.root.style.position = 'relative'
 
     this.input.setAttribute('role', 'combobox')
-    this.input.setAttribute('autocomplete', 'disabled-autocomplete')
+    this.input.setAttribute('autocomplete', 'off')
     this.input.setAttribute('autocapitalize', 'off')
     this.input.setAttribute('autocorrect', 'off')
     this.input.setAttribute('spellcheck', 'false')
