@@ -41,6 +41,7 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
 import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
+import debounce from '../autocomplete/util/debounce.js'
 
 export default {
   name: 'Autocomplete',
@@ -66,6 +67,10 @@ export default {
     defaultValue: {
       type: String,
       default: '',
+    },
+    debounceWaitTime: {
+      type: Number,
+      default: 0,
     },
   },
 
@@ -125,7 +130,10 @@ export default {
     },
     inputListeners() {
       return {
-        input: this.handleInput,
+        input:
+          this.debounceWaitTime === 0
+            ? this.handleInput
+            : debounce(this.handleInput, this.debounceWaitTime),
         keydown: this.core.handleKeyDown,
         focus: this.core.handleFocus,
         blur: this.core.handleBlur,
