@@ -59,13 +59,14 @@ Then, use the component in your app.
 
 ## Props
 
-| Prop                                | Type                | Default          | Description                                                                                     |
-| :---------------------------------- | :------------------ | :--------------- | :---------------------------------------------------------------------------------------------- |
-| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`. |
-| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                            |
-| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                 |
-| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input  |
-| [`defaultValue`](#defaultvalue)     | String              |                  | Initial value of the component                                                                  |
+| Prop                                | Type                | Default          | Description                                                                                             |
+| :---------------------------------- | :------------------ | :--------------- | :------------------------------------------------------------------------------------------------------ |
+| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`.         |
+| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                                    |
+| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                         |
+| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input          |
+| [`defaultValue`](#defaultvalue)     | String              |                  | Initial value of the component                                                                          |
+| [`debounceTime`](#debouncetime)     | Number              | `0`              | Time in milliseconds that the component should wait after last keystroke before calling search function |
 
 **Note:** Any extra props you pass will be spread on the `input` element of the autocomplete component.
 
@@ -222,6 +223,14 @@ The `defaultValue` prop can be used to set the initial value of the `input` fiel
 
 ```html
 <autocomplete :search="search" default-value="some value..."></autocomplete>
+```
+
+#### debounceTime
+
+The `debounceTime` prop can be used to improve the performance of your UI by specifying an amount of time (milliseconds) to wait before invoking the search function. This ensures that the search function will not fire until the user is done typing instead of firing after each keystroke.
+
+```html
+<autocomplete :search="searchWikipedia" :debounce-time="500"></autocomplete>
 ```
 
 #### submit

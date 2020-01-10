@@ -95,14 +95,15 @@ elements.forEach(el => {
 
 ## Options
 
-| Option                              | Type                | Default          | Description                                                                                     |
-| :---------------------------------- | :------------------ | :--------------- | :---------------------------------------------------------------------------------------------- |
-| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`. |
-| [`onSubmit`](#onsubmit)             | Function            |                  | Executed on input submission                                                                    |
-| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                            |
-| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                 |
-| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input  |
-| [`renderResult`](#renderresult)     | Function            |                  | Override default rendering of result items                                                      |
+| Option                              | Type                | Default          | Description                                                                                             |
+| :---------------------------------- | :------------------ | :--------------- | :------------------------------------------------------------------------------------------------------ |
+| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`.         |
+| [`onSubmit`](#onsubmit)             | Function            |                  | Executed on input submission                                                                            |
+| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                                    |
+| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                         |
+| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input          |
+| [`debounceTime`](#debouncetime)     | Number              | `0`              | Time in milliseconds that the component should wait after last keystroke before calling search function |
+| [`renderResult`](#renderresult)     | Function            |                  | Override default rendering of result items                                                              |
 
 #### search
 
@@ -271,6 +272,20 @@ new Autocomplete('#autocomplete', {
   //
   // We want to display the name
   getResultValue: result => result.name,
+})
+```
+
+#### debounceTime
+
+The `debounceTime` option can be used to improve the performance of your UI by specifying an amount of time (milliseconds) to wait before invoking the search function. This ensures that the search function will not fire until the user is done typing instead of firing after each keystroke.
+
+```js
+new Autocomplete('#autocomplete', {
+  search: input => {
+    return searchWikipedia(input)
+  },
+
+  debounceTime: 500,
 })
 ```
 
