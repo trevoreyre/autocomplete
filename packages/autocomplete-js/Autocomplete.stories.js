@@ -90,6 +90,25 @@ storiesOf('Autocomplete JS', module)
     })
     return root
   })
+  .add('Debounced search', () => {
+    const root = createRoot()
+    root.innerHTML = `
+      <input
+        class='autocomplete-input'
+        placeholder='Search Wikipedia'
+        aria-label='Search Wikipedia'
+      >
+      <ul class='autocomplete-result-list'></ul>
+    `
+    new Autocomplete(root, {
+      search: searchWikipedia,
+      getResultValue: result => result.title,
+      onSubmit: result =>
+        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
+      debounceTime: 500,
+    })
+    return root
+  })
   .add('Submit event', () => {
     const root = createRoot()
     root.innerHTML = `

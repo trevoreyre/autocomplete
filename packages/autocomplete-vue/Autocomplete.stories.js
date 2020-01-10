@@ -104,6 +104,39 @@ storiesOf('Autocomplete Vue', module)
       },
     },
   }))
+  .add('Debounced search', () => ({
+    components: { Autocomplete },
+    template: `
+      <div>
+        <p>Search count - {{ searchCount }}</p>
+        <Autocomplete
+          aria-label="Search Wikipedia"
+          placeholder="Search Wikipedia"
+          :search="search"
+          :get-result-value="getResultValue"
+          :debounce-time="500"
+          @submit="onSubmit"
+        />
+      </div>
+    `,
+    data() {
+      return {
+        searchCount: 0,
+      }
+    },
+    methods: {
+      search(input) {
+        this.searchCount += 1
+        return searchWikipedia(input)
+      },
+      getResultValue(result) {
+        return result.title
+      },
+      onSubmit(result) {
+        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
+      },
+    },
+  }))
   .add('Submit event', () => ({
     components: { Autocomplete },
     template: `
