@@ -9,6 +9,7 @@
     "clean": "npm run clean:build && lerna clean",
     "clean:build": "lerna exec -- rimraf dist LICENSE",
     "lint": "eslint --fix --ignore-path .gitignore --ext .js,.vue .",
+    "version": "lerna version --no-push --force-publish",
     "publish": "lerna exec -- npm publish",
     "storybook:js": "start-storybook -c .storybook-js -p 4003 --ci",
     "storybook:vue": "start-storybook -c .storybook-vue -p 4004 --ci",
