@@ -62,14 +62,14 @@ See the example below to see it in action.
 
 ## Props
 
-| Prop                                      | Type                | Default          | Description                                                                                              |
-| :---------------------------------------- | :------------------ | :--------------- | :------------------------------------------------------------------------------------------------------- |
-| [`search`](#search)                       | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`.          |
-| [`baseClass`](#baseclass)                 | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                                     |
-| [`autoSelect`](#autoselect)               | Boolean             | `false`          | Controls whether first result should be highlighted after input                                          |
-| [`getResultValue`](#getresultvalue)       | Function            |                  | For complex search results, this function is executed to get the value to display in the input           |
-| [`defaultValue`](#defaultvalue)           | String              |                  | Initial value of the component                                                                           |
-| [`debounceWaitTime`](#debounceWaitTime)   | Number              | `0`              | Time in milliseconds that the component should wait after last keystroke before calling search function  |
+| Prop                                | Type                | Default          | Description                                                                                             |
+| :---------------------------------- | :------------------ | :--------------- | :------------------------------------------------------------------------------------------------------ |
+| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`.         |
+| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                                    |
+| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                         |
+| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input          |
+| [`defaultValue`](#defaultvalue)     | String              |                  | Initial value of the component                                                                          |
+| [`debounceTime`](#debouncetime)     | Number              | `0`              | Time in milliseconds that the component should wait after last keystroke before calling search function |
 
 **Note:** Any extra props you pass will be spread on the `input` element of the autocomplete component.
 
@@ -154,6 +154,15 @@ The `defaultValue` prop can be used to set the initial value of the `input` fiel
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
+#### debounceTime
+
+The `debounceTime` prop can be used to improve the performance of your UI by specifying an amount of time (milliseconds) to wait before invoking the search function. This ensures that the search function will not fire until the user is done typing instead of firing after each keystroke.
+
+<iframe height="496" scrolling="no" title="Autocomplete debounceTime prop - @trevoreyre/autocomplete-vue" src="https://codepen.io/trevoreyre/embed/zYxWbrN?height=300&theme-id=36113&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/zYxWbrN'>Autocomplete debounceTime prop - @trevoreyre/autocomplete-vue</a> by Trevor Eyre
+  (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
 #### submit
 
 The `submit` event is executed when the user submits their result by either selecting a result from the list, or pressing `enter/return`. The function receives the selected result as an argument.
@@ -162,17 +171,6 @@ The `submit` event is executed when the user submits their result by either sele
   See the Pen <a href='https://codepen.io/trevoreyre/pen/ErBowo/'>Autocomplete onSubmit prop - @trevoreyre/autocomplete-vue</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
-
-#### debounceWaitTime
-
-The `debounceWaitTime` prop can be used to improve the performance of your UI by specifying an amount of time (milliseconds) to wait before invoking the search function.  This ensures that the search function will not fire until the user is done typing instead of firing after each keystroke.
-
-```html
-<autocomplete :search="search" :debounce-wait-time="500"></autocomplete>
-```
-
-
-allowing the ability to ensure your search function is not called until a specified amount of time after a user is done typing. If this prop is not provided the search function will be called immediatly after each keystroke is entered.
 
 ## Slots
 
