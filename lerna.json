@@ -1,14 +1,9 @@
 {
   "version": "2.1.0",
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
+  "npmClient": "yarn",
+  "useWorkspaces": true,
   "command": {
-    "bootstrap": {
-      "npmClientArgs": [
-        "--no-package-lock"
-      ]
-    },
     "version": {
       "allowBranch": "master",
       "forcePublish": "*"
