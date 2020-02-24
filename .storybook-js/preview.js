@@ -1,7 +1,7 @@
-import { configure, addDecorator, addParameters } from '@storybook/vue';
-import { withStyles } from 'storybook-addon-styles/vue'
+import { addDecorator, addParameters } from '@storybook/html';
+import { withStyles } from 'storybook-addon-styles/html'
 import '../packages/style.css'
-import './style.css'
+import '../.storybook-vue/style.css'
 
 addDecorator(withStyles)
 addParameters({
@@ -15,9 +15,3 @@ addParameters({
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif',
   }
 })
-
-function loadStories() {
-  require('../packages/autocomplete-vue/Autocomplete.stories.js')
-}
-
-configure(loadStories, module);
