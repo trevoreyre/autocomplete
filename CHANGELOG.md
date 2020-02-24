@@ -1,3 +1,8 @@
+## v2.1.1 (February 24, 2020)
+
+- Updated storybook to v5.3. Updated stories to new format.
+- Updated dev dependencies
+
 ## v2.1.0 (January 10, 2020)
 
 - Added debounceTime prop for async search functions (Justin, [@jssouders](https://github.com/jssouders))
