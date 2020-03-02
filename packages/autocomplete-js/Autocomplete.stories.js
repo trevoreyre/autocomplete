@@ -1,6 +1,5 @@
-import { storiesOf } from '@storybook/html'
 import { action } from '@storybook/addon-actions'
-import Autocomplete from './Autocomplete'
+import Autocomplete from './Autocomplete.js'
 
 const createRoot = () => {
   const root = document.createElement('div')
@@ -36,197 +35,229 @@ const searchWikipedia = input =>
       })
   })
 
-storiesOf('Autocomplete JS', module)
-  .add('Default', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search for a country'
-        aria-label='Search for a country'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
-    new Autocomplete(root, { search })
-    return root
-  })
-  .add('Default results', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search for a country'
-        aria-label='Search for a country'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
-    new Autocomplete(root, {
-      search(input) {
-        if (input.length < 1) {
-          return ['Canada', 'Mexico', 'United Kingdom', 'Russia']
-        }
-        return countries.filter(country => {
-          return country.toLowerCase().startsWith(input.toLowerCase())
-        })
-      },
-    })
-    return root
-  })
-  .add('Advanced search', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search Wikipedia'
-        aria-label='Search Wikipedia'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
-    new Autocomplete(root, {
-      search: searchWikipedia,
-      getResultValue: result => result.title,
-      onSubmit: result =>
-        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
-    })
-    return root
-  })
-  .add('Submit event', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search for a country'
-        aria-label='Search for a country'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
-    new Autocomplete(root, {
-      search,
-      onSubmit: result => alert(`You selected ${result}`),
-    })
-    return root
-  })
-  .add('Custom class', () => {
-    const root = createRoot()
-    root.classList.add('search')
-    root.innerHTML = `
-      <input
-        class='search-input'
-        placeholder='Search for a country'
-        aria-label='Search for a country'
-      >
-      <ul class='search-result-list'></ul>
-    `
-    new Autocomplete(root, { search, baseClass: 'search' })
-    return root
-  })
-  .add('Custom events', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search for a country'
-        aria-label='Search for a country'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
+export default {
+  title: 'Autocomplete JS',
+  component: Autocomplete,
+}
 
-    const input = root.querySelector('.autocomplete-input')
-    input.addEventListener('input', action('input'))
-    input.addEventListener('keyup', action('keyup'))
-    new Autocomplete(root, { search })
-    return root
+export const Basic = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search for a country'
+      aria-label='Search for a country'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, { search })
+  return root
+}
+
+export const DefaultResults = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search for a country'
+      aria-label='Search for a country'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, {
+    search(input) {
+      if (input.length < 1) {
+        return ['Canada', 'Mexico', 'United Kingdom', 'Russia']
+      }
+      return countries.filter(country => {
+        return country.toLowerCase().startsWith(input.toLowerCase())
+      })
+    },
   })
-  .add('Auto select', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search for a country'
-        aria-label='Search for a country'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
-    new Autocomplete(root, { search, autoSelect: true })
-    return root
+  return root
+}
+
+export const AdvancedSearch = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search Wikipedia'
+      aria-label='Search Wikipedia'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, {
+    search: searchWikipedia,
+    getResultValue: result => result.title,
+    onSubmit: result =>
+      window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
   })
-  .add('Default value', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search for a country'
-        aria-label='Search for a country'
-        value='United Kingdom'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
-    new Autocomplete(root, { search })
-    return root
+  return root
+}
+
+export const DebouncedSearch = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search Wikipedia'
+      aria-label='Search Wikipedia'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, {
+    search: searchWikipedia,
+    getResultValue: result => result.title,
+    onSubmit: result =>
+      window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
+    debounceTime: 500,
   })
-  .add('Render result string', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search Wikipedia'
-        aria-label='Search Wikipedia'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
-    new Autocomplete(root, {
-      search: searchWikipedia,
-      getResultValue: result => result.title,
-      onSubmit: result =>
-        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
-      renderResult: (result, props) => {
-        props.class = 'autocomplete-result wiki-result'
-        return `
-          <li ${props}>
-            <div class="wiki-title">
-              ${result.title}
-            </div>
-            <div class="wiki-snippet">
-              ${result.snippet}
-            </div>
-          </li>
-        `
-      },
-    })
-    return root
+  return root
+}
+
+export const SubmitEvent = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search for a country'
+      aria-label='Search for a country'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, {
+    search,
+    onSubmit: result => alert(`You selected ${result}`),
   })
-  .add('Render result element', () => {
-    const root = createRoot()
-    root.innerHTML = `
-      <input
-        class='autocomplete-input'
-        placeholder='Search Wikipedia'
-        aria-label='Search Wikipedia'
-      >
-      <ul class='autocomplete-result-list'></ul>
-    `
-    new Autocomplete(root, {
-      search: searchWikipedia,
-      getResultValue: result => result.title,
-      onSubmit: result =>
-        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
-      renderResult: (result, props) => {
-        props.class = 'autocomplete-result wiki-result'
-        const item = document.createElement('li')
-        Object.keys(props).forEach(key => item.setAttribute(key, props[key]))
-        item.innerHTML = `
+  return root
+}
+
+export const CustomClass = () => {
+  const root = createRoot()
+  root.classList.add('search')
+  root.innerHTML = `
+    <input
+      class='search-input'
+      placeholder='Search for a country'
+      aria-label='Search for a country'
+    >
+    <ul class='search-result-list'></ul>
+  `
+  new Autocomplete(root, { search, baseClass: 'search' })
+  return root
+}
+
+export const CustomEvents = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search for a country'
+      aria-label='Search for a country'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+
+  const input = root.querySelector('.autocomplete-input')
+  input.addEventListener('input', action('input'))
+  input.addEventListener('keyup', action('keyup'))
+  new Autocomplete(root, { search })
+  return root
+}
+
+export const AutoSelect = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search for a country'
+      aria-label='Search for a country'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, { search, autoSelect: true })
+  return root
+}
+
+export const DefaultValue = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search for a country'
+      aria-label='Search for a country'
+      value='United Kingdom'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, { search })
+  return root
+}
+export const RenderResultString = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search Wikipedia'
+      aria-label='Search Wikipedia'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, {
+    search: searchWikipedia,
+    getResultValue: result => result.title,
+    onSubmit: result =>
+      window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
+    renderResult: (result, props) => {
+      props.class = 'autocomplete-result wiki-result'
+      return `
+        <li ${props}>
           <div class="wiki-title">
             ${result.title}
           </div>
           <div class="wiki-snippet">
             ${result.snippet}
           </div>
-        `
-        return item
-      },
-    })
-    return root
+        </li>
+      `
+    },
   })
+  return root
+}
+
+export const RenderResultElement = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search Wikipedia'
+      aria-label='Search Wikipedia'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, {
+    search: searchWikipedia,
+    getResultValue: result => result.title,
+    onSubmit: result =>
+      window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`),
+    renderResult: (result, props) => {
+      props.class = 'autocomplete-result wiki-result'
+      const item = document.createElement('li')
+      Object.keys(props).forEach(key => item.setAttribute(key, props[key]))
+      item.innerHTML = `
+        <div class="wiki-title">
+          ${result.title}
+        </div>
+        <div class="wiki-snippet">
+          ${result.snippet}
+        </div>
+      `
+      return item
+    },
+  })
+  return root
+}
 
 const countries = [
   'Afghanistan',

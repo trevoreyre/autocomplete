@@ -1,6 +1,7 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
 import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
+import debounce from '../autocomplete/util/debounce.js'
 
 // Creates a props object with overridden toString function. toString returns an attributes
 // string in the format: `key1="value1" key2="value2"` for easy use in an HTML string.
@@ -38,6 +39,7 @@ class Autocomplete {
       autoSelect,
       getResultValue = result => result,
       renderResult,
+      debounceTime = 0,
     } = {}
   ) {
     this.root = typeof root === 'string' ? document.querySelector(root) : root
@@ -48,7 +50,8 @@ class Autocomplete {
     if (typeof renderResult === 'function') {
       this.renderResult = renderResult
     }
-    this.core = new AutocompleteCore({
+
+    const core = new AutocompleteCore({
       search,
       autoSelect,
       setValue: this.setValue,
@@ -60,6 +63,10 @@ class Autocomplete {
       onLoading: this.handleLoading,
       onLoaded: this.handleLoaded,
     })
+    if (debounceTime > 0) {
+      core.handleInput = debounce(core.handleInput, debounceTime)
+    }
+    this.core = core
 
     this.initialize()
   }

@@ -82,14 +82,15 @@ Note that if using a selector, it's expected that the selector only matches one 
 
 ## Options
 
-| Option                              | Type                | Default          | Description                                                                                     |
-| :---------------------------------- | :------------------ | :--------------- | :---------------------------------------------------------------------------------------------- |
-| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`. |
-| [`onSubmit`](#onsubmit)             | Function            |                  | Executed on input submission                                                                    |
-| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                            |
-| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                 |
-| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input  |
-| [`renderResult`](#renderresult)     | Function            |                  | Override default rendering of result items                                                      |
+| Option                              | Type                | Default          | Description                                                                                             |
+| :---------------------------------- | :------------------ | :--------------- | :------------------------------------------------------------------------------------------------------ |
+| [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`.         |
+| [`onSubmit`](#onsubmit)             | Function            |                  | Executed on input submission                                                                            |
+| [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                                    |
+| [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                         |
+| [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input          |
+| [`debounceTime`](#debouncetime)     | Number              | `0`              | Time in milliseconds that the component should wait after last keystroke before calling search function |
+| [`renderResult`](#renderresult)     | Function            |                  | Override default rendering of result items                                                              |
 
 #### search
 
@@ -168,6 +169,15 @@ If your search function returns more complex results like an array of objects, y
 
 <iframe height="496" scrolling="no" title="Autocomplete getResultValue option - @trevoreyre/autocomplete-js" src="//codepen.io/trevoreyre/embed/RvYwVZ/?height=496&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/trevoreyre/pen/RvYwVZ/'>Autocomplete getResultValue option - @trevoreyre/autocomplete-js</a> by Trevor Eyre
+  (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+
+#### debounceTime
+
+The `debounceTime` option can be used to improve the performance of your UI by specifying an amount of time (milliseconds) to wait before invoking the search function. This ensures that the search function will not fire until the user is done typing instead of firing after each keystroke.
+
+<iframe height="496" scrolling="no" title="Autocomplete debounceTime prop - @trevoreyre/autocomplete-js" src="https://codepen.io/trevoreyre/embed/WNbJvmP?height=300&theme-id=36113&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href='https://codepen.io/trevoreyre/pen/WNbJvmP'>Autocomplete debounceTime prop - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 

@@ -43,6 +43,7 @@
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
 import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
+import debounce from '../autocomplete/util/debounce.js'
 
 export default {
   name: 'Autocomplete',
@@ -69,21 +70,30 @@ export default {
       type: String,
       default: '',
     },
+    debounceTime: {
+      type: Number,
+      default: 0,
+    },
   },
 
   data() {
+    const core = new AutocompleteCore({
+      search: this.search,
+      autoSelect: this.autoSelect,
+      setValue: this.setValue,
+      onUpdate: this.handleUpdate,
+      onSubmit: this.handleSubmit,
+      onShow: this.handleShow,
+      onHide: this.handleHide,
+      onLoading: this.handleLoading,
+      onLoaded: this.handleLoaded,
+    })
+    if (this.debounceTime > 0) {
+      core.handleInput = debounce(core.handleInput, this.debounceTime)
+    }
+
     return {
-      core: new AutocompleteCore({
-        search: this.search,
-        autoSelect: this.autoSelect,
-        setValue: this.setValue,
-        onUpdate: this.handleUpdate,
-        onSubmit: this.handleSubmit,
-        onShow: this.handleShow,
-        onHide: this.handleHide,
-        onLoading: this.handleLoading,
-        onLoaded: this.handleLoaded,
-      }),
+      core,
       value: this.defaultValue,
       resultListId: uniqueId(`${this.baseClass}-result-list-`),
       results: [],

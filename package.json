@@ -9,9 +9,10 @@
     "clean": "npm run clean:build && lerna clean",
     "clean:build": "lerna exec -- rimraf dist LICENSE",
     "lint": "eslint --fix --ignore-path .gitignore --ext .js,.vue .",
+    "version": "lerna version --no-push --force-publish",
     "publish": "lerna exec -- npm publish",
-    "storybook:js": "start-storybook -c .storybook-js -p 4003 --ci",
-    "storybook:vue": "start-storybook -c .storybook-vue -p 4004 --ci",
+    "storybook:js": "node scripts/storybook-js.js",
+    "storybook:vue": "node scripts/storybook-vue.js",
     "build-storybook": "build-storybook"
   },
   "husky": {
@@ -25,13 +26,16 @@
       "git add"
     ]
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
-    "@storybook/addon-actions": "^5.0.11",
-    "@storybook/html": "^5.0.11",
-    "@storybook/vue": "^5.0.11",
+    "@storybook/addon-actions": "^5.3.13",
+    "@storybook/html": "^5.3.13",
+    "@storybook/vue": "^5.3.13",
     "@vue/eslint-config-prettier": "^4.0.1",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.6",
@@ -53,7 +57,7 @@
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-terser": "^5.0.0",
     "rollup-plugin-vue": "^5.0.0",
-    "storybook-addon-styles": "^1.0.0",
+    "storybook-addon-styles": "^1.1.0",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10"
