@@ -22,5 +22,15 @@
   "private": false,
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "start": "start-storybook -p "
+  },
+  "devDependencies": {
+    "lit-element": "^2.2.1"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.2.5",
+    "redux": "^4.0.5"
   }
 }
