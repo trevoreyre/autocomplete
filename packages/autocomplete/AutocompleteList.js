@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit-element'
 import customEvent from './util/customEvent.js'
 import uniqueId from './util/uniqueId.js'
-import store from './store.js'
+import store, { initialize } from './store.js'
 
 class AutocompleteList extends LitElement {
   static get properties() {
@@ -31,15 +31,6 @@ class AutocompleteList extends LitElement {
     this.hidden = true
   }
 
-  connectedCallback() {
-    super.connectedCallback()
-    this.dispatchEvent(
-      customEvent('initialize-list', {
-        id: this.id,
-      })
-    )
-  }
-
   render() {
     return html`
       <slot></slot>
@@ -48,23 +39,24 @@ class AutocompleteList extends LitElement {
 }
 
 class ConnectedAutocompleteList extends AutocompleteList {
-  unsubscribe = () => {}
+  #unsubscribe = () => {}
 
   connectedCallback() {
     super.connectedCallback()
-    this.unsubscribe = store.subscribe(() =>
+    this.#unsubscribe = store.subscribe(() =>
       this.stateChanged(store.getState())
     )
-    this.stateChanged(store.getState())
+    initialize({ id: this.id, type: 'list' })
+    this.dispatchEvent(customEvent('register', { id: this.id, type: 'list' }))
   }
 
   disconnectedCallback() {
-    this.unsubscribe()
+    this.#unsubscribe()
     super.disconnectedCallback()
   }
 
   stateChanged(state) {
-    this.hidden = !state[this.id]
+    this.hidden = !state[this.id].visible
   }
 }
 

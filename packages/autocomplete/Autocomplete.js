@@ -1,9 +1,17 @@
 import { LitElement, css, html } from 'lit-element'
 import { defaultFilter, uniqueId } from './util/index.js'
-import store, { updateList, updateOptions, setSelectedOption } from './store.js'
+import store, { initialize, register } from './store.js'
 
 class Autocomplete extends LitElement {
   value = ''
+
+  static get styles() {
+    return css`
+      :host {
+        display: block;
+      }
+    `
+  }
 
   static get properties() {
     return {
@@ -17,19 +25,8 @@ class Autocomplete extends LitElement {
     }
   }
 
-  static get styles() {
-    return css`
-      :host {
-        display: block;
-        position: relative;
-        height: 40px;
-      }
-    `
-  }
-
   constructor() {
     super()
-    this.id = uniqueId('autocomplete-')
     this.filter = defaultFilter
   }
 
@@ -41,35 +38,34 @@ class Autocomplete extends LitElement {
 }
 
 class ConnectedAutocomplete extends Autocomplete {
-  unsubscribe = () => {}
-  options = []
-  visibleOptions = []
-  list = null
-  selectedIndex = -1
-  selectedOption = null
+  #unsubscribe = () => {}
+  #id = uniqueId('autocomplete-')
 
   constructor() {
     super()
-    this.addEventListener('initialize', this.handleInitialize)
-    this.addEventListener('initialize-list', this.handleInitializeList)
-    this.addEventListener('input', this.handleInput)
+    this.addEventListener('register', this.handleRegister)
     this.addEventListener('keydown', this.handleKeyDown)
   }
 
   connectedCallback() {
     super.connectedCallback()
-    this.unsubscribe = store.subscribe(() => {})
+    this.#unsubscribe = store.subscribe(() => {})
+    initialize({
+      id: this.#id,
+      type: 'provider',
+      filter: this.disableFilter ? () => true : this.filter,
+    })
   }
 
   disconnectedCallback() {
-    this.unsubscribe()
+    this.#unsubscribe()
     super.disconnectedCallback()
   }
 
-  handleInitialize(event) {
+  handleRegister(event) {
     event.stopPropagation()
-    this.options.push(event.detail)
-    this.updateOptions()
+    const { id, type } = event.detail
+    register({ id, type, providerId: this.#id })
   }
 
   handleInitializeList(event) {
@@ -77,46 +73,38 @@ class ConnectedAutocomplete extends Autocomplete {
     this.list = event.detail.id
   }
 
-  handleInput(event) {
-    this.value = event.target.value
-    this.updateOptions()
-  }
-
   handleKeyDown(event) {
-    const { key } = event
-    console.log(`handleKeyDown, ${key}`)
-    const lastSelectedOption = this.selectedOption
-
-    switch (key) {
-      case 'Up': // IE/Edge
-      case 'ArrowUp': {
-        this.selectedIndex = Math.max(this.selectedIndex - 1, 0)
-        break
-      }
-      case 'Down': // IE/Edge
-      case 'ArrowDown': {
-        this.selectedIndex = Math.min(
-          this.selectedIndex + 1,
-          this.visibleOptions.length - 1
-        )
-        break
-      }
-      //   const selectedIndex =
-      //     key === 'ArrowUp' || key === 'Up'
-      //       ? this.selectedIndex - 1
-      //       : this.selectedIndex + 1
-      //   event.preventDefault()
-      //   this.handleArrows(selectedIndex)
-      //   break
-    }
-    console.log(this.selectedIndex)
-    this.selectedOption = this.visibleOptions[this.selectedIndex]
-    if (this.selectedOption) {
-      setSelectedOption({
-        id: this.selectedOption.id,
-        lastId: lastSelectedOption ? lastSelectedOption.id : '',
-      })
-    }
+    // const { key } = event
+    // const lastSelectedOption = this.selectedOption
+    // const count = this.visibleOptions.length
+    // switch (key) {
+    //   case 'Up': // IE/Edge
+    //   case 'ArrowUp': {
+    //     this.selectedIndex =
+    //       (((this.selectedIndex - 1) % count) + count) % count
+    //     break
+    //   }
+    //   case 'Down': // IE/Edge
+    //   case 'ArrowDown': {
+    //     this.selectedIndex =
+    //       (((this.selectedIndex + 1) % count) + count) % count
+    //     break
+    //   }
+    //   //   const selectedIndex =
+    //   //     key === 'ArrowUp' || key === 'Up'
+    //   //       ? this.selectedIndex - 1
+    //   //       : this.selectedIndex + 1
+    //   //   event.preventDefault()
+    //   //   this.handleArrows(selectedIndex)
+    //   //   break
+    // }
+    // this.selectedOption = this.visibleOptions[this.selectedIndex]
+    // if (this.selectedOption) {
+    //   setSelectedOption({
+    //     id: this.selectedOption.id,
+    //     lastId: lastSelectedOption ? lastSelectedOption.id : '',
+    //   })
+    // }
   }
 
   updateOptions() {

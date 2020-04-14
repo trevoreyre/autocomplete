@@ -25,6 +25,12 @@ const createConfig = async ({ root, plugins = [] }) => {
           file: `${root}/${pkg.module}`,
           format: 'esm',
         },
+        {
+          name: 'Autocomplete',
+          file: `${root}/${pkg.unpkg}`,
+          format: 'iife',
+          plugins: [terser()],
+        },
       ],
       plugins: [
         babel({
@@ -43,25 +49,25 @@ const createConfig = async ({ root, plugins = [] }) => {
       ],
     },
     // IIFE bundle uses separate configuration to minify JS as additional step
-    {
-      input: `${root}/index.js`,
-      output: {
-        name: 'Autocomplete',
-        file: `${root}/${pkg.unpkg}`,
-        format: 'iife',
-      },
-      plugins: [
-        babel({
-          exclude: 'node_modules/**',
-        }),
-        postcss({
-          extract: `${root}/dist/style.css`,
-          minimize: true,
-        }),
-        ...plugins,
-        terser(),
-      ],
-    },
+    // {
+    //   input: `${root}/index.js`,
+    //   output: {
+    //     name: 'Autocomplete',
+    //     file: `${root}/${pkg.unpkg}`,
+    //     format: 'iife',
+    //   },
+    //   plugins: [
+    //     babel({
+    //       exclude: 'node_modules/**',
+    //     }),
+    //     postcss({
+    //       extract: `${root}/dist/style.css`,
+    //       minimize: true,
+    //     }),
+    //     ...plugins,
+    //     terser(),
+    //   ],
+    // },
   ])
 }
 

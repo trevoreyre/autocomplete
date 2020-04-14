@@ -1,1 +1,5 @@
-export { default } from './AutocompleteCore'
+// export { default } from './AutocompleteCore'
+export { default as Autocomplete } from './Autocomplete.js'
+export { default as AutocompleteInput } from './AutocompleteInput.js'
+export { default as AutocompleteList } from './AutocompleteList.js'
+export { default as AutocompleteOption } from './AutocompleteOption.js'

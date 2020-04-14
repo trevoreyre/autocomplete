@@ -1,3 +1,3 @@
 module.exports = {
-  stories: ['../packages/autocomplete/Autocomplete.stories.js']
+  stories: ['../packages/autocomplete/*.stories.js']
 }

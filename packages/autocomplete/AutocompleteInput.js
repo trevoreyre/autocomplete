@@ -1,8 +1,27 @@
 import { LitElement, css, html } from 'lit-element'
 import customEvent from './util/customEvent.js'
 import uniqueId from './util/uniqueId.js'
+import store, { input } from './store.js'
 
 class AutocompleteInput extends LitElement {
+  static get styles() {
+    return css`
+      :host {
+        display: block;
+      }
+
+      input {
+        font-size: inherit;
+        appearance: none;
+        border: none;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        outline: none;
+      }
+    `
+  }
+
   static get properties() {
     return {
       id: { type: String, reflect: true },
@@ -29,79 +48,6 @@ class AutocompleteInput extends LitElement {
     }
   }
 
-  static get styles() {
-    return css`
-      :host {
-        /* display: inline-block; */
-        position: relative;
-
-        -webkit-writing-mode: horizontal-tb !important;
-
-        margin: 0;
-        font: -webkit-small-control;
-        color: initial;
-        letter-spacing: normal;
-        word-spacing: normal;
-        line-height: normal;
-        text-transform: none;
-        text-indent: 0;
-        text-shadow: none;
-        display: inline-block;
-        text-align: start;
-
-        border-radius: 5px;
-
-        -webkit-appearance: menulist;
-        box-sizing: border-box;
-        align-items: center;
-        border: 1px solid;
-        white-space: pre;
-        -webkit-rtl-ordering: logical;
-        color: black;
-        background-color: white;
-        cursor: default;
-
-        -webkit-appearance: listbox;
-        -webkit-appearance: menulist;
-        appearance: menulist;
-        align-items: flex-start;
-        border: 1px inset gray;
-        border-radius: initial;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        vertical-align: text-bottom;
-        -webkit-user-select: none;
-        white-space: nowrap;
-
-        height: 14px;
-        width: 100%;
-      }
-
-      :host([disabled]) {
-        color: GrayText;
-      }
-
-      input {
-        /* font-size: inherit;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        box-sizing: border-box;
-        padding: inherit;
-        border: none;
-        background: transparent; */
-        appearance: none;
-        border: none;
-        background: transparent;
-        padding: 0;
-        margin: 0;
-        outline: none;
-      }
-    `
-  }
-
   constructor() {
     super()
     this.id = uniqueId('autocomplete-input-')
@@ -123,7 +69,7 @@ class AutocompleteInput extends LitElement {
     )
   }
 
-  handleInput = event => {
+  handleInput(event) {
     this.value = event.target.value
   }
 
@@ -141,4 +87,29 @@ class AutocompleteInput extends LitElement {
   }
 }
 
-export default AutocompleteInput
+class ConnectedAutocompleteInput extends AutocompleteInput {
+  #unsubscribe = () => {}
+
+  connectedCallback() {
+    super.connectedCallback()
+    this.#unsubscribe = store.subscribe(() =>
+      this.stateChanged(store.getState())
+    )
+    this.dispatchEvent(customEvent('register', { id: this.id, type: 'input' }))
+  }
+
+  disconnectedCallback() {
+    this.#unsubscribe()
+    super.disconnectedCallback()
+  }
+
+  stateChanged(state) {}
+
+  handleInput(event) {
+    super.handleInput(event)
+    input({ id: this.id, value: this.value })
+  }
+}
+
+export default ConnectedAutocompleteInput
+export { AutocompleteInput }

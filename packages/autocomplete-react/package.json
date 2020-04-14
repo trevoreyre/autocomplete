@@ -1,7 +1,7 @@
 {
-  "name": "@trevoreyre/autocomplete",
+  "name": "@trevoreyre/autocomplete-react",
   "version": "2.1.1",
-  "description": "Simple autocomplete component in vanilla JS and Vue",
+  "description": "Simple autocomplete component in vanilla JS, Vue, and React",
   "main": "dist/autocomplete.cjs.js",
   "module": "dist/autocomplete.esm.js",
   "unpkg": "dist/autocomplete.min.js",
@@ -13,7 +13,8 @@
     "search",
     "accessibility",
     "a11y",
-    "WAI-ARIA"
+    "WAI-ARIA",
+    "react"
   ],
   "author": "Trevor Eyre <trevoreyre@gmail.com> (https://trevoreyre.com)",
   "license": "MIT",
@@ -24,8 +25,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.2.5",
-    "lit-element": "^2.2.1",
-    "redux": "^4.0.5"
+    "@reach/descendants": "0.10.0",
+    "@trevoreyre/autocomplete": "2.1.1"
   }
 }

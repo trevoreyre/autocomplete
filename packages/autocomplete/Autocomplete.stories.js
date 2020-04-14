@@ -5,6 +5,8 @@ export default {
   component: 'autocomplete',
 }
 
+window.countries = window.countries.slice(0, 6)
+
 export const basic = () => html`
   <autocomplete-root>
     <autocomplete-input></autocomplete-input>
@@ -65,15 +67,4 @@ export const disableFilter = () => html`
       )}
     </autocomplete-list>
   </autocomplete-root>
-`
-
-export const select = () => html`
-  <select>
-    ${window.countries.map(
-      country =>
-        html`
-          <option>${country}</option>
-        `
-    )}
-  </select>
 `
