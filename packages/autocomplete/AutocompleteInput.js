@@ -1,23 +1,31 @@
 import { LitElement, css, html } from 'lit-element'
 import customEvent from './util/customEvent.js'
 import uniqueId from './util/uniqueId.js'
-import store, { input } from './store.js'
+import store, { hide, input } from './store.js'
 
 class AutocompleteInput extends LitElement {
   static get styles() {
     return css`
       :host {
         display: block;
+        position: relative;
       }
 
       input {
+        display: inline-block;
         font-size: inherit;
         appearance: none;
         border: none;
         background: transparent;
-        padding: 0;
-        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: inherit;
+        margin: inherit;
         outline: none;
+        box-sizing: border-box;
       }
     `
   }
@@ -73,15 +81,20 @@ class AutocompleteInput extends LitElement {
     this.value = event.target.value
   }
 
+  handleBlur() {
+    hide({ id: this.id })
+  }
+
   render() {
     return html`
       <input
-        value=${this.value}
+        .value=${this.value}
         autocomplete=${this.autocomplete}
         autocapitalize=${this.autocapitalize}
         autocorrect=${this.autocorrect}
         spellcheck=${this.spellcheck}
         @input=${this.handleInput}
+        @blur=${this.handleBlur}
       />
     `
   }
@@ -103,7 +116,10 @@ class ConnectedAutocompleteInput extends AutocompleteInput {
     super.disconnectedCallback()
   }
 
-  stateChanged(state) {}
+  stateChanged(state) {
+    const provider = state[state.providers[this.id]]
+    this.value = provider.value ?? ''
+  }
 
   handleInput(event) {
     super.handleInput(event)

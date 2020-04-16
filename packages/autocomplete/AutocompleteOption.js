@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit-element'
 import customEvent from './util/customEvent.js'
 import uniqueId from './util/uniqueId.js'
-import store, { initialize } from './store.js'
+import store, { initialize, select } from './store.js'
 
 class AutocompleteOption extends LitElement {
   static get properties() {
@@ -47,6 +47,11 @@ class AutocompleteOption extends LitElement {
 class ConnectedAutocompleteOption extends AutocompleteOption {
   #unsubscribe = () => {}
 
+  constructor() {
+    super()
+    this.addEventListener('click', this.handleClick)
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.#unsubscribe = store.subscribe(() =>
@@ -66,8 +71,15 @@ class ConnectedAutocompleteOption extends AutocompleteOption {
   }
 
   stateChanged(state) {
-    this.hidden = !state[this.id].visible
-    // this.ariaSelected = state[this.id].selected
+    const providerId = state.providers[this.id]
+    const provider = state[providerId]
+
+    this.hidden = !state[this.id]?.visible
+    this.ariaSelected = provider?.selectedOption === this.id
+  }
+
+  handleClick() {
+    select({ id: this.id, type: 'Click' })
   }
 }
 

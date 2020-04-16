@@ -1,6 +1,13 @@
 import { LitElement, css, html } from 'lit-element'
-import { defaultFilter, uniqueId } from './util/index.js'
-import store, { initialize, register } from './store.js'
+import { customEvent, defaultFilter, uniqueId } from './util/index.js'
+import store, {
+  hide,
+  initialize,
+  register,
+  select,
+  selectNext,
+  selectPrev,
+} from './store.js'
 
 class Autocomplete extends LitElement {
   value = ''
@@ -45,11 +52,14 @@ class ConnectedAutocomplete extends Autocomplete {
     super()
     this.addEventListener('register', this.handleRegister)
     this.addEventListener('keydown', this.handleKeyDown)
+    document.addEventListener('click', this.handleDocumentClick.bind(this))
   }
 
   connectedCallback() {
     super.connectedCallback()
-    this.#unsubscribe = store.subscribe(() => {})
+    this.#unsubscribe = store.subscribe(() =>
+      this.stateChanged(store.getState())
+    )
     initialize({
       id: this.#id,
       type: 'provider',
@@ -59,6 +69,7 @@ class ConnectedAutocomplete extends Autocomplete {
 
   disconnectedCallback() {
     this.#unsubscribe()
+    document.removeEventListener('click', this.handleDocumentClick)
     super.disconnectedCallback()
   }
 
@@ -68,55 +79,52 @@ class ConnectedAutocomplete extends Autocomplete {
     register({ id, type, providerId: this.#id })
   }
 
-  handleInitializeList(event) {
-    event.stopPropagation()
-    this.list = event.detail.id
+  handleDocumentClick(event) {
+    if (this.contains(event.target)) {
+      return
+    }
+    hide({ providerId: this.#id })
   }
 
   handleKeyDown(event) {
-    // const { key } = event
-    // const lastSelectedOption = this.selectedOption
-    // const count = this.visibleOptions.length
-    // switch (key) {
-    //   case 'Up': // IE/Edge
-    //   case 'ArrowUp': {
-    //     this.selectedIndex =
-    //       (((this.selectedIndex - 1) % count) + count) % count
-    //     break
-    //   }
-    //   case 'Down': // IE/Edge
-    //   case 'ArrowDown': {
-    //     this.selectedIndex =
-    //       (((this.selectedIndex + 1) % count) + count) % count
-    //     break
-    //   }
-    //   //   const selectedIndex =
-    //   //     key === 'ArrowUp' || key === 'Up'
-    //   //       ? this.selectedIndex - 1
-    //   //       : this.selectedIndex + 1
-    //   //   event.preventDefault()
-    //   //   this.handleArrows(selectedIndex)
-    //   //   break
-    // }
-    // this.selectedOption = this.visibleOptions[this.selectedIndex]
-    // if (this.selectedOption) {
-    //   setSelectedOption({
-    //     id: this.selectedOption.id,
-    //     lastId: lastSelectedOption ? lastSelectedOption.id : '',
-    //   })
-    // }
+    const { key } = event
+    switch (key) {
+      case 'Up': // IE/Edge
+      case 'ArrowUp': {
+        selectPrev({ providerId: this.#id })
+        break
+      }
+      case 'Down': // IE/Edge
+      case 'ArrowDown': {
+        selectNext({ providerId: this.#id })
+        break
+      }
+      case 'Esc': // IE/Edge
+      case 'Escape': {
+        hide({ providerId: this.#id })
+        break
+      }
+      case 'Enter': {
+        select({ providerId: this.#id, type: 'Enter' })
+        break
+      }
+      case 'Tab': {
+        select({ providerId: this.#id, type: 'Tab' })
+        break
+      }
+    }
   }
 
-  updateOptions() {
-    const options = this.options.map(option => ({
-      id: option.id,
-      value: this.disableFilter ? true : this.filter(option.value, this.value),
-    }))
-    this.visibleOptions = options.filter(option => option.value === true)
-    const listIsVisible = this.visibleOptions.length
-    this.selectedIndex = -1
-    updateOptions({ options })
-    updateList({ id: this.list, value: listIsVisible })
+  stateChanged(state) {
+    const provider = state[this.#id]
+    if (provider.selected) {
+      this.dispatchEvent(
+        customEvent('select', {
+          value: provider.value,
+          type: provider.selectType,
+        })
+      )
+    }
   }
 }
 

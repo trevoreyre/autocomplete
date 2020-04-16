@@ -2,8 +2,8 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "//start": "concurrently \"npm:storybook:js\" \"npm:storybook:vue\"",
-    "start": "concurrently \"npm:storybook:wc\" \"npm:storybook:react\"",
+    "//start": "concurrently npm:storybook:*",
+    "start": "npm run storybook:wc",
     "start:docs": "docsify serve docs",
     "prebuild": "npm run clean:build",
     "build": "rollup -c",

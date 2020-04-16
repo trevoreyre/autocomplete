@@ -5,8 +5,6 @@ export default {
   component: 'autocomplete',
 }
 
-window.countries = window.countries.slice(0, 6)
-
 export const basic = () => html`
   <autocomplete-root>
     <autocomplete-input></autocomplete-input>
@@ -68,3 +66,29 @@ export const disableFilter = () => html`
     </autocomplete-list>
   </autocomplete-root>
 `
+
+export const selectEvent = () => {
+  const handleSelect = event => {
+    const { value, type } = event.detail
+    if (type === 'Tab') {
+      console.log(`Selected ${value}`)
+    } else if (type === 'Enter') {
+      alert(`Selected ${value}`)
+    } else if (type === 'Click') {
+      alert(`Clicked ${value}`)
+    }
+  }
+
+  return html`
+    <autocomplete-root @select=${handleSelect}>
+      <autocomplete-input value="aus"></autocomplete-input>
+      <autocomplete-list>
+        ${window.countries.map(
+          country => html`
+            <autocomplete-option>${country}</autocomplete-option>
+          `
+        )}
+      </autocomplete-list>
+    </autocomplete-root>
+  `
+}

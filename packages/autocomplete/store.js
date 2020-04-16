@@ -4,21 +4,33 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
  *  {
  *    'autocomplete-1': {
  *      value: 'hello',
+ *      selected: false,
+ *      selectedIndex: 1,
+ *      selectedOption: 'autocomplete-option-3',
+ *      selectType: null,
  *      input: 'autocomplete-input-1',
  *      list: 'autocomplete-list-1',
- *      options: ['autocomplete-option-1', 'autocomplete-option-2'],
+ *      options: ['autocomplete-option-1', 'autocomplete-option-2', 'autocomplete-option-3'],
+ *    },
+ *    'autocomplete-list-1': {
+ *      expanded: true,
  *    },
  *    'autocomplete-option-1': {
  *      value: 'hello there',
- *      hidden: true,
+ *      visible: true,
  *    },
  *    'autocomplete-option-2': {
  *      value: 'what it is',
- *      hidden: false,
+ *      visible: false,
+ *    },
+ *    'autocomplete-option-3': {
+ *      value: 'hello world!',
+ *      visible: true,
  *    },
  *    providers: {
  *      'autocomplete-option-1': 'autocomplete-1',
  *      'autocomplete-option-2': 'autocomplete-1',
+ *      'autocomplete-option-3': 'autocomplete-1',
  *      'autocomplete-input-1': 'autocomplete-1',
  *      'autocomplete-list-1': 'autocomplete-1',
  *    },
@@ -28,17 +40,21 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
 const initialState = {
   provider: {
     value: '',
-    input: '',
-    list: '',
+    selected: false,
+    selectedIndex: -1,
+    selectedOption: null,
+    selectType: null,
+    input: null,
+    list: null,
     options: [],
     filter: () => true,
   },
   list: {
-    visible: false,
+    expanded: false,
   },
   option: {
     value: '',
-    visible: false,
+    visible: true,
   },
 }
 
@@ -64,15 +80,62 @@ const autocompleteSlice = createSlice({
     input(state, action) {
       const { id, value } = action.payload
       const provider = state[state.providers[id]]
-      let isListVisible = false
+      let expanded = false
 
       provider.value = value
+      provider.selected = false
+      provider.selectedIndex = -1
+      provider.selectedOption = null
+      provider.selectType = null
       provider.options.forEach(option => {
         const visible = provider.filter(state[option].value, value)
-        isListVisible = isListVisible || visible
+        expanded = expanded || visible
         state[option].visible = visible
       })
-      state[provider.list].visible = isListVisible
+      state[provider.list].expanded = expanded
+    },
+    select(state, action) {
+      const { id, providerId, type } = action.payload
+      const provider = providerId
+        ? state[providerId]
+        : state[state.providers[id]]
+      const selectedOption = id ? state[id] : state[provider.selectedOption]
+      provider.value = selectedOption.value
+      provider.selectType = type
+      provider.selected = true
+      state[provider.list].expanded = false
+    },
+    selectNext(state, action) {
+      const { providerId } = action.payload
+      const provider = state[providerId]
+      const visibleOptions = provider.options.filter(id => state[id]?.visible)
+      const count = visibleOptions.length
+      const selectedIndex = (provider.selectedIndex + 1) % count
+      provider.selectedIndex = selectedIndex
+      provider.selectedOption = visibleOptions[selectedIndex]
+      state[provider.list].expanded = count > 0
+    },
+    selectPrev(state, action) {
+      const { providerId } = action.payload
+      const provider = state[providerId]
+      const visibleOptions = provider.options.filter(id => state[id]?.visible)
+      const count = visibleOptions.length
+      const selectedIndex =
+        (((provider.selectedIndex - 1) % count) + count) % count
+      provider.selectedIndex = selectedIndex
+      provider.selectedOption = visibleOptions[selectedIndex]
+      state[provider.list].expanded = count > 0
+    },
+    hide(state, action) {
+      const { id, providerId } = action.payload
+      const provider = providerId
+        ? state[providerId]
+        : state[state.providers[id]]
+      provider.selected = false
+      provider.selectedIndex = -1
+      provider.selectedOption = null
+      provider.selectType = null
+      state[provider.list].expanded = false
     },
     // initializeProvider(state, action) {
     //   const { providerId, filterFn } = action.payload
@@ -118,6 +181,10 @@ const {
   initialize,
   register,
   input,
+  select,
+  selectNext,
+  selectPrev,
+  hide,
   // initializeProvider,
   // setValue,
   // updateList,
@@ -136,6 +203,10 @@ export {
   initialize,
   register,
   input,
+  select,
+  selectNext,
+  selectPrev,
+  hide,
   // initializeProvider,
   // setValue,
   // updateList,

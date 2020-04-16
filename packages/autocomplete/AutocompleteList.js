@@ -41,6 +41,11 @@ class AutocompleteList extends LitElement {
 class ConnectedAutocompleteList extends AutocompleteList {
   #unsubscribe = () => {}
 
+  constructor() {
+    super()
+    this.addEventListener('mousedown', this.handleMouseDown)
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.#unsubscribe = store.subscribe(() =>
@@ -56,7 +61,11 @@ class ConnectedAutocompleteList extends AutocompleteList {
   }
 
   stateChanged(state) {
-    this.hidden = !state[this.id].visible
+    this.hidden = !state[this.id].expanded
+  }
+
+  handleMouseDown(event) {
+    event.preventDefault()
   }
 }
 

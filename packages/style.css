@@ -69,7 +69,7 @@ autocomplete-list {
   width: 100%;
   box-sizing: border-box;
   /* visibility: hidden; */
-  pointer-events: none;
+  /* pointer-events: none; */
   top: 100%;
 }
 
