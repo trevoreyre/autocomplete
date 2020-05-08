@@ -75,6 +75,7 @@ Then, use the component in your app.
 | Event               | Signature                      | Description                  |
 | :------------------ | :----------------------------- | :--------------------------- |
 | [`submit`](#submit) | `function (result: any): void` | Executed on input submission |
+| [`update`](#update) | `function (results: Array, selectedIndex: Number): void` | Executed when results list is updated |
 
 #### search
 
@@ -240,6 +241,20 @@ The `submit` event is executed when the user submits their result by either sele
 ```js
 submit(result) {
   alert(`You selected ${result}`)
+}
+```
+
+#### update
+
+The `update` event is executed when the results list is updated. The function receives the results list and the index of the selected result.
+
+```js
+update(results, selectedIndex) {
+  if (selectedIndex > -1) {
+    alert(`The currently selected result is ${results[selectedIndex]}`)
+  } else {
+    alert(`No results currently selected`);
+  }
 }
 ```
 
