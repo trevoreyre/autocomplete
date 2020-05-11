@@ -35,6 +35,7 @@ class Autocomplete {
     {
       search,
       onSubmit = () => {},
+      onUpdate,
       baseClass = 'autocomplete',
       autoSelect,
       getResultValue = result => result,
@@ -47,6 +48,7 @@ class Autocomplete {
     this.resultList = this.root.querySelector('ul')
     this.baseClass = baseClass
     this.getResultValue = getResultValue
+    this.onUpdate = onUpdate
     if (typeof renderResult === 'function') {
       this.renderResult = renderResult
     }
@@ -143,6 +145,10 @@ class Autocomplete {
       this.updateStyle()
     }
     this.core.checkSelectedResultVisible(this.resultList)
+
+    if (this.onUpdate && typeof this.onUpdate === 'function') {
+      this.onUpdate(results, selectedIndex)
+    }
   }
 
   handleShow = () => {

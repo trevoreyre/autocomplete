@@ -99,6 +99,7 @@ elements.forEach(el => {
 | :---------------------------------- | :------------------ | :--------------- | :------------------------------------------------------------------------------------------------------ |
 | [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`.         |
 | [`onSubmit`](#onsubmit)             | Function            |                  | Executed on input submission                                                                            |
+| [`onUpdate`](#onupdate)             | Function            |                  | Executed when the results list is updated                                                               |
 | [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                                    |
 | [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                         |
 | [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input          |
@@ -189,6 +190,31 @@ new Autocomplete('#autocomplete', {
 
   onSubmit: result => {
     alert(`You selected ${result}`)
+  },
+})
+```
+
+#### onUpdate
+
+The `onUpdate` function is executed when the results list is updated. The function receives the results list and the index of the selected result.
+
+```js
+new Autocomplete('#autocomplete', {
+  search: input => {
+    if (input.length < 1) {
+      return []
+    }
+    return countries.filter(country => {
+      return country.toLowerCase().startsWith(input.toLowerCase())
+    })
+  },
+
+  onUpdate: (results, selectedIndex) => {
+    if (selectedIndex > -1) {
+      console.log(`The currently selected result is ${results[selectedIndex]}`)
+    } else {
+      console.log(`No results currently selected`);
+    }
   },
 })
 ```
