@@ -1,4 +1,4 @@
-import { action } from '@storybook/addon-actions'
+// import { action } from '@storybook/addon-actions'
 import Autocomplete from './Autocomplete.js'
 
 const createRoot = () => {
@@ -160,8 +160,10 @@ export const CustomEvents = () => {
   `
 
   const input = root.querySelector('.autocomplete-input')
-  input.addEventListener('input', action('input'))
-  input.addEventListener('keyup', action('keyup'))
+  // input.addEventListener('input', action('input'))
+  // input.addEventListener('keyup', action('keyup'))
+  input.addEventListener('input', event => console.log('input', event))
+  input.addEventListener('keyup', event => console.log('keyup', event))
   new Autocomplete(root, { search })
   return root
 }

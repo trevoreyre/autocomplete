@@ -3,7 +3,6 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
 /**
  *  {
  *    'autocomplete-1': {
- *      value: 'hello',
  *      selected: false,
  *      selectedIndex: 1,
  *      selectedOption: 'autocomplete-option-3',
@@ -11,6 +10,9 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
  *      input: 'autocomplete-input-1',
  *      list: 'autocomplete-list-1',
  *      options: ['autocomplete-option-1', 'autocomplete-option-2', 'autocomplete-option-3'],
+ *    },
+ *    'autocomplete-input-1': {
+ *      value: 'hello',
  *    },
  *    'autocomplete-list-1': {
  *      expanded: true,
@@ -28,18 +30,17 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
  *      visible: true,
  *    },
  *    providers: {
+ *      'autocomplete-input-1': 'autocomplete-1',
+ *      'autocomplete-list-1': 'autocomplete-1',
  *      'autocomplete-option-1': 'autocomplete-1',
  *      'autocomplete-option-2': 'autocomplete-1',
  *      'autocomplete-option-3': 'autocomplete-1',
- *      'autocomplete-input-1': 'autocomplete-1',
- *      'autocomplete-list-1': 'autocomplete-1',
  *    },
  *  }
  */
 
 const initialState = {
   provider: {
-    value: '',
     selected: false,
     selectedIndex: -1,
     selectedOption: null,
@@ -48,6 +49,9 @@ const initialState = {
     list: null,
     options: [],
     filter: () => true,
+  },
+  input: {
+    value: '',
   },
   list: {
     expanded: false,
@@ -68,21 +72,30 @@ const autocompleteSlice = createSlice({
       const { id, type, value, filter } = action.payload
       state[id] = { ...initialState[type], value, filter }
     },
+
     register(state, action) {
       const { id, type, providerId } = action.payload
       state.providers[id] = providerId
-      if (type === 'option') {
-        state[providerId].options.push(id)
-      } else {
-        state[providerId][type] = id
+      const provider = state[providerId]
+      switch (type) {
+        case 'option':
+          provider.options.push(id)
+          state[id].visible = provider.filter(
+            state[id].value,
+            state[provider.input].value
+          )
+          break
+        default:
+          state[providerId][type] = id
       }
     },
+
     input(state, action) {
       const { id, value } = action.payload
       const provider = state[state.providers[id]]
       let expanded = false
 
-      provider.value = value
+      state[id].value = value
       provider.selected = false
       provider.selectedIndex = -1
       provider.selectedOption = null
@@ -94,17 +107,23 @@ const autocompleteSlice = createSlice({
       })
       state[provider.list].expanded = expanded
     },
+
     select(state, action) {
       const { id, providerId, type } = action.payload
       const provider = providerId
         ? state[providerId]
         : state[state.providers[id]]
+      provider.selectedOption = id || provider.selectedOption
       const selectedOption = id ? state[id] : state[provider.selectedOption]
-      provider.value = selectedOption.value
+      if (!selectedOption) {
+        return
+      }
+      state[provider.input].value = selectedOption.value
       provider.selectType = type
       provider.selected = true
       state[provider.list].expanded = false
     },
+
     selectNext(state, action) {
       const { providerId } = action.payload
       const provider = state[providerId]
@@ -115,6 +134,7 @@ const autocompleteSlice = createSlice({
       provider.selectedOption = visibleOptions[selectedIndex]
       state[provider.list].expanded = count > 0
     },
+
     selectPrev(state, action) {
       const { providerId } = action.payload
       const provider = state[providerId]
@@ -126,6 +146,7 @@ const autocompleteSlice = createSlice({
       provider.selectedOption = visibleOptions[selectedIndex]
       state[provider.list].expanded = count > 0
     },
+
     hide(state, action) {
       const { id, providerId } = action.payload
       const provider = providerId
@@ -137,39 +158,6 @@ const autocompleteSlice = createSlice({
       provider.selectType = null
       state[provider.list].expanded = false
     },
-    // initializeProvider(state, action) {
-    //   const { providerId, filterFn } = action.payload
-    //   state[providerId] = state[providerId] || {}
-    //   state[providerId].filterFn = filterFn
-    // },
-    // setValue(state, action) {
-    //   const { id, value } = action.payload
-    //   const providerId = state[id]
-    //   state[providerId] = state[providerId] || {}
-    //   state[providerId].value = value
-    // },
-    // updateList(state, action) {
-    //   const { id, value } = action.payload
-    //   state[id] = value
-    // },
-    // updateOptions(state, action) {
-    //   const { options } = action.payload
-    //   options.forEach(({ id, value }) => {
-    //     state[id] = {
-    //       value,
-    //       selected: false,
-    //     }
-    //   })
-    // },
-    // setSelectedOption(state, action) {
-    //   const { id, lastId } = action.payload
-    //   const lastOption = state[lastId]
-    //   if (lastOption) {
-    //     lastOption.selected = false
-    //   }
-    //   const option = state[id]
-    //   option.selected = true
-    // },
   },
 })
 
@@ -185,11 +173,6 @@ const {
   selectNext,
   selectPrev,
   hide,
-  // initializeProvider,
-  // setValue,
-  // updateList,
-  // updateOptions,
-  // setSelectedOption,
 } = Object.entries(autocompleteSlice.actions).reduce(
   (actions, [action, actionFn]) => {
     actions[action] = payload => store.dispatch(actionFn(payload))
@@ -199,17 +182,4 @@ const {
 )
 
 export default store
-export {
-  initialize,
-  register,
-  input,
-  select,
-  selectNext,
-  selectPrev,
-  hide,
-  // initializeProvider,
-  // setValue,
-  // updateList,
-  // updateOptions,
-  // setSelectedOption,
-}
+export { initialize, register, input, select, selectNext, selectPrev, hide }

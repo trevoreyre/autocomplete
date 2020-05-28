@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit-element'
 import customEvent from './util/customEvent.js'
 import uniqueId from './util/uniqueId.js'
-import store, { hide, input } from './store.js'
+import store, { hide, initialize, input } from './store.js'
 
 class AutocompleteInput extends LitElement {
   static get styles() {
@@ -70,13 +70,6 @@ class AutocompleteInput extends LitElement {
     this.ariaExpanded = 'false'
   }
 
-  connectedCallback() {
-    super.connectedCallback()
-    this.dispatchEvent(
-      new Event('input', { bubbles: true, cancelable: true, composed: true })
-    )
-  }
-
   handleInput(event) {
     this.value = event.target.value
   }
@@ -108,6 +101,11 @@ class ConnectedAutocompleteInput extends AutocompleteInput {
     this.#unsubscribe = store.subscribe(() =>
       this.stateChanged(store.getState())
     )
+    initialize({
+      id: this.id,
+      type: 'input',
+      value: this.value,
+    })
     this.dispatchEvent(customEvent('register', { id: this.id, type: 'input' }))
   }
 
@@ -117,8 +115,7 @@ class ConnectedAutocompleteInput extends AutocompleteInput {
   }
 
   stateChanged(state) {
-    const provider = state[state.providers[this.id]]
-    this.value = provider.value ?? ''
+    this.value = state[this.id].value ?? this.value
   }
 
   handleInput(event) {

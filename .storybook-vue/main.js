@@ -1,4 +1,4 @@
 module.exports = {
-  addons: ['@storybook/addon-actions'],
+  // addons: ['@storybook/addon-actions'],
   stories: ['../packages/autocomplete-vue/**/*.stories.js'],
 }

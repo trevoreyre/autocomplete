@@ -3,9 +3,11 @@ import { addDecorator, addParameters } from '@storybook/vue';
 import { withStyles } from 'storybook-addon-styles/vue'
 import '../packages/style.css'
 import './style.css'
+import { countries } from './data.js'
 import Autocomplete from '../packages/autocomplete-vue/Autocomplete.vue'
 
 Vue.component('Autocomplete', Autocomplete)
+window.countries = countries
 
 addDecorator(withStyles)
 addParameters({

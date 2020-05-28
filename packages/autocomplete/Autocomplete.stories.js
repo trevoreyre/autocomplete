@@ -20,7 +20,7 @@ export const basic = () => html`
 
 export const defaultValue = () => html`
   <autocomplete-root>
-    <autocomplete-input value="aus"></autocomplete-input>
+    <autocomplete-input value="au"></autocomplete-input>
     <autocomplete-list>
       ${window.countries.map(
         country => html`

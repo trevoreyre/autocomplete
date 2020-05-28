@@ -2,8 +2,8 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "//start": "concurrently npm:storybook:*",
-    "start": "npm run storybook:wc",
+    "start": "concurrently npm:storybook:*",
+    "//start": "npm run storybook:wc",
     "start:docs": "docsify serve docs",
     "prebuild": "npm run clean:build",
     "build": "rollup -c",
@@ -13,7 +13,7 @@
     "version": "lerna version --no-push --force-publish",
     "publish": "lerna exec -- npm publish",
     "storybook:wc": "node scripts/storybook-wc.js",
-    "storybook:js": "node scripts/storybook-js.js",
+    "//storybook:js": "node scripts/storybook-js.js",
     "storybook:vue": "node scripts/storybook-vue.js",
     "storybook:react": "node scripts/storybook-react.js",
     "build-storybook": "build-storybook"

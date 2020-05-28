@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { action } from '@storybook/addon-actions'
+// import { action } from '@storybook/addon-actions'
 import Autocomplete from './Autocomplete.vue'
 
 const CustomInput = Vue.component('CustomInput', {
@@ -184,10 +184,12 @@ export const CustomEvents = () => ({
   methods: {
     search,
     handleInput(event) {
-      return action('input')(event)
+      // return action('input')(event)
+      console.log('input', event)
     },
     handleKeyup(event) {
-      return action('keyup')(event)
+      // return action('keyup')(event)
+      console.log('keyup', event)
     },
   },
 })

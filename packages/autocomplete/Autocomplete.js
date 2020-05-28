@@ -50,9 +50,12 @@ class ConnectedAutocomplete extends Autocomplete {
 
   constructor() {
     super()
+    this.handleDocumentClick = this.handleDocumentClick.bind(this)
     this.addEventListener('register', this.handleRegister)
     this.addEventListener('keydown', this.handleKeyDown)
-    document.addEventListener('click', this.handleDocumentClick.bind(this))
+    if (document) {
+      document.addEventListener('click', this.handleDocumentClick)
+    }
   }
 
   connectedCallback() {
@@ -69,7 +72,9 @@ class ConnectedAutocomplete extends Autocomplete {
 
   disconnectedCallback() {
     this.#unsubscribe()
-    document.removeEventListener('click', this.handleDocumentClick)
+    if (document) {
+      document.removeEventListener('click', this.handleDocumentClick)
+    }
     super.disconnectedCallback()
   }
 
@@ -120,7 +125,7 @@ class ConnectedAutocomplete extends Autocomplete {
     if (provider.selected) {
       this.dispatchEvent(
         customEvent('select', {
-          value: provider.value,
+          value: state[provider.selectedOption].value,
           type: provider.selectType,
         })
       )

@@ -5,12 +5,14 @@ services:
     container_name: 'autocomplete'
     build: .
     volumes:
-      - .:/home/node/app
-      - /home/node/app/node_modules
+      - .:/home/node/autocomplete
+      - /home/node/autocomplete/node_modules
     ports:
       - '3000:3000' # docs
       - '4003:4003' # autocomplete-js Storybook
       - '4004:4004' # autocomplete-vue Storybook
+      - '4006:4006' # autocomplete-react Storybook
+      - '4007:4007' # autocomplete-wc Storybook
       - '35729:35729' # docsify
     stdin_open: true
     tty: true

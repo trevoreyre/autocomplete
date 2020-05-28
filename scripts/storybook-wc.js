@@ -3,6 +3,6 @@ const storybook = require('@storybook/web-components/standalone')
 
 storybook({
   mode: 'dev',
-  port: 4003,
+  port: 4007,
   configDir: path.resolve(__dirname, '../.storybook-wc'),
 })

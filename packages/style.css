@@ -1,7 +1,9 @@
+.autocomplete,
 autocomplete-root {
   position: relative;
 }
 
+.autocomplete-input,
 autocomplete-input {
   border: 1px solid #eee;
   border-radius: 8px;
@@ -19,6 +21,8 @@ autocomplete-input {
   background-position: 12px center;
 }
 
+.autocomplete-input:focus,
+.autocomplete-input[aria-expanded='true'],
 autocomplete-input:focus,
 autocomplete-input[aria-expanded='true'] {
   border-color: rgba(0, 0, 0, 0.12);
@@ -27,11 +31,13 @@ autocomplete-input[aria-expanded='true'] {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.16);
 }
 
+[data-position='below'] .autocomplete-input[aria-expanded='true'],
 [data-position='below'] autocomplete-input[aria-expanded='true'] {
   border-bottom-color: transparent;
   border-radius: 8px 8px 0 0;
 }
 
+[data-position='above'] .autocomplete-input[aria-expanded='true'],
 [data-position='above'] autocomplete-input[aria-expanded='true'] {
   border-top-color: transparent;
   border-radius: 0 0 8px 8px;
@@ -39,6 +45,7 @@ autocomplete-input[aria-expanded='true'] {
 }
 
 /* Loading spinner */
+.autocomplete[data-loading='true']::after,
 autocomplete-root[data-loading='true']::after {
   content: '';
   border: 3px solid rgba(0, 0, 0, 0.12);
@@ -53,6 +60,7 @@ autocomplete-root[data-loading='true']::after {
   animation: rotate 1s infinite linear;
 }
 
+.autocomplete-result-list,
 autocomplete-list {
   margin: 0;
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -73,6 +81,7 @@ autocomplete-list {
   top: 100%;
 }
 
+[data-position='below'] .autocomplete-result-list,
 [data-position='below'] autocomplete-list {
   margin-top: -1px;
   border-top-color: transparent;
@@ -80,6 +89,7 @@ autocomplete-list {
   padding-bottom: 8px;
 }
 
+[data-position='above'] .autocomplete-result-list,
 [data-position='above'] autocomplete-list {
   margin-bottom: -1px;
   border-bottom-color: transparent;
@@ -88,6 +98,7 @@ autocomplete-list {
 }
 
 /* Single result item */
+.autocomplete-result,
 autocomplete-option {
   cursor: default;
   padding: 12px 12px 12px 48px;
@@ -96,6 +107,8 @@ autocomplete-option {
   background-position: 12px center;
 }
 
+.autocomplete-result:hover,
+.autocomplete-result[aria-selected='true'],
 autocomplete-option:hover,
 autocomplete-option[aria-selected='true'] {
   background-color: rgba(0, 0, 0, 0.06);
