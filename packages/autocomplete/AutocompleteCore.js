@@ -57,7 +57,6 @@ class AutocompleteCore {
       }
       case 'Tab': {
         this.selectResult()
-        event.preventDefault()
         break
       }
       case 'Enter': {
