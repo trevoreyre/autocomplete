@@ -1,3 +1,13 @@
+## v2.2.0 (May 28, 2020)
+
+### autocomplete-vue
+
+- Added `update` event when the results list is updated (Ben Roth, [@ben-roth-](https://github.com/ben-roth-))
+
+### autocomplete-js
+
+- Added `onUpdate` event when the results list is updated (Ben Roth, [@ben-roth-](https://github.com/ben-roth-))
+
 ## v2.1.1 (February 24, 2020)
 
 - Updated storybook to v5.3. Updated stories to new format.
