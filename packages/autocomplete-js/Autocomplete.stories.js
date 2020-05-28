@@ -133,6 +133,28 @@ export const SubmitEvent = () => {
   return root
 }
 
+export const UpdateEvent = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <input
+      class='autocomplete-input'
+      placeholder='Search for a country'
+      aria-label='Search for a country'
+    >
+    <ul class='autocomplete-result-list'></ul>
+  `
+  new Autocomplete(root, {
+    search,
+    onUpdate: (results, selectedIndex) => {
+      return action('update')(
+        `${results.length} results`,
+        `Selected: ${results[selectedIndex] || 'NA'}`
+      )
+    },
+  })
+  return root
+}
+
 export const CustomClass = () => {
   const root = createRoot()
   root.classList.add('search')

@@ -35,7 +35,7 @@ class Autocomplete {
     {
       search,
       onSubmit = () => {},
-      onUpdate,
+      onUpdate = () => {},
       baseClass = 'autocomplete',
       autoSelect,
       getResultValue = result => result,
@@ -145,10 +145,7 @@ class Autocomplete {
       this.updateStyle()
     }
     this.core.checkSelectedResultVisible(this.resultList)
-
-    if (this.onUpdate && typeof this.onUpdate === 'function') {
-      this.onUpdate(results, selectedIndex)
-    }
+    this.onUpdate(results, selectedIndex)
   }
 
   handleShow = () => {
