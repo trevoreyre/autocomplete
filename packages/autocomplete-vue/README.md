@@ -72,10 +72,10 @@ Then, use the component in your app.
 
 ## Events
 
-| Event               | Signature                      | Description                  |
-| :------------------ | :----------------------------- | :--------------------------- |
-| [`submit`](#submit) | `function (result: any): void` | Executed on input submission |
-| [`update`](#update) | `function (results: Array, selectedIndex: Number): void` | Executed when results list is updated |
+| Event               | Signature                                                | Description                               |
+| :------------------ | :------------------------------------------------------- | :---------------------------------------- |
+| [`submit`](#submit) | `function (result: any): void`                           | Executed on input submission              |
+| [`update`](#update) | `function (results: any[], selectedIndex: Number): void` | Executed when the results list is updated |
 
 #### search
 
@@ -126,14 +126,14 @@ new Vue({
     search(input) {
       const url = `${wikiUrl}/w/api.php?${params}&srsearch=${encodeURI(input)}`
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (input.length < 3) {
           return resolve([])
         }
 
         fetch(url)
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             resolve(data.query.search)
           })
       })
@@ -250,10 +250,9 @@ The `update` event is executed when the results list is updated. The function re
 
 ```js
 update(results, selectedIndex) {
+  console.log(`${results.length} results`)
   if (selectedIndex > -1) {
-    alert(`The currently selected result is ${results[selectedIndex]}`)
-  } else {
-    alert(`No results currently selected`);
+    console.log(`Selected: ${results[selectedIndex]}`)
   }
 }
 ```

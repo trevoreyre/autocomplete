@@ -210,10 +210,9 @@ new Autocomplete('#autocomplete', {
   },
 
   onUpdate: (results, selectedIndex) => {
+    console.log(`${results.length} results`)
     if (selectedIndex > -1) {
-      console.log(`The currently selected result is ${results[selectedIndex]}`)
-    } else {
-      console.log(`No results currently selected`);
+      console.log(`Selected: ${results[selectedIndex]}`)
     }
   },
 })
