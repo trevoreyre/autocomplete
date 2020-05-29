@@ -1,6 +1,6 @@
 {
   "name": "@trevoreyre/autocomplete-vue",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Simple autocomplete component in vanilla JS and Vue",
   "main": "dist/autocomplete.cjs.js",
   "module": "dist/autocomplete.esm.js",
