@@ -86,6 +86,7 @@ Note that if using a selector, it's expected that the selector only matches one 
 | :---------------------------------- | :------------------ | :--------------- | :------------------------------------------------------------------------------------------------------ |
 | [`search`](#search)                 | Function (required) |                  | The search function to be executed on user input. Can be a synchronous function or a `Promise`.         |
 | [`onSubmit`](#onsubmit)             | Function            |                  | Executed on input submission                                                                            |
+| [`onUpdate`](#onupdate)             | Function            |                  | Executed when the results list is updated                                                               |
 | [`baseClass`](#baseclass)           | String              | `'autocomplete'` | Base class used to create classes and IDs for generated DOM elements                                    |
 | [`autoSelect`](#autoselect)         | Boolean             | `false`          | Controls whether first result should be highlighted after input                                         |
 | [`getResultValue`](#getresultvalue) | Function            |                  | For complex search results, this function is executed to get the value to display in the input          |
@@ -120,6 +121,30 @@ The `onSubmit` function is executed when the user submits their result by either
   See the Pen <a href='https://codepen.io/trevoreyre/pen/MLBNBp/'>Autocomplete onSubmit option - @trevoreyre/autocomplete-js</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
+
+#### onUpdate
+
+The `onUpdate` function is executed when the results list is updated. The function receives the results list and the index of the selected result.
+
+```js
+new Autocomplete('#autocomplete', {
+  search: input => {
+    if (input.length < 1) {
+      return []
+    }
+    return countries.filter(country => {
+      return country.toLowerCase().startsWith(input.toLowerCase())
+    })
+  },
+
+  onUpdate: (results, selectedIndex) => {
+    console.log(`${results.length} results`)
+    if (selectedIndex > -1) {
+      console.log(`Selected: ${results[selectedIndex]}`)
+    }
+  },
+})
+```
 
 #### baseClass
 

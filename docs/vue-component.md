@@ -75,9 +75,10 @@ See the example below to see it in action.
 
 ## Events
 
-| Event               | Signature                      | Description                  |
-| :------------------ | :----------------------------- | :--------------------------- |
-| [`submit`](#submit) | `function (result: any): void` | Executed on input submission |
+| Event               | Signature                                                | Description                               |
+| :------------------ | :------------------------------------------------------- | :---------------------------------------- |
+| [`submit`](#submit) | `function (result: any): void`                           | Executed on input submission              |
+| [`update`](#update) | `function (results: any[], selectedIndex: Number): void` | Executed when the results list is updated |
 
 #### search
 
@@ -171,6 +172,19 @@ The `submit` event is executed when the user submits their result by either sele
   See the Pen <a href='https://codepen.io/trevoreyre/pen/ErBowo/'>Autocomplete onSubmit prop - @trevoreyre/autocomplete-vue</a> by Trevor Eyre
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
+
+#### update
+
+The `update` event is executed when the results list is updated. The function receives the results list and the index of the selected result.
+
+```js
+update(results, selectedIndex) {
+  console.log(`${results.length} results`)
+  if (selectedIndex > -1) {
+    console.log(`Selected: ${results[selectedIndex]}`)
+  }
+}
+```
 
 ## Slots
 

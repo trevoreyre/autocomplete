@@ -157,6 +157,26 @@ export const SubmitEvent = () => ({
   },
 })
 
+export const UpdateEvent = () => ({
+  template: `
+    <Autocomplete
+      aria-label="Search for a country"
+      placeholder="Search for a country"
+      :search="search"
+      @update="onUpdate"
+    />
+  `,
+  methods: {
+    search,
+    onUpdate(results, selectedIndex) {
+      return action('update')(
+        `${results.length} results`,
+        `Selected: ${results[selectedIndex] || 'NA'}`
+      )
+    },
+  },
+})
+
 export const CustomClass = () => ({
   template: `
     <Autocomplete
