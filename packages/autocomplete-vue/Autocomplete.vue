@@ -26,7 +26,7 @@
         >
           <template v-for="(result, index) in results">
             <slot name="result" :result="result" :props="resultProps[index]">
-              <li :key="resultProps[index].id" v-bind="resultProps[index]">
+              <li :key="inputProps.value + ':' + resultProps[index].id" v-bind="resultProps[index]">
                 {{ getResultValue(result) }}
               </li>
             </slot>
