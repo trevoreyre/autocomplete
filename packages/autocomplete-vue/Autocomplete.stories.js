@@ -296,6 +296,7 @@ export const DefaultSlotFullControl = () => ({
       >
         <div v-bind="rootProps">
           <CustomInput
+            ref="input"
             v-bind="inputProps"
             v-on="inputListeners"
             :class="[
@@ -312,10 +313,10 @@ export const DefaultSlotFullControl = () => ({
             style="position: absolute; z-index: 1; width: 100%; top: 100%;"
           >
             <li class="autocomplete-result">
-              No results found
+              No results found2
             </li>
           </ul>
-          <ul v-bind="resultListProps" v-on="resultListListeners">
+          <ul ref="resultList" v-bind="resultListProps" v-on="resultListListeners">
             <li
               v-for="(result, index) in results"
               :key="resultProps[index].id"
