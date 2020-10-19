@@ -17,6 +17,9 @@
           @keydown="core.handleKeyDown"
           @focus="core.handleFocus"
           @blur="core.handleBlur"
+          @toggle-expanded="
+            preventContextSwitch && core.handleToggleExpanded($event)
+          "
           v-on="$listeners"
         />
         <ul
@@ -72,12 +75,18 @@ export default {
       type: Number,
       default: 0,
     },
+    preventContextSwitch: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     const core = new AutocompleteCore({
       search: this.search,
       autoSelect: this.autoSelect,
+      expanded: false,
+      preventContextSwitch: this.preventContextSwitch,
       setValue: this.setValue,
       onUpdate: this.handleUpdate,
       onSubmit: this.handleSubmit,
@@ -139,6 +148,9 @@ export default {
         keydown: this.core.handleKeyDown,
         focus: this.core.handleFocus,
         blur: this.core.handleBlur,
+        ...(this.preventContextSwitch && {
+          'toggle-expanded': this.core.handleToggleExpanded,
+        }),
       }
     },
     resultListProps() {
@@ -173,9 +185,19 @@ export default {
       }))
     },
   },
-
+  watch: {
+    expanded(state) {
+      this.$refs.input.dispatchEvent(
+        new CustomEvent('toggle-expanded', { detail: { expanded: state } })
+      )
+    },
+  },
   mounted() {
     document.body.addEventListener('click', this.handleDocumentClick)
+
+    if (this.preventContextSwitch && this.$refs.input.form) {
+      this.$refs.input.form.addEventListener('submit', this.core.handleSubmit)
+    }
   },
 
   beforeDestroy() {

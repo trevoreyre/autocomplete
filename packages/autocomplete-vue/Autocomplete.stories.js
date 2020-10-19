@@ -226,6 +226,23 @@ export const AutoSelect = () => ({
   },
 })
 
+export const PreventContextSwitch = () => ({
+  template: `
+    <form>
+      <Autocomplete
+        aria-label="Search for a country"
+        placeholder="Search for a country"
+        :search="search"
+        auto-select
+        prevent-context-switch
+      />
+    </form>
+  `,
+  methods: {
+    search,
+  },
+})
+
 export const DefaultValue = () => ({
   template: `
     <Autocomplete

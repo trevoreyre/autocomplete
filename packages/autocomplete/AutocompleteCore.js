@@ -9,6 +9,8 @@ class AutocompleteCore {
 
   constructor({
     search,
+    preventContextSwitch,
+    expanded,
     autoSelect = false,
     setValue = () => {},
     setAttribute = () => {},
@@ -22,6 +24,8 @@ class AutocompleteCore {
     this.search = isPromise(search)
       ? search
       : value => Promise.resolve(search(value))
+    this.preventContextSwitch = preventContextSwitch
+    this.expanded = expanded
     this.autoSelect = autoSelect
     this.setValue = setValue
     this.setAttribute = setAttribute
@@ -114,12 +118,26 @@ class AutocompleteCore {
     this.onUpdate(this.results, this.selectedIndex)
   }
 
+  handleToggleExpanded = event => {
+    this.expanded = event.detail.expanded
+  }
+
+  handleSubmit = event => {
+    if (this.expanded) {
+      event.preventDefault()
+      this.hideResults()
+    }
+  }
+
   selectResult = () => {
     const selectedResult = this.results[this.selectedIndex]
     if (selectedResult) {
       this.setValue(selectedResult)
     }
-    this.hideResults()
+
+    if (!this.preventContextSwitch) {
+      this.hideResults()
+    }
   }
 
   updateResults = value => {
