@@ -118,7 +118,7 @@ new Vue({
   components: {
     Autocomplete,
   },
-  data: {
+  methods: {
     // Search function can return a promise
     // which resolves with an array of
     // results. In this case we're using
