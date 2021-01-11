@@ -55,10 +55,7 @@ class AutocompleteCore {
         this.handleArrows(selectedIndex)
         break
       }
-      case 'Tab': {
-        this.selectResult()
-        break
-      }
+      case 'Tab':
       case 'Enter': {
         const selectedResult = this.results[this.selectedIndex]
         this.selectResult()
