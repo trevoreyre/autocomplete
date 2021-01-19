@@ -33,6 +33,19 @@ class AutocompleteCore {
     this.onLoaded = onLoaded
   }
 
+  destroy = () => {
+    this.search = null
+    this.autoSelect = null
+    this.setValue = null
+    this.setAttribute = null
+    this.onUpdate = null
+    this.onSubmit = null
+    this.onShow = null
+    this.onHide = null
+    this.onLoading = null
+    this.onLoaded = null
+  }
+
   handleInput = event => {
     const { value } = event.target
     this.updateResults(value)

@@ -122,7 +122,14 @@ class Autocomplete {
       this.core.handleResultMouseDown
     )
     this.resultList.removeEventListener('click', this.core.handleResultClick)
+
     this.root = null
+    this.input = null
+    this.resultList = null
+    this.getResultValue = null
+    this.onUpdate = null
+    this.renderResult = null
+    this.core.destroy()
   }
 
   setAttribute = (attribute, value) => {
