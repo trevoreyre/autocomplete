@@ -35,7 +35,6 @@ class AutocompleteCore {
 
   destroy = () => {
     this.search = null
-    this.autoSelect = null
     this.setValue = null
     this.setAttribute = null
     this.onUpdate = null
