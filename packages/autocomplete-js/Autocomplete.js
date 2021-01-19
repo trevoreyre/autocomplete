@@ -111,6 +111,19 @@ class Autocomplete {
     this.updateStyle()
   }
 
+  destroy = () => {
+    document.body.removeEventListener('click', this.handleDocumentClick)
+    this.input.removeEventListener('input', this.core.handleInput)
+    this.input.removeEventListener('keydown', this.core.handleKeyDown)
+    this.input.removeEventListener('focus', this.core.handleFocus)
+    this.input.removeEventListener('blur', this.core.handleBlur)
+    this.resultList.removeEventListener(
+      'mousedown',
+      this.core.handleResultMouseDown
+    )
+    this.resultList.removeEventListener('click', this.core.handleResultClick)
+  }
+
   setAttribute = (attribute, value) => {
     this.input.setAttribute(attribute, value)
   }
