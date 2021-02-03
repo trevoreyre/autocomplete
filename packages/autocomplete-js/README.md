@@ -380,6 +380,11 @@ new Autocomplete('#autocomplete', {
   },
 })
 ```
+## Methods
+
+| Name  |  Description                            |
+| :-------- | :------------------------------- |
+| `destroy`    | Removes all event listeners and DOM node references that were set during initialization.                     |
 
 ## Styling and customization
 

@@ -65,3 +65,9 @@ The core package provides a number of event handlers that can be wired up in the
 
 [javascript-component]: packages/autocomplete-js/Autocomplete.js
 [vue-component]: packages/autocomplete-vue/Autocomplete.vue
+
+## Methods
+
+| Name  |  Description                            |
+| :-------- | :------------------------------- |
+| `destroy`    | Removes all event listeners and DOM node references that were set during initialization.                     |
