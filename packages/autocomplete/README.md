@@ -69,5 +69,5 @@ The core package provides a number of event handlers that can be wired up in the
 ## Methods
 
 | Name      | Description                                                                            |
-|-----------|----------------------------------------------------------------------------------------|
+|:----------|:---------------------------------------------------------------------------------------|
 | `destroy` | Removes all event listeners and object references that were set during initialization. |
