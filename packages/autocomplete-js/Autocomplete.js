@@ -130,6 +130,7 @@ class Autocomplete {
     this.onUpdate = null
     this.renderResult = null
     this.core.destroy()
+    this.core = null
   }
 
   setAttribute = (attribute, value) => {
