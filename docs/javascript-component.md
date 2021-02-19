@@ -220,6 +220,12 @@ The `renderResult` function should return either a DOM element or an HTML string
   (<a href='https://codepen.io/trevoreyre'>@trevoreyre</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
+## Methods
+
+| Name      | Description                                                                            |
+|:----------|:---------------------------------------------------------------------------------------|
+| `destroy` | Removes all event listeners and object references that were set during initialization. |
+
 ## Styling and customization
 
 To include the default styling of the autocomplete component that you see here in the docs, include the CSS file on your page.
