@@ -11,7 +11,6 @@
     >
       <div v-bind="rootProps">
         <input
-          ref="input"
           v-bind="inputProps"
           @input="handleInput"
           @keydown="core.handleKeyDown"
@@ -20,7 +19,6 @@
           v-on="$listeners"
         />
         <ul
-          ref="resultList"
           v-bind="resultListProps"
           v-on="resultListListeners"
         >
@@ -93,6 +91,7 @@ export default {
     return {
       core,
       value: this.defaultValue,
+      inputId: uniqueId(`${this.baseClass}-input-`),
       resultListId: uniqueId(`${this.baseClass}-result-list-`),
       results: [],
       selectedIndex: -1,
@@ -115,6 +114,7 @@ export default {
     },
     inputProps() {
       return {
+        id: this.inputId,
         class: `${this.baseClass}-input`,
         value: this.value,
         role: 'combobox',
@@ -176,24 +176,28 @@ export default {
 
   mounted() {
     document.body.addEventListener('click', this.handleDocumentClick)
+    this.inputElement = document.getElementById(this.inputId)
+    this.resultListElement = document.getElementById(this.resultListId)
   },
 
   beforeDestroy() {
     document.body.removeEventListener('click', this.handleDocumentClick)
+    this.inputElement = null;
+    this.resultListElement = null;
   },
 
   updated() {
-    if (!this.$refs.input || !this.$refs.resultList) {
+    if (!this.inputElement || !this.resultListElement) {
       return
     }
     if (this.resetPosition && this.results.length > 0) {
       this.resetPosition = false
       this.position = getRelativePosition(
-        this.$refs.input,
-        this.$refs.resultList
+        this.inputElement,
+        this.resultListElement
       )
     }
-    this.core.checkSelectedResultVisible(this.$refs.resultList)
+    this.core.checkSelectedResultVisible(this.resultListElement)
   },
 
   methods: {
