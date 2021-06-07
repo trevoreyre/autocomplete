@@ -345,7 +345,27 @@ export const DefaultSlotFullControl = () => ({
           return []
         }
         return foods.filter(food => {
-          return food.startsWith(input)
+          return food.includes(input)
+        })
+      },
+    },
+  }))
+  .add('Try some japanese', () => ({
+    components: { Autocomplete },
+    template: `
+      <Autocomplete
+        aria-label="グルメ検索"
+        placeholder="グルメ検索，試してみる‘サクラ’"
+        :search="search"
+      />
+    `,
+    methods: {
+      search: input => {
+        if (input.length < 1) {
+          return []
+        }
+        return sushis.filter(food => {
+          return food.includes(input)
         })
       },
     },
@@ -565,3 +585,5 @@ const foods = [
   '四川麻辣烫',
   '湖南木桶饭',
 ]
+// I don't know what this world means, use "aaa" tigger
+const sushis = ['きょう', 'あす', 'サクラ', 'やま', '亜亜']
