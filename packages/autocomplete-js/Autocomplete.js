@@ -80,6 +80,7 @@ class Autocomplete {
     this.input.setAttribute('role', 'combobox')
     this.input.setAttribute('autocomplete', 'off')
     this.input.setAttribute('autocapitalize', 'off')
+    this.input.setAttribute('autocorrect', 'off')
     this.input.setAttribute('spellcheck', 'false')
     this.input.setAttribute('aria-autocomplete', 'list')
     this.input.setAttribute('aria-haspopup', 'listbox')
