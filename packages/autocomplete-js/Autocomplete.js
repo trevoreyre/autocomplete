@@ -37,7 +37,6 @@ class Autocomplete {
       onSubmit = () => {},
       onUpdate = () => {},
       baseClass = 'autocomplete',
-      autocorrect = false,
       autoSelect,
       getResultValue = result => result,
       renderResult,
@@ -48,7 +47,6 @@ class Autocomplete {
     this.input = this.root.querySelector('input')
     this.resultList = this.root.querySelector('ul')
     this.baseClass = baseClass
-    this.autocorrect = autocorrect
     this.getResultValue = getResultValue
     this.onUpdate = onUpdate
     if (typeof renderResult === 'function') {
@@ -61,7 +59,6 @@ class Autocomplete {
       setValue: this.setValue,
       setAttribute: this.setAttribute,
       onUpdate: this.handleUpdate,
-      autocorrect: this.autocorrect,
       onSubmit,
       onShow: this.handleShow,
       onHide: this.handleHide,
@@ -83,9 +80,7 @@ class Autocomplete {
     this.input.setAttribute('role', 'combobox')
     this.input.setAttribute('autocomplete', 'off')
     this.input.setAttribute('autocapitalize', 'off')
-    if (this.autocorrect) {
-      this.input.setAttribute('autocorrect', 'on')
-    }
+    this.input.setAttribute('autocorrect', 'off')
     this.input.setAttribute('spellcheck', 'false')
     this.input.setAttribute('aria-autocomplete', 'list')
     this.input.setAttribute('aria-haspopup', 'listbox')

@@ -15,7 +15,6 @@ class AutocompleteCore {
     onUpdate = () => {},
     onSubmit = () => {},
     onShow = () => {},
-    autocorrect = false,
     onHide = () => {},
     onLoading = () => {},
     onLoaded = () => {},
@@ -28,7 +27,6 @@ class AutocompleteCore {
     this.setAttribute = setAttribute
     this.onUpdate = onUpdate
     this.onSubmit = onSubmit
-    this.autocorrect = autocorrect
     this.onShow = onShow
     this.onHide = onHide
     this.onLoading = onLoading
@@ -41,7 +39,6 @@ class AutocompleteCore {
     this.setAttribute = null
     this.onUpdate = null
     this.onSubmit = null
-    this.autocorrect = null
     this.onShow = null
     this.onHide = null
     this.onLoading = null
@@ -151,6 +148,7 @@ class AutocompleteCore {
         this.hideResults()
         return
       }
+
       this.selectedIndex = this.autoSelect ? 0 : -1
       this.onUpdate(this.results, this.selectedIndex)
       this.showResults()
