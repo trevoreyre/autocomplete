@@ -72,9 +72,10 @@ Then, use the component in your app.
 
 ## Events
 
-| Event               | Signature                      | Description                  |
-| :------------------ | :----------------------------- | :--------------------------- |
-| [`submit`](#submit) | `function (result: any): void` | Executed on input submission |
+| Event               | Signature                                                | Description                               |
+| :------------------ | :------------------------------------------------------- | :---------------------------------------- |
+| [`submit`](#submit) | `function (result: any): void`                           | Executed on input submission              |
+| [`update`](#update) | `function (results: any[], selectedIndex: Number): void` | Executed when the results list is updated |
 
 #### search
 
@@ -117,7 +118,7 @@ new Vue({
   components: {
     Autocomplete,
   },
-  data: {
+  methods: {
     // Search function can return a promise
     // which resolves with an array of
     // results. In this case we're using
@@ -125,14 +126,14 @@ new Vue({
     search(input) {
       const url = `${wikiUrl}/w/api.php?${params}&srsearch=${encodeURI(input)}`
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         if (input.length < 3) {
           return resolve([])
         }
 
         fetch(url)
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             resolve(data.query.search)
           })
       })
@@ -240,6 +241,19 @@ The `submit` event is executed when the user submits their result by either sele
 ```js
 submit(result) {
   alert(`You selected ${result}`)
+}
+```
+
+#### update
+
+The `update` event is executed when the results list is updated. The function receives the results list and the index of the selected result.
+
+```js
+update(results, selectedIndex) {
+  console.log(`${results.length} results`)
+  if (selectedIndex > -1) {
+    console.log(`Selected: ${results[selectedIndex]}`)
+  }
 }
 ```
 

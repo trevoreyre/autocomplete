@@ -208,6 +208,7 @@ export default {
     handleUpdate(results, selectedIndex) {
       this.results = results
       this.selectedIndex = selectedIndex
+      this.$emit('update', results, selectedIndex)
     },
 
     handleShow() {

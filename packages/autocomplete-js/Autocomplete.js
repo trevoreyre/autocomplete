@@ -35,6 +35,7 @@ class Autocomplete {
     {
       search,
       onSubmit = () => {},
+      onUpdate = () => {},
       baseClass = 'autocomplete',
       autoSelect,
       getResultValue = result => result,
@@ -47,6 +48,7 @@ class Autocomplete {
     this.resultList = this.root.querySelector('ul')
     this.baseClass = baseClass
     this.getResultValue = getResultValue
+    this.onUpdate = onUpdate
     if (typeof renderResult === 'function') {
       this.renderResult = renderResult
     }
@@ -117,6 +119,28 @@ class Autocomplete {
     this.updateStyle()
   }
 
+  destroy = () => {
+    document.body.removeEventListener('click', this.handleDocumentClick)
+    this.input.removeEventListener('input', this.core.handleInput)
+    this.input.removeEventListener('keydown', this.core.handleKeyDown)
+    this.input.removeEventListener('focus', this.core.handleFocus)
+    this.input.removeEventListener('blur', this.core.handleBlur)
+    this.resultList.removeEventListener(
+      'mousedown',
+      this.core.handleResultMouseDown
+    )
+    this.resultList.removeEventListener('click', this.core.handleResultClick)
+
+    this.root = null
+    this.input = null
+    this.resultList = null
+    this.getResultValue = null
+    this.onUpdate = null
+    this.renderResult = null
+    this.core.destroy()
+    this.core = null
+  }
+
   setAttribute = (attribute, value) => {
     this.input.setAttribute(attribute, value)
   }
@@ -151,6 +175,7 @@ class Autocomplete {
       this.updateStyle()
     }
     this.core.checkSelectedResultVisible(this.resultList)
+    this.onUpdate(results, selectedIndex)
   }
 
   handleShow = () => {
