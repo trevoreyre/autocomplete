@@ -139,6 +139,10 @@ class Autocomplete {
 
   setValue = result => {
     this.input.value = result ? this.getResultValue(result) : ''
+    this.core.waitOnInput = true
+    setTimeout(() => {
+      this.core.waitOnInput = false
+    }, 500)
   }
 
   renderResult = (result, props) =>
