@@ -34,6 +34,7 @@ class Autocomplete {
     root,
     {
       search,
+      preventContextSwitch = false,
       onSubmit = () => {},
       onUpdate = () => {},
       baseClass = 'autocomplete',
@@ -51,6 +52,7 @@ class Autocomplete {
     this.autocorrect = autocorrect
     this.getResultValue = getResultValue
     this.onUpdate = onUpdate
+    this.preventContextSwitch = preventContextSwitch
     if (typeof renderResult === 'function') {
       this.renderResult = renderResult
     }
@@ -58,6 +60,8 @@ class Autocomplete {
     const core = new AutocompleteCore({
       search,
       autoSelect,
+      preventContextSwitch: this.preventContextSwitch,
+      expanded: this.expanded,
       setValue: this.setValue,
       setAttribute: this.setAttribute,
       onUpdate: this.handleUpdate,
@@ -108,6 +112,13 @@ class Autocomplete {
     this.input.addEventListener('keydown', this.core.handleKeyDown)
     this.input.addEventListener('focus', this.core.handleFocus)
     this.input.addEventListener('blur', this.core.handleBlur)
+    if (this.preventContextSwitch && this.input.form) {
+      this.input.addEventListener(
+        'toggle-expanded',
+        this.core.handleToggleExpanded
+      )
+      this.input.form.addEventListener('submit', this.core.handleSubmit)
+    }
     this.resultList.addEventListener(
       'mousedown',
       this.core.handleResultMouseDown
@@ -176,12 +187,20 @@ class Autocomplete {
   }
 
   handleShow = () => {
+    const prevExpandedState = this.expanded
     this.expanded = true
+    if (this.preventContextSwitch) {
+      this.dispatchExpandedState(prevExpandedState)
+    }
     this.updateStyle()
   }
 
   handleHide = () => {
+    const prevExpandedState = this.expanded
     this.expanded = false
+    if (this.preventContextSwitch) {
+      this.dispatchExpandedState(prevExpandedState)
+    }
     this.resetPosition = true
     this.updateStyle()
   }
@@ -201,6 +220,16 @@ class Autocomplete {
       return
     }
     this.core.hideResults()
+  }
+
+  dispatchExpandedState = prevExpandedState => {
+    if (prevExpandedState !== this.expanded) {
+      this.input.dispatchEvent(
+        new CustomEvent('toggle-expanded', {
+          detail: { expanded: this.expanded },
+        })
+      )
+    }
   }
 
   updateStyle = () => {

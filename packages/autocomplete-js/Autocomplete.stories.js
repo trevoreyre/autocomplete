@@ -202,6 +202,22 @@ export const AutoSelect = () => {
   return root
 }
 
+export const PreventContextSwitch = () => {
+  const root = createRoot()
+  root.innerHTML = `
+    <form>
+      <input
+        class='autocomplete-input'
+        placeholder='Search for a country'
+        aria-label='Search for a country'
+      >
+      <ul class='autocomplete-result-list'></ul>
+    </form>
+  `
+  new Autocomplete(root, { search, preventContextSwitch: true })
+  return root
+}
+
 export const DefaultValue = () => {
   const root = createRoot()
   root.innerHTML = `
