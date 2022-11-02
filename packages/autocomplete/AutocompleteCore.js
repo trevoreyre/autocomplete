@@ -6,6 +6,7 @@ class AutocompleteCore {
   searchCounter = 0
   results = []
   selectedIndex = -1
+  waitOnInput = false
 
   constructor({
     search,
@@ -50,8 +51,10 @@ class AutocompleteCore {
 
   handleInput = event => {
     const { value } = event.target
-    this.updateResults(value)
-    this.value = value
+    if (!(this.waitOnInput && this.value === value)) {
+      this.updateResults(value)
+      this.value = value
+    }
   }
 
   handleKeyDown = event => {
