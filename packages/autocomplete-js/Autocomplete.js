@@ -108,6 +108,14 @@ class Autocomplete {
     this.input.addEventListener('keydown', this.core.handleKeyDown)
     this.input.addEventListener('focus', this.core.handleFocus)
     this.input.addEventListener('blur', this.core.handleBlur)
+    this.input.addEventListener(
+      'compositionstart',
+      this.core.handleCompositionStart
+    )
+    this.input.addEventListener(
+      'compositionend',
+      this.core.handleCompositionEnd
+    )
     this.resultList.addEventListener(
       'mousedown',
       this.core.handleResultMouseDown

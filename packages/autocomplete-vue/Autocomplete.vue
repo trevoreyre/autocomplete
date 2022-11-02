@@ -17,6 +17,8 @@
           @keydown="core.handleKeyDown"
           @focus="core.handleFocus"
           @blur="core.handleBlur"
+          @compositionstart="core.handleCompositionStart"
+          @compositionend="core.handleCompositionEnd"
           v-on="$listeners"
         />
         <ul
@@ -139,6 +141,8 @@ export default {
         keydown: this.core.handleKeyDown,
         focus: this.core.handleFocus,
         blur: this.core.handleBlur,
+        compositionstart: this.core.handleCompositionStart,
+        compositionend: this.core.handleCompositionEnd,
       }
     },
     resultListProps() {
