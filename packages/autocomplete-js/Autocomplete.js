@@ -31,7 +31,8 @@ class Autocomplete {
   resetPosition = true
 
   constructor(
-    root,
+    root,resultListContainer
+    ,
     {
       search,
       onSubmit = () => {},
@@ -45,8 +46,17 @@ class Autocomplete {
     } = {}
   ) {
     this.root = typeof root === 'string' ? document.querySelector(root) : root
+    this.resultListContainer = typeof resultListContainer === 'string' ? this.root.querySelector(resultListContainer) : resultListContainer
+    // now insert an ul to the resultListContainer
+    this.resultList = document.createElement('ul');
+
+    this.resultListContainer.prepend(this.resultList)
+    console.log(this.resultList)
+
+    // this.resultList = this.resultListContainer.querySelector('ul')
+
+    console.log(this.resultListContainer)
     this.input = this.root.querySelector('input')
-    this.resultList = this.root.querySelector('ul')
     this.baseClass = baseClass
     this.autocorrect = autocorrect
     this.getResultValue = getResultValue
@@ -92,10 +102,6 @@ class Autocomplete {
     this.input.setAttribute('aria-expanded', 'false')
 
     this.resultList.setAttribute('role', 'listbox')
-    this.resultList.style.position = 'absolute'
-    this.resultList.style.zIndex = '1'
-    this.resultList.style.width = '100%'
-    this.resultList.style.boxSizing = 'border-box'
 
     // Generate ID for results list if it doesn't have one
     if (!this.resultList.id) {
@@ -137,7 +143,7 @@ class Autocomplete {
     this.core.destroy()
     this.core = null
   }
-
+  
   setAttribute = (attribute, value) => {
     this.input.setAttribute(attribute, value)
   }
@@ -208,14 +214,19 @@ class Autocomplete {
     this.root.dataset.loading = this.loading
     this.root.dataset.position = this.position
 
-    this.resultList.style.visibility = this.expanded ? 'visible' : 'hidden'
+    // this.resultListContainer.style.visibility = this.expanded ? 'visible' : 'hidden'
+    this.resultListContainer.classList.toggle(
+      'visible',
+      this.expanded
+    )
+
     this.resultList.style.pointerEvents = this.expanded ? 'auto' : 'none'
     if (this.position === 'below') {
-      this.resultList.style.bottom = null
-      this.resultList.style.top = '100%'
+      this.resultListContainer.style.bottom = null
+      this.resultListContainer.style.top = '100%'
     } else {
-      this.resultList.style.top = null
-      this.resultList.style.bottom = '100%'
+      this.resultListContainer.style.top = null
+      this.resultListContainer.style.bottom = '100%'
     }
   }
 }
