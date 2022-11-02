@@ -1,3 +1,7 @@
+## v2.3.0 (November 2, 2022)
+### autocomplete-js
+
+- Fixed W3C validation error regarding the attribute `autocorrect` by changing it to be optional (dpxgit, [@dpxgit](https://github.com/dpxgit))
 ## v2.2.0 (May 28, 2020)
 
 ### autocomplete-vue
