@@ -79,18 +79,6 @@ class Autocomplete {
     this.initialize()
   }
 
-  setResultListLabel(label) {
-    if (label?.length > 0) {
-      const isLabelId = label.startsWith('#')
-      const labelObj = {
-        attribute: isLabelId ? 'aria-labelledby' : 'aria-label',
-        content: isLabelId ? label.substring(1) : label,
-      }
-
-      return this.resultList.setAttribute(labelObj.attribute, labelObj.content)
-    }
-  }
-
   // Set up aria attributes and events
   initialize = () => {
     this.root.style.position = 'relative'
@@ -109,7 +97,7 @@ class Autocomplete {
     this.resultList.setAttribute('role', 'listbox')
 
     const resultListAriaLabel = getAriaLabel(this.resultListLabel)
-    this.resultListLabel &&
+    resultListAriaLabel &&
       this.resultList.setAttribute(
         resultListAriaLabel.attribute,
         resultListAriaLabel.content
