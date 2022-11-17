@@ -356,6 +356,34 @@ export const DefaultSlotFullControl = () => ({
 })
 DefaultSlotFullControl.story = { name: 'Default Slot (Full Control)' }
 
+export const ResultListLabelString = () => ({
+  template: `
+    <Autocomplete
+      aria-label="Search for a country"
+      placeholder="Search for a country"
+      :search="search"
+      result-list-label="Suggested countries"
+    />
+  `,
+  methods: {
+    search,
+  },
+})
+
+export const ResultListLabelId = () => ({
+  template: `
+    <Autocomplete
+      aria-label="Search for a country"
+      placeholder="Search for a country"
+      :search="search"
+      result-list-label="#root"
+    />
+  `,
+  methods: {
+    search,
+  },
+})
+
 const countries = [
   'Afghanistan',
   'Albania',

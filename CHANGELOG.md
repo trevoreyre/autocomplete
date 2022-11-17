@@ -1,7 +1,21 @@
+# Changelog
+
+## v2.4.0 (November 17, 2022)
+
+### autocomplete-js
+
+- Added `resultListLabel` option to provide `aria-label` or `aria-labelledby` attribute for result list (dpxgit, [@dpxgit](https://github.com/dpxgit))
+
+### autocomplete-vue
+
+- Added `resultListLabel` prop to provide `aria-label` or `aria-labelledby` attribute for result list (dpxgit, [@dpxgit](https://github.com/dpxgit))
+
 ## v2.3.0 (November 2, 2022)
+
 ### autocomplete-js
 
 - Fixed W3C validation error regarding the attribute `autocorrect` by changing it to be optional (dpxgit, [@dpxgit](https://github.com/dpxgit))
+
 ## v2.2.0 (May 28, 2020)
 
 ### autocomplete-vue

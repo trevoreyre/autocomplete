@@ -42,6 +42,7 @@ import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
 import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
 import debounce from '../autocomplete/util/debounce.js'
+import getAriaLabel from '../autocomplete/util/getAriaLabel'
 
 export default {
   name: 'Autocomplete',
@@ -71,6 +72,10 @@ export default {
     debounceTime: {
       type: Number,
       default: 0,
+    },
+    resultListLabel: {
+      type: String,
+      default: undefined,
     },
   },
 
@@ -143,10 +148,13 @@ export default {
     },
     resultListProps() {
       const yPosition = this.position === 'below' ? 'top' : 'bottom'
+      const ariaLabel = getAriaLabel(this.resultListLabel)
+
       return {
         id: this.resultListId,
         class: `${this.baseClass}-result-list`,
         role: 'listbox',
+        [ariaLabel?.attribute]: ariaLabel?.content,
         style: {
           position: 'absolute',
           zIndex: 1,

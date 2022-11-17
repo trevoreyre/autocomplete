@@ -2,6 +2,7 @@ import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
 import uniqueId from '../autocomplete/util/uniqueId.js'
 import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
 import debounce from '../autocomplete/util/debounce.js'
+import getAriaLabel from '../autocomplete/util/getAriaLabel.js'
 
 // Creates a props object with overridden toString function. toString returns an attributes
 // string in the format: `key1="value1" key2="value2"` for easy use in an HTML string.
@@ -42,6 +43,7 @@ class Autocomplete {
       getResultValue = result => result,
       renderResult,
       debounceTime = 0,
+      resultListLabel,
     } = {}
   ) {
     this.root = typeof root === 'string' ? document.querySelector(root) : root
@@ -54,6 +56,7 @@ class Autocomplete {
     if (typeof renderResult === 'function') {
       this.renderResult = renderResult
     }
+    this.resultListLabel = resultListLabel
 
     const core = new AutocompleteCore({
       search,
@@ -76,6 +79,18 @@ class Autocomplete {
     this.initialize()
   }
 
+  setResultListLabel(label) {
+    if (label?.length > 0) {
+      const isLabelId = label.startsWith('#')
+      const labelObj = {
+        attribute: isLabelId ? 'aria-labelledby' : 'aria-label',
+        content: isLabelId ? label.substring(1) : label,
+      }
+
+      return this.resultList.setAttribute(labelObj.attribute, labelObj.content)
+    }
+  }
+
   // Set up aria attributes and events
   initialize = () => {
     this.root.style.position = 'relative'
@@ -92,6 +107,14 @@ class Autocomplete {
     this.input.setAttribute('aria-expanded', 'false')
 
     this.resultList.setAttribute('role', 'listbox')
+
+    const resultListAriaLabel = getAriaLabel(this.resultListLabel)
+    this.resultListLabel &&
+      this.resultList.setAttribute(
+        resultListAriaLabel.attribute,
+        resultListAriaLabel.content
+      )
+
     this.resultList.style.position = 'absolute'
     this.resultList.style.zIndex = '1'
     this.resultList.style.width = '100%'

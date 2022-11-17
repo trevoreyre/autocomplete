@@ -35,6 +35,15 @@ const searchWikipedia = input =>
       })
   })
 
+const countrySearchTemplate = `
+  <input
+    class='autocomplete-input'
+    placeholder='Search for a country'
+    aria-label='Search for a country'
+  >
+  <ul class='autocomplete-result-list'></ul>
+`
+
 export default {
   title: 'Autocomplete JS',
   component: Autocomplete,
@@ -42,28 +51,14 @@ export default {
 
 export const Basic = () => {
   const root = createRoot()
-  root.innerHTML = `
-    <input
-      class='autocomplete-input'
-      placeholder='Search for a country'
-      aria-label='Search for a country'
-    >
-    <ul class='autocomplete-result-list'></ul>
-  `
+  root.innerHTML = countrySearchTemplate
   new Autocomplete(root, { search })
   return root
 }
 
 export const DefaultResults = () => {
   const root = createRoot()
-  root.innerHTML = `
-    <input
-      class='autocomplete-input'
-      placeholder='Search for a country'
-      aria-label='Search for a country'
-    >
-    <ul class='autocomplete-result-list'></ul>
-  `
+  root.innerHTML = countrySearchTemplate
   new Autocomplete(root, {
     search(input) {
       if (input.length < 1) {
@@ -118,14 +113,7 @@ export const DebouncedSearch = () => {
 
 export const SubmitEvent = () => {
   const root = createRoot()
-  root.innerHTML = `
-    <input
-      class='autocomplete-input'
-      placeholder='Search for a country'
-      aria-label='Search for a country'
-    >
-    <ul class='autocomplete-result-list'></ul>
-  `
+  root.innerHTML = countrySearchTemplate
   new Autocomplete(root, {
     search,
     onSubmit: result => alert(`You selected ${result}`),
@@ -135,14 +123,7 @@ export const SubmitEvent = () => {
 
 export const UpdateEvent = () => {
   const root = createRoot()
-  root.innerHTML = `
-    <input
-      class='autocomplete-input'
-      placeholder='Search for a country'
-      aria-label='Search for a country'
-    >
-    <ul class='autocomplete-result-list'></ul>
-  `
+  root.innerHTML = countrySearchTemplate
   new Autocomplete(root, {
     search,
     onUpdate: (results, selectedIndex) => {
@@ -172,15 +153,7 @@ export const CustomClass = () => {
 
 export const CustomEvents = () => {
   const root = createRoot()
-  root.innerHTML = `
-    <input
-      class='autocomplete-input'
-      placeholder='Search for a country'
-      aria-label='Search for a country'
-    >
-    <ul class='autocomplete-result-list'></ul>
-  `
-
+  root.innerHTML = countrySearchTemplate
   const input = root.querySelector('.autocomplete-input')
   input.addEventListener('input', action('input'))
   input.addEventListener('keyup', action('keyup'))
@@ -190,14 +163,7 @@ export const CustomEvents = () => {
 
 export const AutoSelect = () => {
   const root = createRoot()
-  root.innerHTML = `
-    <input
-      class='autocomplete-input'
-      placeholder='Search for a country'
-      aria-label='Search for a country'
-    >
-    <ul class='autocomplete-result-list'></ul>
-  `
+  root.innerHTML = countrySearchTemplate
   new Autocomplete(root, { search, autoSelect: true })
   return root
 }
@@ -277,6 +243,26 @@ export const RenderResultElement = () => {
       `
       return item
     },
+  })
+  return root
+}
+
+export const ResultListLabelString = () => {
+  const root = createRoot()
+  root.innerHTML = countrySearchTemplate
+  new Autocomplete(root, {
+    search,
+    resultListLabel: 'Suggested countries',
+  })
+  return root
+}
+
+export const ResultListLabelId = () => {
+  const root = createRoot()
+  root.innerHTML = countrySearchTemplate
+  new Autocomplete(root, {
+    search,
+    resultListLabel: '#root',
   })
   return root
 }
