@@ -77,6 +77,10 @@ export default {
       type: String,
       default: undefined,
     },
+    submitOnEnter: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -90,6 +94,7 @@ export default {
       onHide: this.handleHide,
       onLoading: this.handleLoading,
       onLoaded: this.handleLoaded,
+      submitOnEnter: this.submitOnEnter,
     })
     if (this.debounceTime > 0) {
       core.handleInput = debounce(core.handleInput, this.debounceTime)

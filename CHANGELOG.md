@@ -1,6 +1,10 @@
 # Changelog
 
-## v2.4.0 (November 17, 2022)
+## v2.4.0 (November 21, 2022)
+
+### autocomplete-core
+
+- Added `submitOnEnter` option to control whether or not results should be submitted immediately after selecting them by pressing <kbd>Enter</kbd> (dpxgit, [@dpxgit](https://github.com/dpxgit))
 
 ### autocomplete-js
 

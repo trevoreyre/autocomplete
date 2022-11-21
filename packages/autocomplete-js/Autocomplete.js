@@ -44,6 +44,7 @@ class Autocomplete {
       renderResult,
       debounceTime = 0,
       resultListLabel,
+      submitOnEnter = false,
     } = {}
   ) {
     this.root = typeof root === 'string' ? document.querySelector(root) : root
@@ -57,6 +58,7 @@ class Autocomplete {
       this.renderResult = renderResult
     }
     this.resultListLabel = resultListLabel
+    this.submitOnEnter = submitOnEnter
 
     const core = new AutocompleteCore({
       search,
@@ -70,6 +72,7 @@ class Autocomplete {
       onHide: this.handleHide,
       onLoading: this.handleLoading,
       onLoaded: this.handleLoaded,
+      submitOnEnter: this.submitOnEnter,
     })
     if (debounceTime > 0) {
       core.handleInput = debounce(core.handleInput, debounceTime)

@@ -384,6 +384,30 @@ export const ResultListLabelId = () => ({
   },
 })
 
+export const SubmitOnEnter = () => ({
+  template: `
+    <Autocomplete
+      aria-label="Search Wikipedia"
+      placeholder="Search Wikipedia"
+      :search="search"
+      :get-result-value="getResultValue"
+      @submit="onSubmit"
+      submit-on-enter="true"
+    />
+  `,
+  methods: {
+    search(input) {
+      return searchWikipedia(input)
+    },
+    getResultValue(result) {
+      return result.title
+    },
+    onSubmit(result) {
+      window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
+    },
+  },
+})
+
 const countries = [
   'Afghanistan',
   'Albania',

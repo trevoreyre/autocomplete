@@ -68,6 +68,7 @@ Then, use the component in your app.
 | [`defaultValue`](#defaultvalue)       | String              |                  | Initial value of the component                                                                          |
 | [`debounceTime`](#debouncetime)       | Number              | `0`              | Time in milliseconds that the component should wait after last keystroke before calling search function |
 | [`resultListLabel`](#resultlistlabel) | String              |                  | `aria-label` or `aria-labelledby` for result list                                                       |
+| [`submitOnEnter`](#submitonenter)     | Boolean             | `false`          | Immediately call [`onSubmit`](#onsubmit) on result when pressing <kbd>Enter</kbd>                       |
 
 **Note:** Any extra props you pass will be spread on the `input` element of the autocomplete component.
 
@@ -231,6 +232,10 @@ The `debounceTime` prop can be used to improve the performance of your UI by spe
 #### resultListLabel
 
 Sets the provided string as `aria-label` on the autocomplete result list (`<ul role="listbox">`). If the string starts with a `#` it will set the `aria-labelledby` attribute instead.
+
+#### submitOnEnter
+
+If `true`, pressing <kbd>Enter</kbd> on the selected entry of the result list will pass the result immediately to the `onSubmit` function and call it. Default setting is `false`.
 
 ## Events
 
