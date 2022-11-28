@@ -3,3 +3,4 @@ node_modules
 dist
 lerna-debug.log
 packages/**/LICENSE
+.vscode/
