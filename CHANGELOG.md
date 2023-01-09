@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.4.0 (November 21, 2022)
+## v2.4.0 (January 9, 2023)
 
 ### autocomplete-core
 
