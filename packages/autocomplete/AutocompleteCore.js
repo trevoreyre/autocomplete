@@ -6,6 +6,7 @@ class AutocompleteCore {
   searchCounter = 0
   results = []
   selectedIndex = -1
+  selectedResult = null
 
   constructor({
     search,
@@ -19,6 +20,7 @@ class AutocompleteCore {
     onHide = () => {},
     onLoading = () => {},
     onLoaded = () => {},
+    submitOnEnter = false,
   } = {}) {
     this.search = isPromise(search)
       ? search
@@ -33,6 +35,7 @@ class AutocompleteCore {
     this.onHide = onHide
     this.onLoading = onLoading
     this.onLoaded = onLoaded
+    this.submitOnEnter = submitOnEnter
   }
 
   destroy = () => {
@@ -75,9 +78,21 @@ class AutocompleteCore {
         break
       }
       case 'Enter': {
-        const selectedResult = this.results[this.selectedIndex]
+        const isListItemSelected =
+          event.target.getAttribute('aria-activedescendant').length > 0
+
+        this.selectedResult =
+          this.results[this.selectedIndex] || this.selectedResult
         this.selectResult()
-        this.onSubmit(selectedResult)
+
+        if (this.submitOnEnter) {
+          this.selectedResult && this.onSubmit(this.selectedResult)
+        } else {
+          if (!isListItemSelected) {
+            this.selectedResult && this.onSubmit(this.selectedResult)
+            this.selectedResult = null
+          }
+        }
         break
       }
       case 'Esc': // IE/Edge

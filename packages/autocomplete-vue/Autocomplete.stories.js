@@ -356,6 +356,58 @@ export const DefaultSlotFullControl = () => ({
 })
 DefaultSlotFullControl.story = { name: 'Default Slot (Full Control)' }
 
+export const ResultListLabelString = () => ({
+  template: `
+    <Autocomplete
+      aria-label="Search for a country"
+      placeholder="Search for a country"
+      :search="search"
+      result-list-label="Suggested countries"
+    />
+  `,
+  methods: {
+    search,
+  },
+})
+
+export const ResultListLabelId = () => ({
+  template: `
+    <Autocomplete
+      aria-label="Search for a country"
+      placeholder="Search for a country"
+      :search="search"
+      result-list-label="#root"
+    />
+  `,
+  methods: {
+    search,
+  },
+})
+
+export const SubmitOnEnter = () => ({
+  template: `
+    <Autocomplete
+      aria-label="Search Wikipedia"
+      placeholder="Search Wikipedia"
+      :search="search"
+      :get-result-value="getResultValue"
+      @submit="onSubmit"
+      submit-on-enter="true"
+    />
+  `,
+  methods: {
+    search(input) {
+      return searchWikipedia(input)
+    },
+    getResultValue(result) {
+      return result.title
+    },
+    onSubmit(result) {
+      window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`)
+    },
+  },
+})
+
 const countries = [
   'Afghanistan',
   'Albania',

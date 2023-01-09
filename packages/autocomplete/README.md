@@ -38,18 +38,19 @@ const autocomplete = new Autocomplete(options)
 
 ## Arguments
 
-| Argument       | Type                | Description                                                                                                    |
-| :------------- | :------------------ | :------------------------------------------------------------------------------------------------------------- |
-| `search`       | Function (required) | The search function to be executed on user input. Can be a synchronous function or a `Promise`.                |
-| `autoSelect`   | Boolean             | Controls whether first result should be highlighted after input                                                |
-| `setValue`     | Function            | Sets the value of the calling component's `input` element                                                      |
-| `setAttribute` | Function            | Sets attributes on the calling component's `input` element                                                     |
-| `onUpdate`     | Function            | Fired when the results list is updated. Receives `results` (Array), and `selectedIndex` (Number) as arguments. |
-| `onSubmit`     | Function            | Fired when user submits result. Receives `result` as argument.                                                 |
-| `onShow`       | Function            | Fired when the results list is shown                                                                           |
-| `onHide`       | Function            | Fired when the results list is hidden                                                                          |
-| `onLoading`    | Function            | Fired if `search` is a `Promise` and hasn't resolved yet                                                       |
-| `onLoaded`     | Function            | Fired after asynchronous `search` function resolves                                                            |
+| Argument        | Type                | Description                                                                                                    |
+| :-------------- | :------------------ | :------------------------------------------------------------------------------------------------------------- |
+| `search`        | Function (required) | The search function to be executed on user input. Can be a synchronous function or a `Promise`.                |
+| `autoSelect`    | Boolean             | Controls whether first result should be highlighted after input                                                |
+| `setValue`      | Function            | Sets the value of the calling component's `input` element                                                      |
+| `setAttribute`  | Function            | Sets attributes on the calling component's `input` element                                                     |
+| `onUpdate`      | Function            | Fired when the results list is updated. Receives `results` (Array), and `selectedIndex` (Number) as arguments. |
+| `onSubmit`      | Function            | Fired when user submits result. Receives `result` as argument.                                                 |
+| `onShow`        | Function            | Fired when the results list is shown                                                                           |
+| `onHide`        | Function            | Fired when the results list is hidden                                                                          |
+| `onLoading`     | Function            | Fired if `search` is a `Promise` and hasn't resolved yet                                                       |
+| `onLoaded`      | Function            | Fired after asynchronous `search` function resolves                                                            |
+| `submitOnEnter` | Boolean             | If `true`, immediately call `onSubmit` on result when pressing <kbd>Enter</kbd>. Default: `false`              |
 
 ## Event handlers
 
