@@ -88,7 +88,9 @@ class AutocompleteCore {
         if (this.submitOnEnter) {
           this.selectedResult && this.onSubmit(this.selectedResult)
         } else {
-          if (!isListItemSelected) {
+          if (isListItemSelected) {
+            event.preventDefault()
+          } else {
             this.selectedResult && this.onSubmit(this.selectedResult)
             this.selectedResult = null
           }

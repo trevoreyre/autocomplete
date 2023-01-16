@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.4.1 (January 13, 2023)
+
+### autocomplete-core
+
+- Prevent default action (i. e. form submit) when selecting an entry from result list with <kbd>Enter</kbd> while `submitOnEnter: false` (dpxgit, [@dpxgit](https://github.com/dpxgit))
+
 ## v2.4.0 (January 9, 2023)
 
 ### autocomplete-core
