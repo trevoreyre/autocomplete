@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.4.2 (April 6, 2023)
+
+### autocomplete-core
+
+- Added condition statement `event.isComposing` to method `handleKeyDown`. The reason is the abnormal behavior of the input event when typing Korean. (SoonMin, [@Ssoon-m](https://github.com/Ssoon-m))
+
+### autocomplete-vue
+
+- Added a `prevValue` and changed the handleInput method. The reason is the abnormal behavior of the input event when typing Korean.
+(SoonMin, [@Ssoon-m](https://github.com/Ssoon-m))
+
 ## v2.4.1 (January 13, 2023)
 
 ### autocomplete-core

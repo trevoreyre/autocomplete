@@ -103,6 +103,7 @@ export default {
     return {
       core,
       value: this.defaultValue,
+      prevValue: '',
       resultListId: uniqueId(`${this.baseClass}-result-list-`),
       results: [],
       selectedIndex: -1,
@@ -238,8 +239,12 @@ export default {
     },
 
     handleInput(event) {
-      this.value = event.target.value
-      this.core.handleInput(event)
+      const currentValue = event.target.value
+      if (currentValue !== this.prevValue) {
+        this.value = currentValue
+        this.prevValue = currentValue
+        this.core.handleInput(event)
+      }
     },
 
     handleSubmit(selectedResult) {

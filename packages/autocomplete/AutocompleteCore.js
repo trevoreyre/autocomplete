@@ -58,6 +58,7 @@ class AutocompleteCore {
   }
 
   handleKeyDown = event => {
+    if (event.isComposing) return
     const { key } = event
 
     switch (key) {
