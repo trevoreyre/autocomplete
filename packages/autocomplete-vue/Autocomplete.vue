@@ -217,6 +217,8 @@ export default {
     handleUpdate(results, selectedIndex) {
       this.results = results
       this.selectedIndex = selectedIndex
+      this.$emit('isvalid', this.core.isValid);
+      this.$emit('matchcount', this.core.matchCount);
       this.$emit('update', results, selectedIndex)
     },
 
@@ -240,9 +242,13 @@ export default {
     handleInput(event) {
       this.value = event.target.value
       this.core.handleInput(event)
+      this.$emit('isvalid', this.core.isValid);
+      this.$emit('matchcount', this.core.matchCount);
     },
 
     handleSubmit(selectedResult) {
+      this.$emit('isvalid', this.core.isValid);
+      this.$emit('matchcount', this.core.matchCount);
       this.$emit('submit', selectedResult)
     },
 
