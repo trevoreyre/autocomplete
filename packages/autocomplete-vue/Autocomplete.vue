@@ -214,9 +214,20 @@ export default {
       this.value = result ? this.getResultValue(result) : ''
     },
 
+    emitValid() {
+      this.$emit(
+        'valid',
+        {
+          isValid: this.core.isValid,
+          matchCount: this.core.matchCount,
+        },
+      );
+    },
+
     handleUpdate(results, selectedIndex) {
       this.results = results
       this.selectedIndex = selectedIndex
+      this.emitValid()
       this.$emit('update', results, selectedIndex)
     },
 
@@ -240,6 +251,7 @@ export default {
     handleInput(event) {
       this.value = event.target.value
       this.core.handleInput(event)
+      this.emitValid()
     },
 
     handleSubmit(selectedResult) {
