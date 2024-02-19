@@ -215,11 +215,15 @@ export default {
     },
 
     emitValid() {
+      const isValid = (this.core.selectedIndex > -1 || this.value === this.defaultValue);
+
       this.$emit(
         'valid',
         {
-          isValid: this.core.isValid,
-          matchCount: this.core.matchCount,
+          isValid,
+          matchCount: (isValid === true)
+            ? 1
+            : this.core.matchCount,
         },
       );
     },

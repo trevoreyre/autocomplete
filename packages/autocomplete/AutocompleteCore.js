@@ -7,8 +7,7 @@ class AutocompleteCore {
   results = []
   selectedIndex = -1
   selectedResult = null
-  isValid = false
-  matched = 0
+  matchCount = 0
 
   constructor({
     search,
@@ -152,9 +151,9 @@ class AutocompleteCore {
     const selectedResult = this.results[this.selectedIndex]
     if (selectedResult) {
       this.setValue(selectedResult)
-      this.isValid = true
+      this.matchCount = 1
     } else {
-      this.isValid = false
+      this.matchCount = this.results.length
     }
     this.hideResults()
   }
