@@ -58,24 +58,57 @@ class AutocompleteCore {
   }
 
   handleKeyDown = event => {
-    const { key } = event
+    const { key, ctrlKey, altKey } = event
 
     switch (key) {
       case 'Up': // IE/Edge
       case 'Down': // IE/Edge
       case 'ArrowUp':
       case 'ArrowDown': {
-        const selectedIndex =
-          key === 'ArrowUp' || key === 'Up'
-            ? this.selectedIndex - 1
-            : this.selectedIndex + 1
-        event.preventDefault()
-        this.handleArrows(selectedIndex)
+        const isUp = (key === 'ArrowUp' || key === 'Up');
+        if (altKey === false) {
+          const selectedIndex = (isUp === true)
+              ? this.selectedIndex - 1
+              : this.selectedIndex + 1
+          event.preventDefault()
+          this.handleArrows(selectedIndex)
+        } else {
+          // Based on recomendations from
+          // https://www.w3.org/WAI/ARIA/apg/patterns/combobox/#keyboardinteraction
+          if (isUp === true) {
+            // "Alt + Up Arrow (Optional): If the popup is displayed:
+            //     If the popup contains focus, returns focus to the combobox.
+            //     Closes the popup."
+            this.hideResults();
+          } else {
+            // "Alt + Down Arrow (Optional): If the popup is available but not displayed,
+            //     displays the popup without moving focus."
+            this.showResults();
+          }
+        }
         break
       }
       case 'Tab': {
         this.selectResult()
         break
+      }
+      case 'Home': {
+        // Based on recomendations from
+        // https://www.w3.org/WAI/ARIA/apg/patterns/combobox/#keyboardinteraction
+        // "Control + Home (optional): moves focus to the first row."
+        if (ctrlKey === true) {
+          this.handleArrows(0);
+        }
+        break;
+      }
+      case 'End':{
+        // Based on recomendations from
+        // https://www.w3.org/WAI/ARIA/apg/patterns/combobox/#keyboardinteraction
+        // "Control + End (Optional): moves focus to the last row."
+        if (ctrlKey === true) {
+          this.handleArrows(this.results.length - 1);
+        }
+        break;
       }
       case 'Enter': {
         const isListItemSelected =
