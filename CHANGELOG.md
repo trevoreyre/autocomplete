@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.0 (March 28, 2024)
+
+- Updated vue component for Vue.js 3.x
+- Updated storybook to v8.0. Updated stories to new format.
+- Updated dev dependencies
+
 ## v2.4.1 (January 13, 2023)
 
 ### autocomplete-core
