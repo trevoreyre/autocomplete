@@ -17,10 +17,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.js": [
-      "npm run lint --",
-      "git add"
-    ]
+    "*.{js,cjs,vue}": "eslint"
   },
   "workspaces": [
     "packages/*"
