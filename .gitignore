@@ -4,3 +4,5 @@ dist
 lerna-debug.log
 packages/**/LICENSE
 .vscode/
+
+*storybook.log

@@ -1,13 +1,13 @@
 <template>
   <div ref="root">
     <slot
-      :rootProps="rootProps"
-      :inputProps="inputProps"
-      :inputListeners="inputListeners"
-      :resultListProps="resultListProps"
-      :resultListListeners="resultListListeners"
+      :root-props="rootProps"
+      :input-props="inputProps"
+      :input-listeners="inputListeners"
+      :result-list-props="resultListProps"
+      :result-list-listeners="resultListListeners"
       :results="results"
-      :resultProps="resultProps"
+      :result-props="resultProps"
     >
       <div v-bind="rootProps">
         <input
@@ -17,7 +17,6 @@
           @keydown="core.handleKeyDown"
           @focus="core.handleFocus"
           @blur="core.handleBlur"
-          v-on="$listeners"
         />
         <ul
           ref="resultList"
@@ -63,7 +62,7 @@ export default {
     },
     getResultValue: {
       type: Function,
-      default: result => result,
+      default: (result) => result,
     },
     defaultValue: {
       type: String,
@@ -82,6 +81,8 @@ export default {
       default: false,
     },
   },
+
+  emits: ['update', 'submit'],
 
   data() {
     const core = new AutocompleteCore({
@@ -191,7 +192,7 @@ export default {
     document.body.addEventListener('click', this.handleDocumentClick)
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     document.body.removeEventListener('click', this.handleDocumentClick)
   },
 
