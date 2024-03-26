@@ -3,7 +3,7 @@
 </h2>
 
 <p align="center">
-  Accessible autocomplete component for vanilla JavaScript and Vue.
+  Accessible autocomplete component for vanilla JavaScript and Vue 3.
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
 ## Features
 
 - Accessible, with full support for ARIA attributes and keyboard interactions. Based on the [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.1/#combobox).
-- Available as a [JavaScript][javascript-component] or [Vue component][vue-component], with React coming soon.
+- Available as a [JavaScript][javascript-component] or [Vue component][vue-component], with React coming soon. For Vue.js 2.x support please use the latest 2.x release of this package.
 - [Core package][core-package] available if you want to bring your own rendering layer.
 - Customizable. Easily bring your own CSS, or take full control of the component rendering.
 - Support for asynchronous data fetching.
