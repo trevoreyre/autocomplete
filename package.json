@@ -13,7 +13,7 @@
     "publish": "lerna exec -- npm publish",
     "storybook:js": "storybook dev -p 4003 -c .storybook-js",
     "storybook:vue": "storybook dev -p 4004 -c .storybook-vue",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build -c .storybook-js",
     "prepare": "husky"
   },
   "lint-staged": {
