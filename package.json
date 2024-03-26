@@ -54,5 +54,8 @@
     "rollup-plugin-vue": "^6.0.0",
     "storybook": "^8.0.4",
     "vue": "^3.4.21"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
   }
 }
