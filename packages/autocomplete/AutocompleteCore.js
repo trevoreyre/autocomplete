@@ -24,7 +24,7 @@ class AutocompleteCore {
   } = {}) {
     this.search = isPromise(search)
       ? search
-      : value => Promise.resolve(search(value))
+      : (value) => Promise.resolve(search(value))
     this.autoSelect = autoSelect
     this.setValue = setValue
     this.setAttribute = setAttribute
@@ -51,13 +51,13 @@ class AutocompleteCore {
     this.onLoaded = null
   }
 
-  handleInput = event => {
+  handleInput = (event) => {
     const { value } = event.target
     this.updateResults(value)
     this.value = value
   }
 
-  handleKeyDown = event => {
+  handleKeyDown = (event) => {
     const { key } = event
 
     switch (key) {
@@ -108,7 +108,7 @@ class AutocompleteCore {
     }
   }
 
-  handleFocus = event => {
+  handleFocus = (event) => {
     const { value } = event.target
     this.updateResults(value)
     this.value = value
@@ -121,11 +121,11 @@ class AutocompleteCore {
   // The mousedown event fires before the blur event. Calling preventDefault() when
   // the results list is clicked will prevent it from taking focus, firing the
   // blur event on the input element, and closing the results list before click fires.
-  handleResultMouseDown = event => {
+  handleResultMouseDown = (event) => {
     event.preventDefault()
   }
 
-  handleResultClick = event => {
+  handleResultClick = (event) => {
     const { target } = event
     const result = closest(target, '[data-result-index]')
     if (result) {
@@ -136,7 +136,7 @@ class AutocompleteCore {
     }
   }
 
-  handleArrows = selectedIndex => {
+  handleArrows = (selectedIndex) => {
     // Loop selectedIndex back to first or last result if out of bounds
     const resultsCount = this.results.length
     this.selectedIndex =
@@ -154,10 +154,10 @@ class AutocompleteCore {
     this.hideResults()
   }
 
-  updateResults = value => {
+  updateResults = (value) => {
     const currentSearch = ++this.searchCounter
     this.onLoading()
-    this.search(value).then(results => {
+    this.search(value).then((results) => {
       if (currentSearch !== this.searchCounter) {
         return
       }
@@ -189,7 +189,7 @@ class AutocompleteCore {
   }
 
   // Make sure selected result isn't scrolled out of view
-  checkSelectedResultVisible = resultsElement => {
+  checkSelectedResultVisible = (resultsElement) => {
     const selectedResultElement = resultsElement.querySelector(
       `[data-result-index="${this.selectedIndex}"]`
     )

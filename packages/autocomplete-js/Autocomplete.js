@@ -40,7 +40,7 @@ class Autocomplete {
       baseClass = 'autocomplete',
       autocorrect = false,
       autoSelect,
-      getResultValue = result => result,
+      getResultValue = (result) => result,
       renderResult,
       debounceTime = 0,
       resultListLabel,
@@ -156,7 +156,7 @@ class Autocomplete {
     this.input.setAttribute(attribute, value)
   }
 
-  setValue = result => {
+  setValue = (result) => {
     this.input.value = result ? this.getResultValue(result) : ''
   }
 
@@ -210,7 +210,7 @@ class Autocomplete {
     this.updateStyle()
   }
 
-  handleDocumentClick = event => {
+  handleDocumentClick = (event) => {
     if (this.root.contains(event.target)) {
       return
     }

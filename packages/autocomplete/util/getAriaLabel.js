@@ -8,7 +8,7 @@
  * @param {string} labelStr - content for `aria-label` or – if it starts with `#` – ID for `aria-labelledby`
  * @returns {LabelObj} Object with label attribute and its content
  */
-const getAriaLabel = labelStr => {
+const getAriaLabel = (labelStr) => {
   if (labelStr?.length) {
     const isLabelId = labelStr.startsWith('#')
 

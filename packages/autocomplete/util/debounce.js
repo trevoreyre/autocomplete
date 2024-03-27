@@ -11,7 +11,7 @@ const debounce = (func, wait, immediate) => {
     const context = this
     const args = arguments
 
-    const later = function() {
+    const later = function () {
       timeout = null
       if (!immediate) func.apply(context, args)
     }

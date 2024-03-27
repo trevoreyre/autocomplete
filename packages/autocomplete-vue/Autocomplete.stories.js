@@ -1,8 +1,7 @@
-import Vue from 'vue'
 import { action } from '@storybook/addon-actions'
 import Autocomplete from './Autocomplete.vue'
 
-const CustomInput = Vue.component('CustomInput', {
+const CustomInput = {
   props: {
     value: {
       type: String,
@@ -13,24 +12,24 @@ const CustomInput = Vue.component('CustomInput', {
     <input
       style="padding: 32px 32px 32px 48px;"
       :value="value"
-      v-on="$listeners"
+      v-bind="$attrs"
     />
   `,
-})
+}
 
-const search = input => {
+const search = (input) => {
   if (input.length < 1) {
     return []
   }
-  return countries.filter(country => {
+  return countries.filter((country) => {
     return country.toLowerCase().startsWith(input.toLowerCase())
   })
 }
 
 const wikiUrl = 'https://en.wikipedia.org'
 const wikiParams = 'action=query&list=search&format=json&origin=*'
-const searchWikipedia = input =>
-  new Promise(resolve => {
+const searchWikipedia = (input) =>
+  new Promise((resolve) => {
     const url = `${wikiUrl}/w/api.php?${wikiParams}&srsearch=${encodeURI(
       input
     )}`
@@ -40,8 +39,8 @@ const searchWikipedia = input =>
     }
 
     fetch(url)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         resolve(data.query.search)
       })
   })
@@ -52,6 +51,7 @@ export default {
 }
 
 export const Basic = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -65,6 +65,7 @@ export const Basic = () => ({
 })
 
 export const DefaultResults = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -77,7 +78,7 @@ export const DefaultResults = () => ({
       if (input.length < 1) {
         return ['Canada', 'Mexico', 'United Kingdom', 'Russia']
       }
-      return countries.filter(country => {
+      return countries.filter((country) => {
         return country.toLowerCase().startsWith(input.toLowerCase())
       })
     },
@@ -85,6 +86,7 @@ export const DefaultResults = () => ({
 })
 
 export const AdvancedSearch = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search Wikipedia"
@@ -108,6 +110,7 @@ export const AdvancedSearch = () => ({
 })
 
 export const DebouncedSearch = () => ({
+  components: { Autocomplete },
   template: `
     <div>
       <p>Search count - {{ searchCount }}</p>
@@ -141,6 +144,7 @@ export const DebouncedSearch = () => ({
 })
 
 export const SubmitEvent = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -158,6 +162,7 @@ export const SubmitEvent = () => ({
 })
 
 export const UpdateEvent = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -178,6 +183,7 @@ export const UpdateEvent = () => ({
 })
 
 export const CustomClass = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -192,6 +198,7 @@ export const CustomClass = () => ({
 })
 
 export const CustomEvents = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -213,6 +220,7 @@ export const CustomEvents = () => ({
 })
 
 export const AutoSelect = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -227,6 +235,7 @@ export const AutoSelect = () => ({
 })
 
 export const DefaultValue = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -241,6 +250,7 @@ export const DefaultValue = () => ({
 })
 
 export const ResultSlot = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search Wikipedia"
@@ -276,7 +286,7 @@ export const ResultSlot = () => ({
 })
 
 export const DefaultSlotFullControl = () => ({
-  components: { CustomInput },
+  components: { Autocomplete, CustomInput },
   template: `
     <Autocomplete
       placeholder="Search for a country"
@@ -354,9 +364,10 @@ export const DefaultSlotFullControl = () => ({
     },
   },
 })
-DefaultSlotFullControl.story = { name: 'Default Slot (Full Control)' }
+DefaultSlotFullControl.storyName = 'Default Slot (Full Control)'
 
 export const ResultListLabelString = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -371,6 +382,7 @@ export const ResultListLabelString = () => ({
 })
 
 export const ResultListLabelId = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search for a country"
@@ -385,6 +397,7 @@ export const ResultListLabelId = () => ({
 })
 
 export const SubmitOnEnter = () => ({
+  components: { Autocomplete },
   template: `
     <Autocomplete
       aria-label="Search Wikipedia"

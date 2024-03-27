@@ -6,10 +6,10 @@ const matches = (element, selector) => {
   return element.matches
     ? element.matches(selector)
     : element.msMatchesSelector
-    ? element.msMatchesSelector(selector)
-    : element.webkitMatchesSelector
-    ? element.webkitMatchesSelector(selector)
-    : null
+      ? element.msMatchesSelector(selector)
+      : element.webkitMatchesSelector
+        ? element.webkitMatchesSelector(selector)
+        : null
 }
 
 export default matches
