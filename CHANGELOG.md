@@ -1,11 +1,17 @@
 # Changelog
 
-## v3.0.0 (March 28, 2024)
+## v3.0.1 (April 02, 2024)
 
-- Updated vue component for Vue.js 3.x
+- Fixed github release action
+
+## v3.0.0 (April 02, 2024)
+
 - Updated storybook to v8.0. Updated stories to new format.
 - Updated dev dependencies
-- Updated node.js version to 18 (newer versions untested)
+- BREAKING: Updated node.js version to 18 (newer versions untested)
+
+### autocomplete-vue
+- BREAKING: Updated vue component for Vue.js 3.x
 
 ## v2.4.1 (January 13, 2023)
 

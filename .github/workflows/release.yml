@@ -33,6 +33,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: packages
+          path: packages
       - name: Publish autocomplete
         working-directory: ./packages/autocomplete
         run: npm publish
