@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.2 (April 04, 2024)
+
+- Fixed class and style attributes not rendered on root tag to preserve Vue 2.x `inheritAttrs` behaviour
+
 ## v3.0.1 (April 02, 2024)
 
 - Fixed github release action

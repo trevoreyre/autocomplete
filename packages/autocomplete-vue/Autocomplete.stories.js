@@ -190,6 +190,8 @@ export const CustomClass = () => ({
       placeholder="Search for a country"
       :search="search"
       base-class="search"
+      class="custom-root-class"
+      style="padding: 12px; background: #eee;"
     />
   `,
   methods: {

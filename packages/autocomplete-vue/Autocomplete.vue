@@ -1,5 +1,11 @@
 <template>
-  <div ref="root">
+  <div
+    ref="root"
+    v-bind="{
+      class: $attrs.class,
+      ...($attrs.style ? { style: $attrs.style } : {}),
+    }"
+  >
     <slot
       :root-props="rootProps"
       :input-props="inputProps"
@@ -125,6 +131,11 @@ export default {
       }
     },
     inputProps() {
+      const {
+        class: classAttribute,
+        style,
+        ...attrsWithoutClassAndStyle
+      } = this.$attrs
       return {
         class: `${this.baseClass}-input`,
         value: this.value,
@@ -141,7 +152,7 @@ export default {
           this.selectedIndex > -1
             ? this.resultProps[this.selectedIndex].id
             : '',
-        ...this.$attrs,
+        ...attrsWithoutClassAndStyle,
       }
     },
     inputListeners() {

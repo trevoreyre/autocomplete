@@ -23,6 +23,12 @@ module.exports = {
         ignores: ['Autocomplete'],
       },
     ],
+    'no-unused-vars': [
+      'error',
+      {
+        ignoreRestSiblings: true,
+      },
+    ],
   },
   parserOptions: {
     parser: '@babel/eslint-parser',
