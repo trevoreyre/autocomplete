@@ -223,7 +223,8 @@ export default {
 
   methods: {
     setValue(result) {
-      this.value = result ? this.getResultValue(result) : ''
+      this.value = result ? this.getResultValue(result) : '' 
+      this.$emit('selected', result)
     },
 
     handleUpdate(results, selectedIndex) {
