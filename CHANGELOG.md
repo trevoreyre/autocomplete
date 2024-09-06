@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.3 (September 09, 2024)
+
+### autocomplete-vue
+- Fixed hydration warnings in SSR by generating id with Vue 3.5 `useId` function
+- Updated dependencies
+
 ## v3.0.2 (April 04, 2024)
 
 - Fixed class and style attributes not rendered on root tag to preserve Vue 2.x `inheritAttrs` behaviour

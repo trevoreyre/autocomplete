@@ -43,8 +43,8 @@
 </template>
 
 <script>
+import { useId } from 'vue'
 import AutocompleteCore from '../autocomplete/AutocompleteCore.js'
-import uniqueId from '../autocomplete/util/uniqueId.js'
 import getRelativePosition from '../autocomplete/util/getRelativePosition.js'
 import debounce from '../autocomplete/util/debounce.js'
 import getAriaLabel from '../autocomplete/util/getAriaLabel'
@@ -110,7 +110,7 @@ export default {
     return {
       core,
       value: this.defaultValue,
-      resultListId: uniqueId(`${this.baseClass}-result-list-`),
+      resultListId: `${this.baseClass}-result-list-${useId()}`,
       results: [],
       selectedIndex: -1,
       expanded: false,
