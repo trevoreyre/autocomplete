@@ -73,10 +73,7 @@ class AutocompleteCore {
         this.handleArrows(selectedIndex)
         break
       }
-      case 'Tab': {
-        this.selectResult()
-        break
-      }
+      case 'Tab':
       case 'Enter': {
         const isListItemSelected =
           event.target.getAttribute('aria-activedescendant').length > 0
