@@ -180,6 +180,10 @@ class AutocompleteCore {
   }
 
   hideResults = () => {
+    if (this.selectedIndex === -1 && this.results.length === 0) {
+      return
+    }
+    
     this.selectedIndex = -1
     this.results = []
     this.setAttribute('aria-expanded', false)
