@@ -84,7 +84,7 @@ export default {
     },
     submitOnEnter: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
 

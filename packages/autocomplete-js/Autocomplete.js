@@ -44,7 +44,7 @@ class Autocomplete {
       renderResult,
       debounceTime = 0,
       resultListLabel,
-      submitOnEnter = false,
+      submitOnEnter = true,
     } = {}
   ) {
     this.root = typeof root === 'string' ? document.querySelector(root) : root

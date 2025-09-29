@@ -6,7 +6,6 @@ class AutocompleteCore {
   searchCounter = 0
   results = []
   selectedIndex = -1
-  selectedResult = null
 
   constructor({
     search,
@@ -20,7 +19,7 @@ class AutocompleteCore {
     onHide = () => {},
     onLoading = () => {},
     onLoaded = () => {},
-    submitOnEnter = false,
+    submitOnEnter = true,
   } = {}) {
     this.search = isPromise(search)
       ? search
@@ -81,18 +80,16 @@ class AutocompleteCore {
         const isListItemSelected =
           event.target.getAttribute('aria-activedescendant').length > 0
 
-        this.selectedResult =
-          this.results[this.selectedIndex] || this.selectedResult
+        const selectedResult = this.results[this.selectedIndex]
         this.selectResult()
 
         if (this.submitOnEnter) {
-          this.selectedResult && this.onSubmit(this.selectedResult)
+          selectedResult && this.onSubmit(selectedResult)
         } else {
           if (isListItemSelected) {
             event.preventDefault()
           } else {
-            this.selectedResult && this.onSubmit(this.selectedResult)
-            this.selectedResult = null
+            selectedResult && this.onSubmit(selectedResult)
           }
         }
         break

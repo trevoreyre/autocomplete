@@ -106,7 +106,7 @@ elements.forEach(el => {
 | [`debounceTime`](#debouncetime)       | Number              | `0`              | Time in milliseconds that the component should wait after last keystroke before calling search function |
 | [`renderResult`](#renderresult)       | Function            |                  | Override default rendering of result items                                                              |
 | [`resultListLabel`](#resultlistlabel) | String              |                  | `aria-label` or `aria-labelledby` for result list                                                       |
-| [`submitOnEnter`](#submitonenter)     | Boolean             | `false`          | Immediately call [`onSubmit`](#onsubmit) on result when pressing <kbd>Enter</kbd>                       |
+| [`submitOnEnter`](#submitonenter)     | Boolean             | `true`           | Immediately call [`onSubmit`](#onsubmit) on result when pressing <kbd>Enter</kbd>                       |
 
 #### search
 

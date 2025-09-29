@@ -50,7 +50,7 @@ const autocomplete = new Autocomplete(options)
 | `onHide`        | Function            | Fired when the results list is hidden                                                                          |
 | `onLoading`     | Function            | Fired if `search` is a `Promise` and hasn't resolved yet                                                       |
 | `onLoaded`      | Function            | Fired after asynchronous `search` function resolves                                                            |
-| `submitOnEnter` | Boolean             | If `true`, immediately call `onSubmit` on result when pressing <kbd>Enter</kbd>. Default: `false`              |
+| `submitOnEnter` | Boolean             | If `true`, immediately call `onSubmit` on result when pressing <kbd>Enter</kbd>. Default: `true`               |
 
 ## Event handlers
 
